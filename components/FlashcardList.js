@@ -87,12 +87,12 @@ const CollectionTitle = styled.p`
 export default function FlashcardList() {
   const [flipped, setFlipped] = useState(false);
 
-  const handleFlip = (flashcardId) => {
+  function handleFlip(flashcardId) {
     setFlipped((prev) => ({
       ...prev,
       [flashcardId]: !prev[flashcardId],
     }));
-  };
+  }
 
   return (
     <CardList>
