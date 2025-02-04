@@ -1,4 +1,4 @@
-import StyledCard from "@/components/StyledCard";
+import FlashcardList from "@/components/FlashcardList";
 import styled from "styled-components";
 
 const Container = styled.div`
@@ -12,7 +12,10 @@ export default function index() {
       <Container>
         <h1>Flipwise App</h1>
       </Container>
-      <StyledCard />
+
+      <Container>
+        <FlashcardList />
+      </Container>
     </>
   );
 }
