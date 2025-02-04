@@ -85,6 +85,15 @@ const CollectionTitle = styled.p`
 `;
 
 export default function FlashcardList() {
+  const [flipped, setFlipped] = useState(false);
+
+  const handleFlip = (flashcardId) => {
+    setFlipped((prev) => ({
+      ...prev,
+      [flashcardId]: !prev[flashcardId],
+    }));
+  };
+
   return (
     <CardList>
       {flashcards.map((flashcard) => {
@@ -92,14 +101,12 @@ export default function FlashcardList() {
           (collection) => collection.id === flashcard.collectionId
         );
 
-        const [flipped, setFlipped] = useState(false);
-
-        const handleFlip = () => {
-          setFlipped(!flipped);
-        };
-
         return (
-          <Flashcard flipped={flipped} onClick={handleFlip}>
+          <Flashcard
+            key={flashcard.id}
+            flipped={flipped[flashcard.id] || false}
+            onClick={() => handleFlip(flashcard.id)}
+          >
             <CollectionTitle>{collection.title}</CollectionTitle>
             <FlashcardFront>
               <FlashcardContent>
