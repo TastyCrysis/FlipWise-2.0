@@ -1,6 +1,7 @@
 import { flashcards } from "@/lib/db/flashcards";
 import { collections } from "@/lib/db/collections";
 import styled from "styled-components";
+import { useState } from "react";
 
 const CardList = styled.ul`
   list-style-type: none;
@@ -15,16 +16,16 @@ const Flashcard = styled.li`
   border-radius: 8px;
   margin: 15px 32px;
   padding: 15px;
-  transition: transform 0.2s;
-
-  &:hover {
-    transform: scale(1.02);
-  }
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 0.6s;
+  transform: ${({ flipped }) => (flipped ? "rotateY(180deg)" : "rotateY(0)")};
 `;
 
 const FlashcardContent = styled.div`
   display: flex;
   flex-direction: column;
+  perspective: 1000px;
 `;
 
 const FlashcardQuestion = styled.p`
@@ -44,7 +45,34 @@ const CollectionTitle = styled.p`
   margin: 0 0 7px 0;
 `;
 
+const FlashcardFront = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+`;
+
+const FlashcardBack = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  transform: rotateY(180deg);
+`;
+
 export default function FlashcardList() {
+  const [flipped, setFlipped] = useState(false);
+
+  const handleFlip = () => {
+    setFlipped(!flipped);
+  };
+
   return (
     <CardList>
       {flashcards.map((flashcard) => {
@@ -52,12 +80,16 @@ export default function FlashcardList() {
           (collection) => collection.id === flashcard.collectionId
         );
         return (
-          <Flashcard key={flashcard.id}>
-            <FlashcardContent>
+          <Flashcard key={flashcard.id} onClick={handleFlip}>
+            <FlashcardContent flipped={flipped}>
               <CollectionTitle>{collection.title}</CollectionTitle>
               <div>
-                <FlashcardQuestion>{flashcard.question}</FlashcardQuestion>
-                <FlashcardAnswer>{flashcard.answer}</FlashcardAnswer>
+                <FlashcardFront>
+                  <FlashcardQuestion>{flashcard.question}</FlashcardQuestion>
+                </FlashcardFront>
+                <FlashcardBack>
+                  <FlashcardAnswer>{flashcard.answer}</FlashcardAnswer>
+                </FlashcardBack>
               </div>
             </FlashcardContent>
           </Flashcard>
