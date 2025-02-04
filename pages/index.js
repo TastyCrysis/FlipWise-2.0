@@ -1,7 +1,9 @@
-export default function HomePage() {
+import flashcards from "@/lib/db/flashcards";
+
+export default function index() {
   return (
     <div>
-      <h1>Hello from Next.js</h1>
+      <h1>Flipwise App</h1>
     </div>
   );
 }
