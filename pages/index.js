@@ -13,9 +13,7 @@ export default function index() {
         <h1>Flipwise App</h1>
       </Container>
 
-      <Container>
-        <FlashcardList />
-      </Container>
+      <FlashcardList />
     </>
   );
 }
