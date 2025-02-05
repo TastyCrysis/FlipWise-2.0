@@ -1,7 +1,7 @@
 import { flashcards as initialFlashcards } from "@/lib/db/flashcards";
 import { collections } from "@/lib/db/collections";
 import styled from "styled-components";
-import Flashcard from "@/components/Flashcard";
+import Flashcard from "@/components/flashcard";
 import { useHandleCorrect } from "@/hooks/useHandleCorrect";
 
 const CardList = styled.ul`
