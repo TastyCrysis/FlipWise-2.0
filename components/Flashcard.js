@@ -89,6 +89,15 @@ export default function Flashcard({
     setFlipped(!flipped);
   }
 
+  function showDeleteConfirmation() {
+    const dialog = document.getElementById("myModal");
+    dialog.showModal();
+    setTimeout(() => {
+      dialog.close();
+      handleDeleteFlashcard(flashcard.id);
+    }, 2000);
+  }
+
   return (
     <StyledFlashcard key={flashcard.id} flipped={flipped} onClick={handleFlip}>
       <CollectionTitle>{collection.title}</CollectionTitle>
@@ -120,7 +129,7 @@ export default function Flashcard({
               onClick={(event) => {
                 event.stopPropagation();
                 setMode("default");
-                handleDeleteFlashcard(flashcard.id);
+                showDeleteConfirmation();
               }}
             >
               Delete
@@ -143,6 +152,17 @@ export default function Flashcard({
           </button>
         </FlashcardContent>
       </FlashcardBack>
+      <dialog
+        id="myModal"
+        style={{
+          padding: "20px",
+          borderRadius: "10px",
+          width: "300px",
+          boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
+        }}
+      >
+        <h3>flaschcard is deleted</h3>
+      </dialog>
     </StyledFlashcard>
   );
 }
