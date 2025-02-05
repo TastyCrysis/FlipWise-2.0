@@ -8,11 +8,11 @@ export default function App({ Component, pageProps }) {
 
   function handleToggleCorrect(id) {
     setFlashcards((prevFlashcards) =>
-      prevFlashcards.map(function (flashcard) {
-        return flashcard.id === id
+      prevFlashcards.map((flashcard) =>
+        flashcard.id === id
           ? { ...flashcard, isCorrect: !flashcard.isCorrect }
-          : flashcard;
-      })
+          : flashcard
+      )
     );
   }
 
