@@ -14,10 +14,12 @@ export default function App({ Component, pageProps }) {
           : flashcard
       )
     );
+    console.log("flashcards-toggleCorrect", flashcards);
   }
 
   function handleDeleteFlashcard(id) {
     setFlashcards(flashcards.filter((flashcard) => flashcard.id !== id));
+    console.log("flashcards-delete_", flashcards);
   }
 
   return (

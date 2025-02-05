@@ -26,7 +26,7 @@ const FlashcardFront = styled.div`
   backface-visibility: hidden;
   top: 0px;
   right: 0px;
-  z-index: 2;
+  z-index: 5;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -73,7 +73,7 @@ const CollectionTitle = styled.p`
   position: absolute;
   right: 24px;
   backface-visibility: hidden;
-  z-index: 3;
+  z-index: 10;
 `;
 
 export default function Flashcard({
@@ -83,6 +83,7 @@ export default function Flashcard({
   handleDeleteFlashcard,
 }) {
   const [flipped, setFlipped] = useState(false);
+  const [mode, setMode] = useState("default");
 
   function handleFlip() {
     setFlipped(!flipped);
@@ -95,13 +96,37 @@ export default function Flashcard({
         <FlashcardContent>
           <FlashcardQuestion>{flashcard.question}</FlashcardQuestion>
         </FlashcardContent>
-        <button
-          onClick={() => {
-            handleDeleteFlashcard(flashcard.id);
-          }}
-        >
-          delete
-        </button>
+        {mode === "default" && (
+          <button
+            onClick={(event) => {
+              event.stopPropagation();
+              setMode("delete");
+            }}
+          >
+            delete
+          </button>
+        )}
+        {mode === "delete" && (
+          <>
+            <button
+              onClick={(event) => {
+                event.stopPropagation();
+                setMode("default");
+              }}
+            >
+              Cancel
+            </button>
+            <button
+              onClick={(event) => {
+                event.stopPropagation();
+                setMode("default");
+                handleDeleteFlashcard(flashcard.id);
+              }}
+            >
+              Delete
+            </button>
+          </>
+        )}
       </FlashcardFront>
       <FlashcardBack>
         <FlashcardContent>
