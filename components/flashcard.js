@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 
-const StyledFlashcard = styled.div`
+const StyledFlashcard = styled.div.withConfig({
+  shouldForwardProp: (prop) => prop !== "flipped",
+})`
   width: 100%;
   height: 150px;
   position: relative;
