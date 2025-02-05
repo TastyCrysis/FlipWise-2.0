@@ -1,4 +1,4 @@
-import FlashcardList from "@/components/FlashcardList";
+import ArchiveList from "@/components/ArchiveList";
 import styled from "styled-components";
 import Link from "next/link";
 
@@ -7,14 +7,15 @@ const Container = styled.div`
   justify-content: center;
 `;
 
-export default function index() {
+export default function archive() {
   return (
     <>
       <Container>
         <h1>Flipwise App</h1>
-        <Link href="/archive">Archive</Link>
+        <h2>Archive</h2>
+        <Link href="/">Home</Link>
       </Container>
-      <FlashcardList />
+      <ArchiveList />
     </>
   );
 }

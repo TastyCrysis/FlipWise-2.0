@@ -75,12 +75,13 @@ const CollectionTitle = styled.p`
   z-index: 3;
 `;
 
-export default function Flashcard({ flashcard, collection }) {
+export default function Flashcard({ flashcard, collection, handleCorrect }) {
   const [flipped, setFlipped] = useState(false);
 
   function handleFlip() {
     setFlipped(!flipped);
   }
+
   return (
     <StyledFlashcard key={flashcard.id} flipped={flipped} onClick={handleFlip}>
       <CollectionTitle>{collection.title}</CollectionTitle>
@@ -95,6 +96,13 @@ export default function Flashcard({ flashcard, collection }) {
             <b>Answer:</b>
           </FlashcardAnswer>
           <FlashcardAnswer>{flashcard.answer}</FlashcardAnswer>
+          <button
+            onClick={() => {
+              handleCorrect(flashcard.id);
+            }}
+          >
+            correct?
+          </button>
         </FlashcardContent>
       </FlashcardBack>
     </StyledFlashcard>

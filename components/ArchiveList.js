@@ -14,9 +14,9 @@ const CardList = styled.ul`
 `;
 
 export default function FlashcardList() {
-  const [isCorrect, setIsCorrect] = useState(false);
-  const notEditFlashcards = flashcards.filter(
-    (flashcard) => flashcard.isCorrect === false
+  const [isCorrect, setIsCorrect] = useState(true);
+  const correctFlashcards = flashcards.filter(
+    (flashcard) => flashcard.isCorrect
   );
 
   function handleCorrect(id) {
@@ -29,13 +29,12 @@ export default function FlashcardList() {
 
   return (
     <CardList>
-      {notEditFlashcards.length === 0 ? (
+      {correctFlashcards.length === 0 ? (
         <p>
-          You have already answered all the questions in this collection
-          correctly.
+          You have not yet answered any questions in this collection correctly.
         </p>
       ) : (
-        notEditFlashcards.map((flashcard) => {
+        correctFlashcards.map((flashcard) => {
           const collection = collections.find(
             (collection) => collection.id === flashcard.collectionId
           );
