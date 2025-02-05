@@ -1,16 +1,19 @@
 import GlobalStyle from "../styles";
-import { flashcards } from "@/lib/db/flashcards";
+import { flashcards as initialFlashcards } from "@/lib/db/flashcards";
 import { collections } from "@/lib/db/collections";
 import { useState } from "react";
 
 export default function App({ Component, pageProps }) {
-  const [isCorrect, setIsCorrect] = useState(false);
+  const [flashcards, setFlashcards] = useState(initialFlashcards);
 
   function handleToggleCorrect(id) {
-    flashcards.find((Flashcard) =>
-      Flashcard.id === id ? (Flashcard.isCorrect = !Flashcard.isCorrect) : ""
+    setFlashcards((prevFlashcards) =>
+      prevFlashcards.map(function (flashcard) {
+        return flashcard.id === id
+          ? { ...flashcard, isCorrect: !flashcard.isCorrect }
+          : flashcard;
+      })
     );
-    setIsCorrect(!isCorrect);
   }
 
   return (

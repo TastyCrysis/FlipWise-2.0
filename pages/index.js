@@ -8,7 +8,7 @@ const Container = styled.div`
   align-items: center;
 `;
 
-export default function index({
+export default function Homepage({
   flashcards,
   collections,
   handleToggleCorrect,
