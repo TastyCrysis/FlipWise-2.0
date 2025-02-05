@@ -22,7 +22,9 @@ export default function FlashcardList({
 
   return (
     <CardList>
-      {notEditFlashcards.length === 0 ? (
+      {flashcards.length === 0 ? (
+        <p>All cards have been deleted.</p>
+      ) : notEditFlashcards.length === 0 ? (
         <p>
           You have already answered all the questions in this collection
           correctly.

@@ -19,7 +19,6 @@ export default function App({ Component, pageProps }) {
 
   function handleDeleteFlashcard(id) {
     setFlashcards(flashcards.filter((flashcard) => flashcard.id !== id));
-    console.log("flashcards-delete_", flashcards);
   }
 
   return (

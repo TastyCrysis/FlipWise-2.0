@@ -22,7 +22,9 @@ export default function FlashcardList({
 
   return (
     <CardList>
-      {correctFlashcards.length === 0 ? (
+      {flashcards.length === 0 ? (
+        <p>All cards have been deleted.</p>
+      ) : correctFlashcards.length === 0 ? (
         <p>
           You have not yet answered any questions in this collection correctly.
         </p>
