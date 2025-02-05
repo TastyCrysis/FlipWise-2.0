@@ -7,7 +7,11 @@ const Container = styled.div`
   justify-content: center;
 `;
 
-export default function archive() {
+export default function archive({
+  flashcards,
+  collections,
+  handleToggleCorrect,
+}) {
   return (
     <>
       <Container>
@@ -15,7 +19,11 @@ export default function archive() {
         <h2>Archive</h2>
         <Link href="/">Home</Link>
       </Container>
-      <ArchiveList />
+      <ArchiveList
+        flashcards={flashcards}
+        collections={collections}
+        handleToggleCorrect={handleToggleCorrect}
+      />
     </>
   );
 }

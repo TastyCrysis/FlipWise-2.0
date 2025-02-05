@@ -7,14 +7,22 @@ const Container = styled.div`
   justify-content: center;
 `;
 
-export default function index() {
+export default function index({
+  flashcards,
+  collections,
+  handleToggleCorrect,
+}) {
   return (
     <>
       <Container>
         <h1>Flipwise App</h1>
         <Link href="/archive">Archive</Link>
       </Container>
-      <FlashcardList />
+      <FlashcardList
+        flashcards={flashcards}
+        collections={collections}
+        handleToggleCorrect={handleToggleCorrect}
+      />
     </>
   );
 }

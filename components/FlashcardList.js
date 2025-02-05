@@ -1,8 +1,5 @@
-import { flashcards as initialFlashcards } from "@/lib/db/flashcards";
-import { collections } from "@/lib/db/collections";
 import styled from "styled-components";
 import Flashcard from "@/components/flashcard";
-import { useHandleCorrect } from "@/hooks/useHandleCorrect";
 
 const CardList = styled.ul`
   display: flex;
@@ -13,8 +10,11 @@ const CardList = styled.ul`
   margin: 0;
 `;
 
-export default function FlashcardList() {
-  const { flashcards, toggleCorrect } = useHandleCorrect(initialFlashcards);
+export default function FlashcardList({
+  flashcards,
+  collections,
+  handleToggleCorrect,
+}) {
   const notEditFlashcards = flashcards.filter(
     (flashcard) => flashcard.isCorrect === false
   );
@@ -36,7 +36,7 @@ export default function FlashcardList() {
               key={flashcard.id}
               flashcard={flashcard}
               collection={collection}
-              toggleCorrect={toggleCorrect}
+              handleToggleCorrect={handleToggleCorrect}
             />
           );
         })
