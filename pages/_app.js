@@ -16,6 +16,10 @@ export default function App({ Component, pageProps }) {
     );
   }
 
+  function handleDeleteFlashcard(id) {
+    setFlashcards(flashcards.filter((flashcard) => flashcard.id !== id));
+  }
+
   return (
     <>
       <GlobalStyle />
@@ -24,6 +28,7 @@ export default function App({ Component, pageProps }) {
         flashcards={flashcards}
         collections={collections}
         handleToggleCorrect={handleToggleCorrect}
+        handleDeleteFlashcard={handleDeleteFlashcard}
       />
     </>
   );

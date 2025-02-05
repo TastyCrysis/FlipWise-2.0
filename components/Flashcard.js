@@ -28,6 +28,7 @@ const FlashcardFront = styled.div`
   right: 0px;
   z-index: 2;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   border-radius: 8px;
@@ -79,6 +80,7 @@ export default function Flashcard({
   flashcard,
   collection,
   handleToggleCorrect,
+  handleDeleteFlashcard,
 }) {
   const [flipped, setFlipped] = useState(false);
 
@@ -93,6 +95,13 @@ export default function Flashcard({
         <FlashcardContent>
           <FlashcardQuestion>{flashcard.question}</FlashcardQuestion>
         </FlashcardContent>
+        <button
+          onClick={() => {
+            handleDeleteFlashcard(flashcard.id);
+          }}
+        >
+          delete
+        </button>
       </FlashcardFront>
       <FlashcardBack>
         <FlashcardContent>

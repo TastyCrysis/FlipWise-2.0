@@ -14,6 +14,7 @@ export default function FlashcardList({
   flashcards,
   collections,
   handleToggleCorrect,
+  handleDeleteFlashcard,
 }) {
   const notEditFlashcards = flashcards.filter(
     (flashcard) => flashcard.isCorrect === false
@@ -37,6 +38,7 @@ export default function FlashcardList({
               flashcard={flashcard}
               collection={collection}
               handleToggleCorrect={handleToggleCorrect}
+              handleDeleteFlashcard={handleDeleteFlashcard}
             />
           );
         })
