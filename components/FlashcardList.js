@@ -3,7 +3,6 @@ import { collections } from "@/lib/db/collections";
 import styled from "styled-components";
 import Flashcard from "@/components/flashcard";
 import { useHandleCorrect } from "@/hooks/useHandleCorrect";
-import React from "react";
 
 const CardList = styled.ul`
   display: flex;
