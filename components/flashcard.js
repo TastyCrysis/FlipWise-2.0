@@ -101,7 +101,7 @@ export default function Flashcard({ flashcard, collection, handleCorrect }) {
               handleCorrect(flashcard.id);
             }}
           >
-            correct?
+            {flashcard.isCorrect ? "wrong" : "correct?"}
           </button>
         </FlashcardContent>
       </FlashcardBack>

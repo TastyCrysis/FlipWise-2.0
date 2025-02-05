@@ -22,7 +22,7 @@ export default function FlashcardList() {
   function handleCorrect(id) {
     const flashcard = flashcards.find((flashcard) => flashcard.id === id);
     if (flashcard) {
-      flashcard.isCorrect = true;
+      flashcard.isCorrect = false;
       setIsCorrect(!isCorrect);
     }
   }
