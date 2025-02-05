@@ -75,7 +75,7 @@ const CollectionTitle = styled.p`
   z-index: 3;
 `;
 
-export default function Flashcard({ flashcard, collection, handleCorrect }) {
+export default function Flashcard({ flashcard, collection, toggleCorrect }) {
   const [flipped, setFlipped] = useState(false);
 
   function handleFlip() {
@@ -98,7 +98,7 @@ export default function Flashcard({ flashcard, collection, handleCorrect }) {
           <FlashcardAnswer>{flashcard.answer}</FlashcardAnswer>
           <button
             onClick={() => {
-              handleCorrect(flashcard.id);
+              toggleCorrect(flashcard.id);
             }}
           >
             {flashcard.isCorrect ? "wrong" : "correct?"}

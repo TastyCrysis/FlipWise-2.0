@@ -19,14 +19,6 @@ export default function FlashcardList() {
     (flashcard) => flashcard.isCorrect
   );
 
-  function handleCorrect(id) {
-    const flashcard = flashcards.find((flashcard) => flashcard.id === id);
-    if (flashcard) {
-      flashcard.isCorrect = false;
-      setIsCorrect(!isCorrect);
-    }
-  }
-
   return (
     <CardList>
       {correctFlashcards.length === 0 ? (

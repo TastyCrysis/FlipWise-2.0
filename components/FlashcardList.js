@@ -2,7 +2,8 @@ import { flashcards } from "@/lib/db/flashcards";
 import { collections } from "@/lib/db/collections";
 import styled from "styled-components";
 import Flashcard from "@/components/Flashcard";
-import { useState } from "react";
+import { useHandleCorrect } from "@/hooks/useHandleCorrect";
+import React from "react";
 
 const CardList = styled.ul`
   display: flex;
@@ -14,18 +15,18 @@ const CardList = styled.ul`
 `;
 
 export default function FlashcardList() {
-  const [isCorrect, setIsCorrect] = useState(false);
+  const { flashcards, toggleCorrect } = useHandleCorrect(flashcards);
   const notEditFlashcards = flashcards.filter(
     (flashcard) => flashcard.isCorrect === false
   );
 
-  function handleCorrect(id) {
+  /*   function handleCorrect(id) {
     const flashcard = flashcards.find((flashcard) => flashcard.id === id);
     if (flashcard) {
       flashcard.isCorrect = true;
       setIsCorrect(!isCorrect);
     }
-  }
+  } */
 
   return (
     <CardList>
@@ -44,7 +45,7 @@ export default function FlashcardList() {
               key={flashcard.id}
               flashcard={flashcard}
               collection={collection}
-              handleCorrect={handleCorrect}
+              toggleCorrect={toggleCorrect}
             />
           );
         })
