@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-export default function useHandleCorrect(initialState) {
+export function useHandleCorrect(initialState) {
   const [flashcards, setFlashcards] = useState(initialState);
 
   function toggleCorrect(id) {
