@@ -15,19 +15,19 @@ export default function FlashcardList({
   collections,
   handleToggleCorrect,
 }) {
-  const notEditFlashcards = flashcards.filter(
+  const unansweredFlashcards = flashcards.filter(
     (flashcard) => flashcard.isCorrect === false
   );
 
   return (
     <CardList>
-      {notEditFlashcards.length === 0 ? (
+      {unansweredFlashcards.length === 0 ? (
         <p>
           You have already answered all the questions in this collection
           correctly.
         </p>
       ) : (
-        notEditFlashcards.map((flashcard) => {
+        unansweredFlashcards.map((flashcard) => {
           const collection = collections.find(
             (collection) => collection.id === flashcard.collectionId
           );
