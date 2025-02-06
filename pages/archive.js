@@ -1,4 +1,4 @@
-import FlashcardList from "@/components/FlashcardList";
+import ArchiveList from "@/components/ArchiveList";
 import styled from "styled-components";
 import Link from "next/link";
 
@@ -8,7 +8,7 @@ const Container = styled.div`
   align-items: center;
 `;
 
-export default function Homepage({
+export default function Archive({
   flashcards,
   collections,
   handleToggleCorrect,
@@ -17,9 +17,10 @@ export default function Homepage({
     <>
       <Container>
         <h1>Flipwise App</h1>
-        <Link href="/archive">Archive</Link>
+        <h2>Archive</h2>
+        <Link href="/">Home</Link>
       </Container>
-      <FlashcardList
+      <ArchiveList
         flashcards={flashcards}
         collections={collections}
         handleToggleCorrect={handleToggleCorrect}
