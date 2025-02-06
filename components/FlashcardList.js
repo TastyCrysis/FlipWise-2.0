@@ -16,7 +16,7 @@ export default function FlashcardList({
   handleToggleCorrect,
   handleDeleteFlashcard,
 }) {
-  const notEditFlashcards = flashcards.filter(
+  const unansweredFlashcards = flashcards.filter(
     (flashcard) => flashcard.isCorrect === false
   );
 
@@ -24,13 +24,13 @@ export default function FlashcardList({
     <CardList>
       {flashcards.length === 0 ? (
         <p>All cards have been deleted.</p>
-      ) : notEditFlashcards.length === 0 ? (
+      ) : unansweredFlashcards.length === 0 ? (
         <p>
           You have already answered all the questions in this collection
           correctly.
         </p>
       ) : (
-        notEditFlashcards.map((flashcard) => {
+        unansweredFlashcards.map((flashcard) => {
           const collection = collections.find(
             (collection) => collection.id === flashcard.collectionId
           );
