@@ -76,6 +76,14 @@ const CollectionTitle = styled.p`
   z-index: 10;
 `;
 
+const StyledDialog = styled.dialog`
+  padding: 16px;
+  border: solid 1px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  z-index: 25;
+`;
+
 export default function Flashcard({
   flashcard,
   collection,
@@ -83,19 +91,14 @@ export default function Flashcard({
   handleDeleteFlashcard,
 }) {
   const [flipped, setFlipped] = useState(false);
-  const [mode, setMode] = useState("default");
+  const [mode, setMode] = useState(false);
 
   function handleFlip() {
     setFlipped(!flipped);
   }
 
-  function showDeleteConfirmation() {
-    const dialog = document.getElementById("deleteConfirmationDialog");
-    dialog.showModal();
-    setTimeout(() => {
-      dialog.close();
-      handleDeleteFlashcard(flashcard.id);
-    }, 2000);
+  function toggleConfirmation() {
+    setMode(!mode);
   }
 
   return (
@@ -105,38 +108,14 @@ export default function Flashcard({
         <FlashcardContent>
           <FlashcardQuestion>{flashcard.question}</FlashcardQuestion>
         </FlashcardContent>
-        {mode === "default" && (
-          <button
-            onClick={(event) => {
-              event.stopPropagation();
-              setMode("delete");
-            }}
-          >
-            delete
-          </button>
-        )}
-        {mode === "delete" && (
-          <>
-            <button
-              onClick={(event) => {
-                event.stopPropagation();
-                setMode("default");
-              }}
-            >
-              Cancel
-            </button>
-            <button
-              onClick={(event) => {
-                event.stopPropagation();
-                setMode("deleteConfirm");
-                showDeleteConfirmation();
-              }}
-            >
-              Delete
-            </button>
-          </>
-        )}
-        {mode === "deleteConfirm" && <p>flashcard is deleted</p>}
+        <button
+          onClick={(event) => {
+            event.stopPropagation();
+            toggleConfirmation();
+          }}
+        >
+          delete
+        </button>
       </FlashcardFront>
       <FlashcardBack>
         <FlashcardContent>
@@ -153,17 +132,30 @@ export default function Flashcard({
           </button>
         </FlashcardContent>
       </FlashcardBack>
-      <dialog
-        id="deleteConfirmationDialog"
-        style={{
-          padding: "20px",
-          borderRadius: "10px",
-          width: "300px",
-          boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
-        }}
-      >
-        <h3>flashcard is deleted</h3>
-      </dialog>
+      {mode === true ? (
+        <StyledDialog>
+          <h3>Do you really want to delete flashcard?</h3>
+          <>
+            <button
+              onClick={(event) => {
+                event.stopPropagation();
+                toggleConfirmation();
+              }}
+            >
+              Cancel
+            </button>
+            <button
+              onClick={(event) => {
+                event.stopPropagation();
+                toggleConfirmation();
+                handleDeleteFlashcard(flashcard.id);
+              }}
+            >
+              Delete
+            </button>
+          </>
+        </StyledDialog>
+      ) : null}
     </StyledFlashcard>
   );
 }

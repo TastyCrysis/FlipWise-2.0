@@ -14,7 +14,6 @@ export default function App({ Component, pageProps }) {
           : flashcard
       )
     );
-    console.log("flashcards-toggleCorrect", flashcards);
   }
 
   function handleDeleteFlashcard(id) {
