@@ -132,8 +132,8 @@ export default function Flashcard({
           </button>
         </FlashcardContent>
       </FlashcardBack>
-      {mode === true ? (
-        <StyledDialog>
+      {mode ? (
+        <StyledDialog open>
           <h3>Do you really want to delete flashcard?</h3>
           <>
             <button
