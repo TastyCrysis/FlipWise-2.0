@@ -128,7 +128,7 @@ export default function Flashcard({
             <button
               onClick={(event) => {
                 event.stopPropagation();
-                setMode("default");
+                setMode("deleteConfirm");
                 showDeleteConfirmation();
               }}
             >
@@ -136,6 +136,7 @@ export default function Flashcard({
             </button>
           </>
         )}
+        {mode === "deleteConfirm" && <p>flaschcard is deleted</p>}
       </FlashcardFront>
       <FlashcardBack>
         <FlashcardContent>
