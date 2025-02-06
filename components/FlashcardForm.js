@@ -1,12 +1,12 @@
 import { collections } from "@/lib/db/collections";
 
-export default function FlashcardForm() {
+export default function FlashcardForm({ onSubmit }) {
   function handleSubmit(event) {
     event.preventDefault();
     const formData = new FormData(event.target);
     const data = Object.fromEntries(formData);
 
-    console.log("data_", data);
+    onSubmit(data);
     //event.target.reset();
     //event.target.elements.role.focus();
   }
@@ -32,12 +32,17 @@ export default function FlashcardForm() {
             required
           ></input>
           <label htmlFor="collections-select">Collection:</label>
-          <select required>
-            <option value="" disabled selected>
+          <select
+            name="collectionId"
+            id="collections-select"
+            defaultValue=""
+            required
+          >
+            <option value="" disabled>
               --Please select a collection--
             </option>
             {collections.map((collection) => (
-              <option key={collection.id} value={collection.title}>
+              <option key={collection.id} value={collection.id}>
                 {collection.title}
               </option>
             ))}

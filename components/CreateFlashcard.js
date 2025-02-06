@@ -1,9 +1,9 @@
 import FlashcardForm from "./FlashcardForm";
 
-export default function CreateFlashcard() {
+export default function CreateFlashcard({ handleCreateFlashcard }) {
   return (
     <div>
-      <FlashcardForm></FlashcardForm>
+      <FlashcardForm onSubmit={handleCreateFlashcard} />
     </div>
   );
 }

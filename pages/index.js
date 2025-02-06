@@ -13,6 +13,7 @@ export default function Homepage({
   flashcards,
   collections,
   handleToggleCorrect,
+  handleCreateFlashcard,
 }) {
   return (
     <>
@@ -20,7 +21,7 @@ export default function Homepage({
         <h1>Flipwise App</h1>
         <Link href="/archive">Archive</Link>
       </Container>
-      <CreateFlashcard />
+      <CreateFlashcard handleCreateFlashcard={handleCreateFlashcard} />
       <FlashcardList
         flashcards={flashcards}
         collections={collections}
