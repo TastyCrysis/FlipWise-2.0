@@ -1,6 +1,7 @@
 import FlashcardList from "@/components/FlashcardList";
 import styled from "styled-components";
 import Link from "next/link";
+import CreateFlashcard from "@/components/CreateFlashcard";
 
 const Container = styled.div`
   display: flex;
@@ -19,6 +20,7 @@ export default function Homepage({
         <h1>Flipwise App</h1>
         <Link href="/archive">Archive</Link>
       </Container>
+      <CreateFlashcard />
       <FlashcardList
         flashcards={flashcards}
         collections={collections}
