@@ -1,15 +1,13 @@
 import { useState } from "react";
 import styled from "styled-components";
 
-const StyledFlashcard = styled.div.withConfig({
-  shouldForwardProp: (prop) => prop !== "flipped",
-})`
+const StyledFlashcard = styled.div`
   width: 100%;
   height: 150px;
   position: relative;
   transform-style: preserve-3d;
   transition: transform 0.8s;
-  transform: ${({ flipped }) => (flipped ? "rotateY(180deg)" : "rotateY(0)")};
+  transform: ${({ $flipped }) => ($flipped ? "rotateY(180deg)" : "rotateY(0)")};
   max-width: 550px;
   background: #fff;
   border: 1px solid #ddd;
@@ -91,18 +89,18 @@ export default function Flashcard({
   handleDeleteFlashcard,
 }) {
   const [flipped, setFlipped] = useState(false);
-  const [mode, setMode] = useState(false);
+  const [showConfirmation, setShowConfirmation] = useState(false);
 
   function handleFlip() {
     setFlipped(!flipped);
   }
 
   function toggleConfirmation() {
-    setMode(!mode);
+    setShowConfirmation(!showConfirmation);
   }
 
   return (
-    <StyledFlashcard key={flashcard.id} flipped={flipped} onClick={handleFlip}>
+    <StyledFlashcard key={flashcard.id} $flipped={flipped} onClick={handleFlip}>
       <CollectionTitle>{collection.title}</CollectionTitle>
       <FlashcardFront>
         <FlashcardContent>
@@ -132,30 +130,28 @@ export default function Flashcard({
           </button>
         </FlashcardContent>
       </FlashcardBack>
-      {mode ? (
-        <StyledDialog open>
-          <h3>Do you really want to delete flashcard?</h3>
-          <>
-            <button
-              onClick={(event) => {
-                event.stopPropagation();
-                toggleConfirmation();
-              }}
-            >
-              Cancel
-            </button>
-            <button
-              onClick={(event) => {
-                event.stopPropagation();
-                toggleConfirmation();
-                handleDeleteFlashcard(flashcard.id);
-              }}
-            >
-              Delete
-            </button>
-          </>
-        </StyledDialog>
-      ) : null}
+      <StyledDialog open={showConfirmation}>
+        <h3>Do you really want to delete flashcard?</h3>
+        <>
+          <button
+            onClick={(event) => {
+              event.stopPropagation();
+              toggleConfirmation();
+            }}
+          >
+            Cancel
+          </button>
+          <button
+            onClick={(event) => {
+              event.stopPropagation();
+              toggleConfirmation();
+              handleDeleteFlashcard(flashcard.id);
+            }}
+          >
+            Delete
+          </button>
+        </>
+      </StyledDialog>
     </StyledFlashcard>
   );
 }
