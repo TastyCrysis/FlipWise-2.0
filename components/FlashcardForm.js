@@ -15,8 +15,6 @@ export default function FlashcardForm({ onSubmit }) {
     const data = Object.fromEntries(formData);
 
     onSubmit(data);
-    //event.target.reset();
-    //event.target.elements.role.focus();
   }
 
   return (
