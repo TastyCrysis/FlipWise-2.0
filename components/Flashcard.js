@@ -90,7 +90,7 @@ export default function Flashcard({
   }
 
   function showDeleteConfirmation() {
-    const dialog = document.getElementById("myModal");
+    const dialog = document.getElementById("deleteConfirmationDialog");
     dialog.showModal();
     setTimeout(() => {
       dialog.close();
@@ -136,7 +136,7 @@ export default function Flashcard({
             </button>
           </>
         )}
-        {mode === "deleteConfirm" && <p>flaschcard is deleted</p>}
+        {mode === "deleteConfirm" && <p>flashcard is deleted</p>}
       </FlashcardFront>
       <FlashcardBack>
         <FlashcardContent>
@@ -154,7 +154,7 @@ export default function Flashcard({
         </FlashcardContent>
       </FlashcardBack>
       <dialog
-        id="myModal"
+        id="deleteConfirmationDialog"
         style={{
           padding: "20px",
           borderRadius: "10px",
@@ -162,7 +162,7 @@ export default function Flashcard({
           boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
         }}
       >
-        <h3>flaschcard is deleted</h3>
+        <h3>flashcard is deleted</h3>
       </dialog>
     </StyledFlashcard>
   );
