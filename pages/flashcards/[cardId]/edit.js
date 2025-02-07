@@ -23,10 +23,10 @@ export default function Edit({ handleUpdateFlashcard, flashcards }) {
         title="Update Flashcard"
         onSubmit={handleUpdateFlashcard}
         initialValues={{
+          id: flashcard?.id || "",
+          collectionId: flashcard?.collectionId || "",
           question: flashcard?.question || "",
           answer: flashcard?.answer || "",
-          collectionId: flashcard?.collectionId || "",
-          id: flashcard?.id || "",
           isCorrect: flashcard?.isCorrect || false,
         }}
       />
