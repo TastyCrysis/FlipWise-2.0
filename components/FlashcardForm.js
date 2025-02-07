@@ -27,6 +27,7 @@ export default function FlashcardForm({ onSubmit, title, initialValues }) {
 
     if (initialValues?.id) {
       data.id = initialValues.id;
+      data.isCorrect = initialValues.isCorrect;
     }
 
     onSubmit(data);
@@ -71,7 +72,9 @@ export default function FlashcardForm({ onSubmit, title, initialValues }) {
           ))}
         </select>
         <button type="submit">{initialValues ? "update" : "create"}</button>
-        {initialValues && <Link href="/">cancel</Link>}
+        {initialValues && (
+          <Link href={initialValues?.isCorrect ? "/archive" : "/"}>cancel</Link>
+        )}
       </StyledForm>
     </Container>
   );

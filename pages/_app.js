@@ -33,7 +33,7 @@ export default function App({ Component, pageProps }) {
         flashcard.id === data.id ? { ...flashcard, ...data } : flashcard
       )
     );
-    router.push("/");
+    router.push(data.isCorrect ? "/archive" : "/");
   }
 
   return (

@@ -11,6 +11,7 @@ export default function UpdateFlashcard({ handleUpdateFlashcard, flashcard }) {
           answer: flashcard?.answer || "",
           collectionId: flashcard?.collectionId || "",
           id: flashcard?.id || "",
+          isCorrect: flashcard?.isCorrect || false,
         }}
       />
       ;
