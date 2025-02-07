@@ -11,14 +11,6 @@ const StyledFlashcard = styled.div`
   max-width: 550px;
   margin: 15px auto;
   cursor: pointer;
-
-  /* Firefox-specific fix */
-  @-moz-document url-prefix() {
-    & > div {
-      backface-visibility: hidden;
-      -moz-backface-visibility: hidden;
-    }
-  }
 `;
 
 const FlashcardFront = styled.div`
@@ -34,7 +26,6 @@ const FlashcardFront = styled.div`
   justify-content: center;
   align-items: center;
   border-radius: 8px;
-  will-change: transform;
 `;
 
 const FlashcardBack = styled.div`
@@ -50,7 +41,6 @@ const FlashcardBack = styled.div`
   justify-content: center;
   align-items: center;
   border-radius: 8px;
-  will-change: transform;
 `;
 
 const FlashcardContent = styled.div`
