@@ -1,5 +1,6 @@
 import { collections } from "@/lib/db/collections";
 import styled from "styled-components";
+import Link from "next/link";
 
 const StyledForm = styled.form`
   display: flex;
@@ -66,6 +67,7 @@ export default function FlashcardForm({ onSubmit, title, initialValues }) {
           ))}
         </select>
         <button type="submit">{initialValues ? "update" : "create"}</button>
+        {initialValues && <Link href="/">cancel</Link>}
       </StyledForm>
     </Container>
   );

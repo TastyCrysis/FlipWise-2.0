@@ -1,4 +1,3 @@
-import { flashcards } from "@/lib/db/flashcards";
 import FlashcardForm from "./FlashcardForm";
 
 export default function UpdateFlashcard({ handleUpdateFlashcard, flashcard }) {
@@ -7,8 +6,8 @@ export default function UpdateFlashcard({ handleUpdateFlashcard, flashcard }) {
       <FlashcardForm
         onSubmit={handleUpdateFlashcard}
         initialValues={{
-          question: flashcard?.question || "huhu",
-          answer: flashcard?.answer || "haha",
+          question: flashcard?.question || "",
+          answer: flashcard?.answer || "",
           collectionId: flashcard?.collectionId || "",
           id: flashcard?.id || "",
         }}
