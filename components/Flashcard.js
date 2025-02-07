@@ -114,7 +114,7 @@ export default function Flashcard({
         >
           delete
         </button>
-        <Link href="/edit">edit</Link>
+        <Link href={`/edit?id=${flashcard.id}`}>edit</Link>
       </FlashcardFront>
       <FlashcardBack>
         <FlashcardContent>

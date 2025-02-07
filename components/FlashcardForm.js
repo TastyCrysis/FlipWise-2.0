@@ -37,6 +37,7 @@ export default function FlashcardForm({ onSubmit, title, initialValues }) {
           type="text"
           name="question"
           placeholder={initialValues ? "" : "Question*"}
+          defaultValue={initialValues?.question || ""}
           required
         />
         <label htmlFor="answer">Answer:</label>
@@ -45,6 +46,7 @@ export default function FlashcardForm({ onSubmit, title, initialValues }) {
           type="text"
           name="answer"
           placeholder={initialValues ? "" : "Answer*"}
+          defaultValue={initialValues?.answer || ""}
           required
         />
         <label htmlFor="collections-select">Collection:</label>

@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import Link from "next/link";
 import UpdateFlashcard from "@/components/UpdateFlashcard";
+import { useRouter } from "next/router";
 
 const Container = styled.div`
   display: flex;
@@ -8,7 +9,12 @@ const Container = styled.div`
   align-items: center;
 `;
 
-export default function Edit({ handleUpdateFlashcard }) {
+export default function Edit({ handleUpdateFlashcard, flashcards }) {
+  const router = useRouter();
+  const { id } = router.query;
+  const flashcard = flashcards.find(function (flashcard) {
+    return flashcard.id === id;
+  });
   return (
     <>
       <Container>
@@ -16,7 +22,10 @@ export default function Edit({ handleUpdateFlashcard }) {
         <h2>Edit</h2>
         <Link href="/">Home</Link>
       </Container>
-      <UpdateFlashcard handleUpdateFlashcard={handleUpdateFlashcard} />
+      <UpdateFlashcard
+        handleUpdateFlashcard={handleUpdateFlashcard}
+        flashcard={flashcard}
+      />
     </>
   );
 }
