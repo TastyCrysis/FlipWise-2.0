@@ -9,11 +9,16 @@ const StyledFlashcard = styled.div`
   transition: transform 0.8s;
   transform: ${({ $flipped }) => ($flipped ? "rotateY(180deg)" : "rotateY(0)")};
   max-width: 550px;
-  background: #fff;
-  border: 1px solid #ddd;
-  border-radius: 8px;
   margin: 15px auto;
-  padding: 15px;
+  cursor: pointer;
+
+  /* Firefox-specific fix */
+  @-moz-document url-prefix() {
+    & > div {
+      backface-visibility: hidden;
+      -moz-backface-visibility: hidden;
+    }
+  }
 `;
 
 const FlashcardFront = styled.div`
@@ -22,14 +27,14 @@ const FlashcardFront = styled.div`
   width: 100%;
   height: 100%;
   backface-visibility: hidden;
-  top: 0px;
-  right: 0px;
-  z-index: 5;
+  top: 0;
+  left: 0;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   border-radius: 8px;
+  will-change: transform;
 `;
 
 const FlashcardBack = styled.div`
@@ -39,12 +44,13 @@ const FlashcardBack = styled.div`
   height: 100%;
   backface-visibility: hidden;
   transform: rotateY(180deg);
-  right: 0px;
-  top: 0px;
+  top: 0;
+  left: 0;
   display: flex;
   justify-content: center;
   align-items: center;
   border-radius: 8px;
+  will-change: transform;
 `;
 
 const FlashcardContent = styled.div`
@@ -71,7 +77,9 @@ const CollectionTitle = styled.p`
   position: absolute;
   right: 24px;
   backface-visibility: hidden;
+  will-change: transform;
   z-index: 10;
+  transform: rotateY(0deg);
 `;
 
 const StyledDialog = styled.dialog`
@@ -79,7 +87,8 @@ const StyledDialog = styled.dialog`
   border: solid 1px;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  z-index: 25;
+  will-change: transform;
+  backface-visibility: hidden;
 `;
 
 export default function Flashcard({
@@ -122,7 +131,8 @@ export default function Flashcard({
           </FlashcardAnswer>
           <FlashcardAnswer>{flashcard.answer}</FlashcardAnswer>
           <button
-            onClick={() => {
+            onClick={(event) => {
+              event.stopPropagation();
               handleToggleCorrect(flashcard.id);
             }}
           >
