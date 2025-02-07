@@ -13,6 +13,7 @@ export default function Homepage({
   flashcards,
   collections,
   handleToggleCorrect,
+  handleDeleteFlashcard,
   handleCreateFlashcard,
 }) {
   return (
@@ -26,6 +27,7 @@ export default function Homepage({
         flashcards={flashcards}
         collections={collections}
         handleToggleCorrect={handleToggleCorrect}
+        handleDeleteFlashcard={handleDeleteFlashcard}
       />
     </>
   );

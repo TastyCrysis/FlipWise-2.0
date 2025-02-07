@@ -12,6 +12,7 @@ export default function Archive({
   flashcards,
   collections,
   handleToggleCorrect,
+  handleDeleteFlashcard,
 }) {
   return (
     <>
@@ -24,6 +25,7 @@ export default function Archive({
         flashcards={flashcards}
         collections={collections}
         handleToggleCorrect={handleToggleCorrect}
+        handleDeleteFlashcard={handleDeleteFlashcard}
       />
     </>
   );

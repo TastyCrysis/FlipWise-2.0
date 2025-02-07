@@ -14,6 +14,7 @@ export default function FlashcardList({
   flashcards,
   collections,
   handleToggleCorrect,
+  handleDeleteFlashcard,
 }) {
   const unansweredFlashcards = flashcards.filter(
     (flashcard) => flashcard.isCorrect === false
@@ -21,11 +22,10 @@ export default function FlashcardList({
 
   return (
     <CardList>
-      {unansweredFlashcards.length === 0 ? (
-        <p>
-          You have already answered all the questions in this collection
-          correctly.
-        </p>
+      {flashcards.length === 0 ? (
+        <p>All cards have been deleted.</p>
+      ) : unansweredFlashcards.length === 0 ? (
+        <p>There are no flashcards in this collection.</p>
       ) : (
         unansweredFlashcards.map((flashcard) => {
           const collection = collections.find(
@@ -37,6 +37,7 @@ export default function FlashcardList({
               flashcard={flashcard}
               collection={collection}
               handleToggleCorrect={handleToggleCorrect}
+              handleDeleteFlashcard={handleDeleteFlashcard}
             />
           );
         })

@@ -1,21 +1,16 @@
 import { useState } from "react";
 import styled from "styled-components";
 
-const StyledFlashcard = styled.div.withConfig({
-  shouldForwardProp: (prop) => prop !== "flipped",
-})`
+const StyledFlashcard = styled.div`
   width: 100%;
   height: 150px;
   position: relative;
   transform-style: preserve-3d;
   transition: transform 0.8s;
-  transform: ${({ flipped }) => (flipped ? "rotateY(180deg)" : "rotateY(0)")};
+  transform: ${({ $flipped }) => ($flipped ? "rotateY(180deg)" : "rotateY(0)")};
   max-width: 550px;
-  background: #fff;
-  border: 1px solid #ddd;
-  border-radius: 8px;
   margin: 15px auto;
-  padding: 15px;
+  cursor: pointer;
 `;
 
 const FlashcardFront = styled.div`
@@ -24,10 +19,10 @@ const FlashcardFront = styled.div`
   width: 100%;
   height: 100%;
   backface-visibility: hidden;
-  top: 0px;
-  right: 0px;
-  z-index: 2;
+  top: 0;
+  left: 0;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   border-radius: 8px;
@@ -40,8 +35,8 @@ const FlashcardBack = styled.div`
   height: 100%;
   backface-visibility: hidden;
   transform: rotateY(180deg);
-  right: 0px;
-  top: 0px;
+  top: 0;
+  left: 0;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -72,27 +67,52 @@ const CollectionTitle = styled.p`
   position: absolute;
   right: 24px;
   backface-visibility: hidden;
-  z-index: 3;
+  will-change: transform;
+  z-index: 10;
+  transform: rotateY(0deg);
+`;
+
+const StyledDialog = styled.dialog`
+  padding: 16px;
+  border: solid 1px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  will-change: transform;
+  backface-visibility: hidden;
 `;
 
 export default function Flashcard({
   flashcard,
   collection,
   handleToggleCorrect,
+  handleDeleteFlashcard,
 }) {
   const [flipped, setFlipped] = useState(false);
+  const [showConfirmation, setShowConfirmation] = useState(false);
 
   function handleFlip() {
     setFlipped(!flipped);
   }
 
+  function toggleConfirmation() {
+    setShowConfirmation(!showConfirmation);
+  }
+
   return (
-    <StyledFlashcard key={flashcard.id} flipped={flipped} onClick={handleFlip}>
+    <StyledFlashcard key={flashcard.id} $flipped={flipped} onClick={handleFlip}>
       <CollectionTitle>{collection.title}</CollectionTitle>
       <FlashcardFront>
         <FlashcardContent>
           <FlashcardQuestion>{flashcard.question}</FlashcardQuestion>
         </FlashcardContent>
+        <button
+          onClick={(event) => {
+            event.stopPropagation();
+            toggleConfirmation();
+          }}
+        >
+          delete
+        </button>
       </FlashcardFront>
       <FlashcardBack>
         <FlashcardContent>
@@ -101,7 +121,8 @@ export default function Flashcard({
           </FlashcardAnswer>
           <FlashcardAnswer>{flashcard.answer}</FlashcardAnswer>
           <button
-            onClick={() => {
+            onClick={(event) => {
+              event.stopPropagation();
               handleToggleCorrect(flashcard.id);
             }}
           >
@@ -109,6 +130,28 @@ export default function Flashcard({
           </button>
         </FlashcardContent>
       </FlashcardBack>
+      <StyledDialog open={showConfirmation}>
+        <h3>Do you really want to delete flashcard?</h3>
+        <>
+          <button
+            onClick={(event) => {
+              event.stopPropagation();
+              toggleConfirmation();
+            }}
+          >
+            Cancel
+          </button>
+          <button
+            onClick={(event) => {
+              event.stopPropagation();
+              toggleConfirmation();
+              handleDeleteFlashcard(flashcard.id);
+            }}
+          >
+            Delete
+          </button>
+        </>
+      </StyledDialog>
     </StyledFlashcard>
   );
 }
