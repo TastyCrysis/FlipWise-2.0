@@ -13,11 +13,8 @@ export default function Homepage({
   flashcards,
   collections,
   handleToggleCorrect,
-
   handleDeleteFlashcard,
-
   handleCreateFlashcard,
-
 }) {
   return (
     <>
