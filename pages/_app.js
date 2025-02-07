@@ -2,6 +2,7 @@ import GlobalStyle from "../styles";
 import { flashcards as initialFlashcards } from "@/lib/db/flashcards";
 import { collections } from "@/lib/db/collections";
 import { useState } from "react";
+import { nanoid } from "nanoid";
 
 export default function App({ Component, pageProps }) {
   const [flashcards, setFlashcards] = useState(initialFlashcards);
@@ -16,8 +17,13 @@ export default function App({ Component, pageProps }) {
     );
   }
 
+
   function handleDeleteFlashcard(id) {
     setFlashcards(flashcards.filter((flashcard) => flashcard.id !== id));
+
+  function handleCreateFlashcard(data) {
+    setFlashcards([{ id: nanoid, ...data, isCorrect: false }, ...flashcards]);
+
   }
 
   return (
@@ -28,7 +34,11 @@ export default function App({ Component, pageProps }) {
         flashcards={flashcards}
         collections={collections}
         handleToggleCorrect={handleToggleCorrect}
+
         handleDeleteFlashcard={handleDeleteFlashcard}
+
+        handleCreateFlashcard={handleCreateFlashcard}
+
       />
     </>
   );
