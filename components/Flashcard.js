@@ -131,7 +131,14 @@ export default function Flashcard({
         >
           delete
         </button>
-        <StyledLink href={`/edit?id=${flashcard.id}`}>edit</StyledLink>
+        <StyledLink
+          href={`/edit?id=${flashcard.id}`}
+          onClick={(event) => {
+            event.stopPropagation();
+          }}
+        >
+          edit
+        </StyledLink>
       </FlashcardFront>
       <FlashcardBack>
         <FlashcardContent>

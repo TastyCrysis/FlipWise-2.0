@@ -23,7 +23,6 @@ export default function Homepage({
         <Link href="/archive">Archive</Link>
       </Container>
       <CreateFlashcard handleCreateFlashcard={handleCreateFlashcard} />
-
       <FlashcardList
         flashcards={flashcards}
         collections={collections}
