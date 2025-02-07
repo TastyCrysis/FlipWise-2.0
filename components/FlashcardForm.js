@@ -19,6 +19,23 @@ const Container = styled.div`
   padding: 0 0 16px 0;
 `;
 
+const StyledLink = styled(Link)`
+  display: inline-block;
+  background-color: #0070f3;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 10px 15px;
+  cursor: pointer;
+  font-weight: bold;
+  text-align: center;
+  text-decoration: none;
+
+  &:hover {
+    background-color: #005bb5;
+  }
+`;
+
 export default function FlashcardForm({ onSubmit, title, initialValues }) {
   function handleSubmit(event) {
     event.preventDefault();
@@ -73,7 +90,9 @@ export default function FlashcardForm({ onSubmit, title, initialValues }) {
         </select>
         <button type="submit">{initialValues ? "update" : "create"}</button>
         {initialValues && (
-          <Link href={initialValues?.isCorrect ? "/archive" : "/"}>cancel</Link>
+          <StyledLink href={initialValues?.isCorrect ? "/archive" : "/"}>
+            cancel
+          </StyledLink>
         )}
       </StyledForm>
     </Container>

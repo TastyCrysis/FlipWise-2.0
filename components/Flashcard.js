@@ -82,6 +82,23 @@ const StyledDialog = styled.dialog`
   backface-visibility: hidden;
 `;
 
+const StyledLink = styled(Link)`
+  display: inline-block;
+  background-color: #0070f3;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 10px 15px;
+  cursor: pointer;
+  font-weight: bold;
+  text-align: center;
+  text-decoration: none;
+
+  &:hover {
+    background-color: #005bb5;
+  }
+`;
+
 export default function Flashcard({
   flashcard,
   collection,
@@ -114,7 +131,7 @@ export default function Flashcard({
         >
           delete
         </button>
-        <Link href={`/edit?id=${flashcard.id}`}>edit</Link>
+        <StyledLink href={`/edit?id=${flashcard.id}`}>edit</StyledLink>
       </FlashcardFront>
       <FlashcardBack>
         <FlashcardContent>
