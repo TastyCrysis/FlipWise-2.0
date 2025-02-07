@@ -1,5 +1,6 @@
 import { useState } from "react";
 import styled from "styled-components";
+import Link from "next/link";
 
 const StyledFlashcard = styled.div`
   width: 100%;
@@ -113,6 +114,7 @@ export default function Flashcard({
         >
           delete
         </button>
+        <Link href="/edit">edit</Link>
       </FlashcardFront>
       <FlashcardBack>
         <FlashcardContent>

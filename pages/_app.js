@@ -25,6 +25,10 @@ export default function App({ Component, pageProps }) {
     setFlashcards([{ id: nanoid(), ...data, isCorrect: false }, ...flashcards]);
   }
 
+  function handleUpdateFlashcard(data) {
+    console.log("Update log");
+  }
+
   return (
     <>
       <GlobalStyle />
@@ -35,6 +39,7 @@ export default function App({ Component, pageProps }) {
         handleToggleCorrect={handleToggleCorrect}
         handleDeleteFlashcard={handleDeleteFlashcard}
         handleCreateFlashcard={handleCreateFlashcard}
+        handleUpdateFlashcard={handleUpdateFlashcard}
       />
     </>
   );
