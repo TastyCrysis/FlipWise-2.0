@@ -19,7 +19,6 @@ export default function Edit({ handleUpdateFlashcard, flashcards }) {
     <>
       <Container>
         <h1>Flipwise App</h1>
-        <h2>Edit</h2>
         <Link href="/">Home</Link>
       </Container>
       <UpdateFlashcard

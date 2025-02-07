@@ -3,9 +3,11 @@ import { flashcards as initialFlashcards } from "@/lib/db/flashcards";
 import { collections } from "@/lib/db/collections";
 import { useState } from "react";
 import { nanoid } from "nanoid";
+import { useRouter } from "next/router";
 
 export default function App({ Component, pageProps }) {
   const [flashcards, setFlashcards] = useState(initialFlashcards);
+  const router = useRouter();
 
   function handleToggleCorrect(id) {
     setFlashcards((prevFlashcards) =>
@@ -26,7 +28,12 @@ export default function App({ Component, pageProps }) {
   }
 
   function handleUpdateFlashcard(data) {
-    setFlashcards([{ id: nanoid(), ...data, isCorrect: false }, ...flashcards]);
+    setFlashcards((prevFlashcards) =>
+      prevFlashcards.map((flashcard) =>
+        flashcard.id === data.id ? { ...flashcard, ...data } : flashcard
+      )
+    );
+    router.push("/");
   }
 
   return (

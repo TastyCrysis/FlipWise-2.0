@@ -25,6 +25,10 @@ export default function FlashcardForm({ onSubmit, title, initialValues }) {
     const formData = new FormData(event.target);
     const data = Object.fromEntries(formData);
 
+    if (initialValues?.id) {
+      data.id = initialValues.id;
+    }
+
     onSubmit(data);
   }
 

@@ -4,6 +4,7 @@ export default function UpdateFlashcard({ handleUpdateFlashcard, flashcard }) {
   return (
     <>
       <FlashcardForm
+        title="Update Flashcard"
         onSubmit={handleUpdateFlashcard}
         initialValues={{
           question: flashcard?.question || "",
