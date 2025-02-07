@@ -26,7 +26,7 @@ export default function App({ Component, pageProps }) {
   }
 
   function handleUpdateFlashcard(data) {
-    console.log("Update log");
+    setFlashcards([{ id: nanoid(), ...data, isCorrect: false }, ...flashcards]);
   }
 
   return (
