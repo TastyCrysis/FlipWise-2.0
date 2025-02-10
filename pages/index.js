@@ -1,7 +1,5 @@
-import FlashcardList from "@/components/FlashcardList";
+import CollectionList from "@/components/CollectionList";
 import styled from "styled-components";
-import Link from "next/link";
-import CreateFlashcard from "@/components/CreateFlashcard";
 
 const Container = styled.div`
   display: flex;
@@ -9,26 +7,14 @@ const Container = styled.div`
   align-items: center;
 `;
 
-export default function Homepage({
-  flashcards,
-  collections,
-  handleToggleCorrect,
-  handleDeleteFlashcard,
-  handleCreateFlashcard,
-}) {
+export default function Homepage({ flashcards, collections }) {
   return (
     <>
       <Container>
         <h1>Flipwise App</h1>
-        <Link href="/archive">Archive</Link>
+        <h2>List of collections</h2>
       </Container>
-      <CreateFlashcard handleCreateFlashcard={handleCreateFlashcard} />
-      <FlashcardList
-        flashcards={flashcards}
-        collections={collections}
-        handleToggleCorrect={handleToggleCorrect}
-        handleDeleteFlashcard={handleDeleteFlashcard}
-      />
+      <CollectionList flashcards={flashcards} collections={collections} />
     </>
   );
 }
