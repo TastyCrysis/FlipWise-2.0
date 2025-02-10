@@ -54,7 +54,7 @@ export default function Collectioncard({ flashcards, collection }) {
           </CollectionCard>
         </CardLink>
       </Link>
-      <Link href="/archive">Archive</Link>
+      <Link href={`/archive?collectionId=${collection.id}`}>Archive</Link>
     </>
   );
 }

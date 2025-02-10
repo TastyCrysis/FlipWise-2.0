@@ -30,7 +30,9 @@ export default function Homepage({
     <>
       <Container>
         <h1>Flipwise App</h1>
-        <h2>{currentCollection ? currentCollection.title : ""}</h2>
+        <h2>List of flashcards</h2>
+        <h3>{currentCollection ? currentCollection.title : ""}</h3>
+        <Link href="/">Collections list</Link>
         <Link href="/archive">Archive</Link>
       </Container>
       <CreateFlashcard
