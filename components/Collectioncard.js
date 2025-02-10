@@ -1,15 +1,13 @@
 import styled from "styled-components";
 import Link from "next/link";
 
-const StyledCollectionCard = styled.div`
+const StyledCollectionCardLink = styled(Link)`
   width: 100%;
   height: 150px;
   position: relative;
-  transform-style: preserve-3d;
-  transition: transform 0.8s;
-  transform: ${({ $flipped }) => ($flipped ? "rotateY(180deg)" : "rotateY(0)")};
   max-width: 550px;
   margin: 15px auto;
+  text-decoration: none;
   cursor: pointer;
 `;
 
@@ -51,16 +49,18 @@ export default function Collectioncard({ flashcards, collection }) {
   const numberFlashcards = collectionFlashcards.length;
 
   return (
-    <StyledCollectionCard key={collection.id}>
-      <CollectionTitle>{collection.title}</CollectionTitle>
-      <CollectionCard>
-        <p>Number of Flashcards: {numberFlashcards} </p>
-        <p>Number of correct Flashcards: {correctFlashcards.length}</p>
-        <Link href="/archive">Archive</Link>
-        <Link href={`/flashcards?collectionId=${collection.id}`}>
-          Collection
-        </Link>
-      </CollectionCard>
-    </StyledCollectionCard>
+    <StyledCollectionCardLink
+      href={`/flashcards?collectionId=${collection.id}`}
+      key={collection.id}
+    >
+      <div>
+        <CollectionTitle>{collection.title}</CollectionTitle>
+        <CollectionCard>
+          <p>Number of Flashcards: {numberFlashcards} </p>
+          <p>Number of correct Flashcards: {correctFlashcards.length}</p>
+          <Link href="/archive">Archive</Link>
+        </CollectionCard>
+      </div>
+    </StyledCollectionCardLink>
   );
 }

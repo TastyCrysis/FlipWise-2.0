@@ -23,15 +23,14 @@ export default function Homepage({
     ? flashcards.filter((flashcard) => flashcard.collectionId === collectionId)
     : flashcards;
   const currentCollection = collections.find(
-    (collection) => collection.Id === collectionId
+    (collection) => collection.id === collectionId
   );
-  console.log("currentCollection_", currentCollection);
 
   return (
     <>
       <Container>
         <h1>Flipwise App</h1>
-        <h2>{currentCollection ? currentCollection.title : "3"}</h2>
+        <h2>{currentCollection ? currentCollection.title : ""}</h2>
         <Link href="/archive">Archive</Link>
       </Container>
       <CreateFlashcard
