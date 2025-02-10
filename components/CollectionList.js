@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import Flashcard from "@/components/Flashcard";
+import Collectioncard from "@/components/Collectioncard";
 
 const CardList = styled.ul`
   display: flex;
@@ -30,7 +30,7 @@ export default function CollectionList({ flashcards, collections }) {
             (collection) => collection.id === flashcard.collectionId
           );
           return (
-            <Flashcard
+            <Collectioncard
               key={flashcard.id}
               flashcard={flashcard}
               collection={collection}
