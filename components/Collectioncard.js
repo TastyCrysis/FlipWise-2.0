@@ -81,14 +81,19 @@ const StyledDialog = styled.dialog`
   backface-visibility: hidden;
 `;
 
-export default function Flashcard({ flashcard, collection }) {
+export default function Flashcard({ flashcards, collection }) {
+  const unansweredFlashcards = flashcards.filter(
+    (flashcard) => flashcard.isCorrect === false
+  );
+  const correctFlashcards = flashcards.filter(
+    (flashcard) => flashcard.isCorrect
+  );
   return (
-    <StyledFlashcard key={flashcard.id}>
+    <StyledFlashcard key={collection.id}>
       <CollectionTitle>{collection.title}</CollectionTitle>
       <FlashcardFront>
-        <FlashcardContent>
-          <FlashcardQuestion>{flashcard.question}</FlashcardQuestion>
-        </FlashcardContent>
+        <p>unansweredFlashcards: '$correctFlashcards'</p>
+        <p>correctFlashcards</p>
       </FlashcardFront>
     </StyledFlashcard>
   );

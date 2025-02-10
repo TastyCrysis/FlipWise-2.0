@@ -11,29 +11,17 @@ const CardList = styled.ul`
 `;
 
 export default function CollectionList({ flashcards, collections }) {
-  const unansweredFlashcards = flashcards.filter(
-    (flashcard) => flashcard.isCorrect === false
-  );
-  const correctFlashcards = flashcards.filter(
-    (flashcard) => flashcard.isCorrect
-  );
-
   return (
     <CardList>
       {collections.length === 0 ? (
         <p>All cards have been deleted.</p>
-      ) : unansweredFlashcards.length === 0 ? (
-        <p>There are no flashcards in this collection.</p>
       ) : (
-        unansweredFlashcards.map((flashcard) => {
-          const collection = collections.find(
-            (collection) => collection.id === flashcard.collectionId
-          );
+        collections.map((collection) => {
           return (
             <Collectioncard
-              key={flashcard.id}
-              flashcard={flashcard}
+              key={collection.id}
               collection={collection}
+              flashcards={flashcards}
             />
           );
         })
