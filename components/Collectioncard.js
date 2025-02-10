@@ -1,7 +1,7 @@
-import { useState } from "react";
 import styled from "styled-components";
+import Link from "next/link";
 
-const StyledFlashcard = styled.div`
+const StyledCollectionCard = styled.div`
   width: 100%;
   height: 150px;
   position: relative;
@@ -13,7 +13,7 @@ const StyledFlashcard = styled.div`
   cursor: pointer;
 `;
 
-const FlashcardFront = styled.div`
+const CollectionCard = styled.div`
   background: #ff6f61;
   position: absolute;
   width: 100%;
@@ -26,37 +26,6 @@ const FlashcardFront = styled.div`
   justify-content: center;
   align-items: center;
   border-radius: 8px;
-`;
-
-const FlashcardBack = styled.div`
-  background: #6fb3ff;
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  backface-visibility: hidden;
-  transform: rotateY(180deg);
-  top: 0;
-  left: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 8px;
-`;
-
-const FlashcardContent = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
-
-const FlashcardQuestion = styled.p`
-  font-weight: bold;
-  margin: 0;
-  text-align: center;
-`;
-
-const FlashcardAnswer = styled.p`
-  color: #000;
-  margin: 5px 0;
 `;
 
 const CollectionTitle = styled.p`
@@ -72,29 +41,23 @@ const CollectionTitle = styled.p`
   transform: rotateY(0deg);
 `;
 
-const StyledDialog = styled.dialog`
-  padding: 16px;
-  border: solid 1px;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  will-change: transform;
-  backface-visibility: hidden;
-`;
-
-export default function Flashcard({ flashcards, collection }) {
-  const unansweredFlashcards = flashcards.filter(
-    (flashcard) => flashcard.isCorrect === false
+export default function Collectioncard({ flashcards, collection }) {
+  const collectionFlashcards = flashcards.filter(
+    (flashcard) => flashcard.collectionId === collection.id
   );
-  const correctFlashcards = flashcards.filter(
+  const correctFlashcards = collectionFlashcards.filter(
     (flashcard) => flashcard.isCorrect
   );
+  const numberFlashcards = collectionFlashcards.length;
+
   return (
-    <StyledFlashcard key={collection.id}>
+    <StyledCollectionCard key={collection.id}>
       <CollectionTitle>{collection.title}</CollectionTitle>
-      <FlashcardFront>
-        <p>unansweredFlashcards: '$correctFlashcards'</p>
-        <p>correctFlashcards</p>
-      </FlashcardFront>
-    </StyledFlashcard>
+      <CollectionCard>
+        <p>Number of Flashcards: {numberFlashcards} </p>
+        <p>Number of correct Flashcards: {correctFlashcards.length}</p>
+        <Link href="/archive">Archive</Link>
+      </CollectionCard>
+    </StyledCollectionCard>
   );
 }
