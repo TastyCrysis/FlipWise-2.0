@@ -57,6 +57,9 @@ export default function Collectioncard({ flashcards, collection }) {
         <p>Number of Flashcards: {numberFlashcards} </p>
         <p>Number of correct Flashcards: {correctFlashcards.length}</p>
         <Link href="/archive">Archive</Link>
+        <Link href={`/flashcards?collectionId=${collection.id}`}>
+          Collection
+        </Link>
       </CollectionCard>
     </StyledCollectionCard>
   );
