@@ -1,29 +1,27 @@
 import styled from "styled-components";
 import Link from "next/link";
 
-const StyledCollectionCardLink = styled(Link)`
+const CardLink = styled.a`
+  display: block;
   width: 100%;
   height: 150px;
-  position: relative;
   max-width: 550px;
   margin: 15px auto;
   text-decoration: none;
+  color: inherit;
   cursor: pointer;
 `;
 
 const CollectionCard = styled.div`
-  background: #ff6f61;
-  position: absolute;
   width: 100%;
   height: 100%;
-  backface-visibility: hidden;
-  top: 0;
-  left: 0;
+  background: #ff6f61;
+  border-radius: 8px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  border-radius: 8px;
+  position: relative;
 `;
 
 const CollectionTitle = styled.p`
@@ -33,10 +31,7 @@ const CollectionTitle = styled.p`
   margin: 0 0 7px 0;
   position: absolute;
   right: 24px;
-  backface-visibility: hidden;
-  will-change: transform;
-  z-index: 10;
-  transform: rotateY(0deg);
+  top: 10px;
 `;
 
 export default function Collectioncard({ flashcards, collection }) {
@@ -49,18 +44,17 @@ export default function Collectioncard({ flashcards, collection }) {
   const numberFlashcards = collectionFlashcards.length;
 
   return (
-    <StyledCollectionCardLink
-      href={`/flashcards?collectionId=${collection.id}`}
-      key={collection.id}
-    >
-      <div>
-        <CollectionTitle>{collection.title}</CollectionTitle>
-        <CollectionCard>
-          <p>Number of Flashcards: {numberFlashcards} </p>
-          <p>Number of correct Flashcards: {correctFlashcards.length}</p>
-          <Link href="/archive">Archive</Link>
-        </CollectionCard>
-      </div>
-    </StyledCollectionCardLink>
+    <>
+      <Link href={`/flashcards?collectionId=${collection.id}`} legacyBehavior>
+        <CardLink>
+          <CollectionCard>
+            <CollectionTitle>{collection.title}</CollectionTitle>
+            <p>Number of Flashcards: {numberFlashcards}</p>
+            <p>Number of correct Flashcards: {correctFlashcards.length}</p>
+          </CollectionCard>
+        </CardLink>
+      </Link>
+      <Link href="/archive">Archive</Link>
+    </>
   );
 }
