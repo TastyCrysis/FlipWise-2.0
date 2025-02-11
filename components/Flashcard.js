@@ -4,13 +4,13 @@ import styled from "styled-components";
 const StyledFlashcard = styled.div`
   width: 100%;
   height: 150px;
+  max-width: 550px;
+  margin: 15px auto;
+  cursor: pointer;
   position: relative;
   transform-style: preserve-3d;
   transition: transform 0.8s;
   transform: ${({ $flipped }) => ($flipped ? "rotateY(180deg)" : "rotateY(0)")};
-  max-width: 550px;
-  margin: 15px auto;
-  cursor: pointer;
 `;
 
 const FlashcardFront = styled.div`
