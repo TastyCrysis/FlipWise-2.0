@@ -31,7 +31,7 @@ export default function Homepage({
       <Container>
         <h1>Flipwise App</h1>
         <h2>List of flashcards</h2>
-        <h3>{currentCollection ? currentCollection.title : ""}</h3>
+        <h3>{currentCollection && currentCollection.title}</h3>
         <Link href="/">Collections list</Link>
         {currentCollection && (
           <Link href={`/collections/${currentCollection.id}/archive`}>

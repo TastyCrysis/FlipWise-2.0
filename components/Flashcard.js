@@ -132,7 +132,7 @@ export default function Flashcard({
           delete
         </button>
         <StyledLink
-          href={`flashcards/${flashcard.id}/edit`}
+          href={`/flashcards/${flashcard.id}/edit`}
           onClick={(event) => {
             event.stopPropagation();
           }}
