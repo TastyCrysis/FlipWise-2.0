@@ -1,6 +1,7 @@
 import ArchiveList from "@/components/ArchiveList";
 import styled from "styled-components";
 import Link from "next/link";
+import Navigation from "@/components/Navigation";
 
 const Container = styled.div`
   display: flex;
@@ -27,6 +28,7 @@ export default function Archive({
         handleToggleCorrect={handleToggleCorrect}
         handleDeleteFlashcard={handleDeleteFlashcard}
       />
+      <Navigation />
     </>
   );
 }
