@@ -33,9 +33,11 @@ export default function Homepage({
         <h2>List of flashcards</h2>
         <h3>{currentCollection ? currentCollection.title : ""}</h3>
         <Link href="/">Collections list</Link>
-        <Link href={`/collections/${currentCollection.id}/archive`}>
-          Archive
-        </Link>
+        {currentCollection && (
+          <Link href={`/collections/${currentCollection.id}/archive`}>
+            Archive
+          </Link>
+        )}
       </Container>
       <FlashcardForm
         onSubmit={handleCreateFlashcard}
