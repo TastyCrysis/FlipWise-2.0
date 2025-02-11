@@ -48,14 +48,14 @@ export default function Collectioncard({ flashcards, collection }) {
 
   return (
     <CardLink>
-      <StyledCardLink href={`/flashcards?collectionId=${collection.id}`}>
+      <StyledCardLink href={`/collections/${collection.id}/flashcards`}>
         <CollectionCard>
           <p>Collection: {collection.title}</p>
           <p>Cards: {numberFlashcards}</p>
           <p>Correct Cards: {correctFlashcards.length}</p>
         </CollectionCard>
       </StyledCardLink>
-      <StyledLink href={`/archive?collectionId=${collection.id}`}>
+      <StyledLink href={`/collections/${collection.id}/archive`}>
         Archive
       </StyledLink>
     </CardLink>
