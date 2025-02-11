@@ -2,6 +2,7 @@ import FlashcardList from "@/components/FlashcardList";
 import styled from "styled-components";
 import Link from "next/link";
 import FlashcardForm from "@/components/FlashcardForm";
+import CreateModal from "@/components/CreateModal";
 
 const Container = styled.div`
   display: flex;
@@ -22,10 +23,11 @@ export default function Homepage({
         <h1>Flipwise App</h1>
         <Link href="/archive">Archive</Link>
       </Container>
-      <FlashcardForm
+      {/* <FlashcardForm
         onSubmit={handleCreateFlashcard}
         title="Create a new Flashcard"
-      />
+      /> */}
+      <CreateModal handleCreateFlashcard={handleCreateFlashcard} />
       <FlashcardList
         flashcards={flashcards}
         collections={collections}

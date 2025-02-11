@@ -23,8 +23,9 @@ export default function App({ Component, pageProps }) {
     setFlashcards(flashcards.filter((flashcard) => flashcard.id !== id));
   }
 
-  function handleCreateFlashcard(data) {
+  function handleCreateFlashcard(data, onSuccess) {
     setFlashcards([{ id: nanoid(), ...data, isCorrect: false }, ...flashcards]);
+    if (onSuccess) onSuccess();
   }
 
   function handleUpdateFlashcard(data) {
