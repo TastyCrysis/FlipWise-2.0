@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import Collectioncard from "@/components/Collectioncard";
+import CollectionCard from "@/components/CollectionCard";
 
 const CardList = styled.ul`
   display: flex;
@@ -11,21 +11,17 @@ const CardList = styled.ul`
 `;
 
 export default function CollectionList({ flashcards, collections }) {
-  return (
+  return collections.length === 0 ? (
+    <p>All cards have been deleted.</p>
+  ) : (
     <CardList>
-      {collections.length === 0 ? (
-        <p>All cards have been deleted.</p>
-      ) : (
-        collections.map((collection) => {
-          return (
-            <Collectioncard
-              key={collection.id}
-              collection={collection}
-              flashcards={flashcards}
-            />
-          );
-        })
-      )}
+      {collections.map((collection) => (
+        <CollectionCard
+          key={collection.id}
+          collection={collection}
+          flashcards={flashcards}
+        />
+      ))}
     </CardList>
   );
 }

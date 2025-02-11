@@ -4,7 +4,7 @@ import Link from "next/link";
 import FlashcardForm from "@/components/FlashcardForm";
 import { useRouter } from "next/router";
 
-const Container = styled.div`
+const Container = styled.header`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -33,7 +33,9 @@ export default function Homepage({
         <h2>List of flashcards</h2>
         <h3>{currentCollection ? currentCollection.title : ""}</h3>
         <Link href="/">Collections list</Link>
-        <Link href="/archive">Archive</Link>
+        <Link href={`/collections/${currentCollection.id}/archive`}>
+          Archive
+        </Link>
       </Container>
       <FlashcardForm
         onSubmit={handleCreateFlashcard}

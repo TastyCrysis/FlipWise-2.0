@@ -3,7 +3,7 @@ import styled from "styled-components";
 import Link from "next/link";
 import { useRouter } from "next/router";
 
-const Container = styled.div`
+const Container = styled.header`
   display: flex;
   flex-direction: column;
   align-items: center;

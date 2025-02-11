@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import Link from "next/link";
 
-const CardLink = styled.div`
+const CardItem = styled.li`
   width: 100%;
   height: 150px;
   max-width: 550px;
@@ -16,7 +16,7 @@ const StyledCardLink = styled(Link)`
   color: inherit;
 `;
 
-const CollectionCard = styled.div`
+const CollectionCardArticle = styled.article`
   width: 100%;
   height: 100%;
   background: #ff6f61;
@@ -37,7 +37,13 @@ const StyledLink = styled(Link)`
   bottom: 10px;
 `;
 
-export default function Collectioncard({ flashcards, collection }) {
+const StyledTitle = styled.h3`
+  font-size: 1rem;
+  font-weight: normal;
+  line-height: 1.5;
+`;
+
+export default function CollectionCard({ flashcards, collection }) {
   const collectionFlashcards = flashcards.filter(
     (flashcard) => flashcard.collectionId === collection.id
   );
@@ -47,17 +53,17 @@ export default function Collectioncard({ flashcards, collection }) {
   const numberFlashcards = collectionFlashcards.length;
 
   return (
-    <CardLink>
+    <CardItem>
       <StyledCardLink href={`/collections/${collection.id}/flashcards`}>
-        <CollectionCard>
-          <p>Collection: {collection.title}</p>
+        <CollectionCardArticle>
+          <StyledTitle>Collection: {collection.title}</StyledTitle>
           <p>Cards: {numberFlashcards}</p>
           <p>Correct Cards: {correctFlashcards.length}</p>
-        </CollectionCard>
+        </CollectionCardArticle>
       </StyledCardLink>
       <StyledLink href={`/collections/${collection.id}/archive`}>
         Archive
       </StyledLink>
-    </CardLink>
+    </CardItem>
   );
 }
