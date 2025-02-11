@@ -10,7 +10,7 @@ const CardList = styled.ul`
   margin: 0;
 `;
 
-export default function FlashcardList({
+export default function ArchiveList({
   flashcards,
   collections,
   handleToggleCorrect,
