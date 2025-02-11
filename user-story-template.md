@@ -1,8 +1,8 @@
 ## Value proposition
 
-As a <user/role>
-I want to <feature/goal>
-In order to <benefit/purpose>
+_As a_ <user/role>
+_I want to_ <feature/goal>
+_In order to_ <benefit/purpose>
 
 ## Description
 
@@ -18,3 +18,5 @@ In order to <benefit/purpose>
 ## Tasks
 
 - [ ] List the tasks that need to be performed within the dev team
+- [ ] Create feature branch `feature/<featurename>`
+- [ ] Capstone Group Todo: Add tasks

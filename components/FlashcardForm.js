@@ -90,7 +90,13 @@ export default function FlashcardForm({ onSubmit, title, initialValues }) {
         </select>
         <button type="submit">{initialValues ? "update" : "create"}</button>
         {initialValues && (
-          <StyledLink href={initialValues?.isCorrect ? "/archive" : "/"}>
+          <StyledLink
+            href={
+              initialValues?.isCorrect
+                ? `/collections/${initialValues?.collectionId}/archive`
+                : `/collections/${initialValues?.collectionId}/flashcards`
+            }
+          >
             cancel
           </StyledLink>
         )}
