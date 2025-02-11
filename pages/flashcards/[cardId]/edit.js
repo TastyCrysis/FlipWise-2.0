@@ -13,6 +13,7 @@ export default function Edit({ handleUpdateFlashcard, flashcards }) {
   const router = useRouter();
   const { cardId } = router.query;
   const flashcard = flashcards.find((flashcard) => flashcard.id === cardId);
+
   return (
     <>
       <Container>

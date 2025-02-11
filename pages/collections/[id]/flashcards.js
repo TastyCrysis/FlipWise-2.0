@@ -1,7 +1,7 @@
 import FlashcardList from "@/components/FlashcardList";
 import styled from "styled-components";
 import Link from "next/link";
-import CreateFlashcard from "@/components/CreateFlashcard";
+import FlashcardForm from "@/components/FlashcardForm";
 import { useRouter } from "next/router";
 
 const Container = styled.div`
@@ -18,12 +18,12 @@ export default function Homepage({
   handleCreateFlashcard,
 }) {
   const router = useRouter();
-  const { collectionId } = router.query;
-  const filteredFlashcards = collectionId
-    ? flashcards.filter((flashcard) => flashcard.collectionId === collectionId)
+  const { id } = router.query;
+  const filteredFlashcards = id
+    ? flashcards.filter((flashcard) => flashcard.collectionId === id)
     : flashcards;
   const currentCollection = collections.find(
-    (collection) => collection.id === collectionId
+    (collection) => collection.id === id
   );
 
   return (
@@ -35,9 +35,9 @@ export default function Homepage({
         <Link href="/">Collections list</Link>
         <Link href="/archive">Archive</Link>
       </Container>
-      <CreateFlashcard
-        handleCreateFlashcard={handleCreateFlashcard}
-        collectionId={collectionId}
+      <FlashcardForm
+        onSubmit={handleCreateFlashcard}
+        title="Create a new Flashcard"
       />
       <FlashcardList
         flashcards={filteredFlashcards}

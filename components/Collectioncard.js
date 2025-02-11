@@ -23,20 +23,10 @@ const CollectionCard = styled.div`
   border-radius: 8px;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  padding: 0 24px;
   position: relative;
 `;
 
-const CollectionTitle = styled.p`
-  text-align: right;
-  font-style: italic;
-  color: #000;
-  margin: 0 0 7px 0;
-  position: absolute;
-  right: 24px;
-  top: 10px;
-`;
 const StyledLink = styled(Link)`
   text-align: right;
   font-style: italic;
@@ -60,9 +50,9 @@ export default function Collectioncard({ flashcards, collection }) {
     <CardLink>
       <StyledCardLink href={`/flashcards?collectionId=${collection.id}`}>
         <CollectionCard>
-          <CollectionTitle>{collection.title}</CollectionTitle>
-          <p>Number of Flashcards: {numberFlashcards}</p>
-          <p>Number of correct Flashcards: {correctFlashcards.length}</p>
+          <p>Collection: {collection.title}</p>
+          <p>Cards: {numberFlashcards}</p>
+          <p>Correct Cards: {correctFlashcards.length}</p>
         </CollectionCard>
       </StyledCardLink>
       <StyledLink href={`/archive?collectionId=${collection.id}`}>

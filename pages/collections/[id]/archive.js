@@ -16,13 +16,14 @@ export default function Archive({
   handleDeleteFlashcard,
 }) {
   const router = useRouter();
-  const { collectionId } = router.query;
-  const filteredFlashcards = collectionId
-    ? flashcards.filter((flashcard) => flashcard.collectionId === collectionId)
+  const { id } = router.query;
+  const filteredFlashcards = id
+    ? flashcards.filter((flashcard) => flashcard.collectionId === id)
     : flashcards;
   const currentCollection = collections.find(
-    (collection) => collection.id === collectionId
+    (collection) => collection.id === id
   );
+
   return (
     <>
       <Container>
