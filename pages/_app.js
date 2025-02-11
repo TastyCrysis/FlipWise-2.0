@@ -28,13 +28,13 @@ export default function App({ Component, pageProps }) {
     if (onSuccess) onSuccess();
   }
 
-  function handleUpdateFlashcard(data) {
+  function handleUpdateFlashcard(data, onSuccess) {
     setFlashcards((prevFlashcards) =>
       prevFlashcards.map((flashcard) =>
         flashcard.id === data.id ? { ...flashcard, ...data } : flashcard
       )
     );
-    router.push(data.isCorrect ? "/archive" : "/");
+    if (onSuccess) onSuccess();
   }
 
   return (
