@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 const StyledNav = styled.nav`
   background: white;
@@ -19,7 +20,7 @@ const StyledUl = styled.ul`
 `;
 
 const StyledLi = styled.li`
-  background: #ff6f61;
+  background: ${({ $active }) => ($active ? "#6fb3ff" : "#ff6f61")};
   border-top: 1px solid #6fb3ff;
   width: 100%;
 `;
@@ -33,11 +34,14 @@ const StyledLink = styled(Link)`
 `;
 
 export default function Navigation({ children }) {
+  const router = useRouter();
+  const currentPage = router.pathname;
+
   return (
     <StyledNav>
       {children}
       <StyledUl>
-        <StyledLi>
+        <StyledLi $active={currentPage === "/"}>
           <StyledLink href="/" aria-label="go to home page">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -69,7 +73,7 @@ export default function Navigation({ children }) {
             </svg>
           </StyledLink>
         </StyledLi>
-        <StyledLi>
+        <StyledLi $active={currentPage === "/archive"}>
           <StyledLink href="/archive" aria-label="go to archive page">
             <svg
               xmlns="http://www.w3.org/2000/svg"
