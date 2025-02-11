@@ -1,5 +1,6 @@
 import { useState } from "react";
 import styled from "styled-components";
+import Link from "next/link";
 
 const StyledFlashcard = styled.div`
   width: 100%;
@@ -81,6 +82,23 @@ const StyledDialog = styled.dialog`
   backface-visibility: hidden;
 `;
 
+const StyledLink = styled(Link)`
+  display: inline-block;
+  background-color: #0070f3;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 10px 15px;
+  cursor: pointer;
+  font-weight: bold;
+  text-align: center;
+  text-decoration: none;
+
+  &:hover {
+    background-color: #005bb5;
+  }
+`;
+
 export default function Flashcard({
   flashcard,
   collection,
@@ -113,6 +131,14 @@ export default function Flashcard({
         >
           delete
         </button>
+        <StyledLink
+          href={`flashcards/${flashcard.id}/edit`}
+          onClick={(event) => {
+            event.stopPropagation();
+          }}
+        >
+          edit
+        </StyledLink>
       </FlashcardFront>
       <FlashcardBack>
         <FlashcardContent>

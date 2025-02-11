@@ -1,5 +1,6 @@
 import { collections } from "@/lib/db/collections";
 import styled from "styled-components";
+import Link from "next/link";
 
 const StyledForm = styled.form`
   display: flex;
@@ -18,25 +19,48 @@ const Container = styled.div`
   padding: 0 0 16px 0;
 `;
 
-export default function FlashcardForm({ onSubmit }) {
+const StyledLink = styled(Link)`
+  display: inline-block;
+  background-color: #0070f3;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 10px 15px;
+  cursor: pointer;
+  font-weight: bold;
+  text-align: center;
+  text-decoration: none;
+
+  &:hover {
+    background-color: #005bb5;
+  }
+`;
+
+export default function FlashcardForm({ onSubmit, title, initialValues }) {
   function handleSubmit(event) {
     event.preventDefault();
     const formData = new FormData(event.target);
     const data = Object.fromEntries(formData);
 
-    onSubmit(data);
+    const mergeData = {
+      ...initialValues,
+      ...data,
+    };
+
+    onSubmit(mergeData);
   }
 
   return (
     <Container>
-      <h3>Create a new Flashcard</h3>
+      <h3>{title}</h3>
       <StyledForm onSubmit={handleSubmit}>
         <label htmlFor="question">Question:</label>
         <input
           id="question"
           type="text"
           name="question"
-          placeholder="Question*"
+          placeholder={initialValues ? "" : "Question*"}
+          defaultValue={initialValues?.question || ""}
           required
         />
         <label htmlFor="answer">Answer:</label>
@@ -44,14 +68,15 @@ export default function FlashcardForm({ onSubmit }) {
           id="answer"
           type="text"
           name="answer"
-          placeholder="Answer*"
+          placeholder={initialValues ? "" : "Answer*"}
+          defaultValue={initialValues?.answer || ""}
           required
         />
         <label htmlFor="collections-select">Collection:</label>
         <select
           name="collectionId"
           id="collections-select"
-          defaultValue=""
+          defaultValue={initialValues?.collectionId || ""}
           required
         >
           <option value="" disabled>
@@ -63,7 +88,12 @@ export default function FlashcardForm({ onSubmit }) {
             </option>
           ))}
         </select>
-        <button type="submit">create</button>
+        <button type="submit">{initialValues ? "update" : "create"}</button>
+        {initialValues && (
+          <StyledLink href={initialValues?.isCorrect ? "/archive" : "/"}>
+            cancel
+          </StyledLink>
+        )}
       </StyledForm>
     </Container>
   );
