@@ -1,6 +1,5 @@
 import CollectionList from "@/components/CollectionList";
 import styled from "styled-components";
-import Navbar from "@/components/Navbar";
 
 const Container = styled.header`
   display: flex;
@@ -8,11 +7,7 @@ const Container = styled.header`
   align-items: center;
 `;
 
-export default function Homepage({
-  flashcards,
-  collections,
-  handleCreateFlashcard,
-}) {
+export default function Homepage({ flashcards, collections }) {
   return (
     <>
       <Container>
@@ -20,7 +15,6 @@ export default function Homepage({
         <h2>List of collections</h2>
       </Container>
       <CollectionList flashcards={flashcards} collections={collections} />
-      <Navbar handleCreateFlashcard={handleCreateFlashcard} />
     </>
   );
 }

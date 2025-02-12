@@ -1,6 +1,5 @@
 import ArchiveList from "@/components/ArchiveList";
 import styled from "styled-components";
-import Navbar from "@/components/Navbar";
 import { useRouter } from "next/router";
 
 const Container = styled.header`
@@ -14,7 +13,6 @@ export default function Archive({
   collections,
   handleToggleCorrect,
   handleDeleteFlashcard,
-  handleCreateFlashcard,
   handleUpdateFlashcard,
 }) {
   const router = useRouter();
@@ -47,7 +45,6 @@ export default function Archive({
         handleDeleteFlashcard={handleDeleteFlashcard}
         handleUpdateFlashcard={handleUpdateFlashcard}
       />
-      <Navbar handleCreateFlashcard={handleCreateFlashcard} />
     </>
   );
 }

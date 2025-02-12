@@ -1,6 +1,5 @@
 import FlashcardList from "@/components/FlashcardList";
 import styled from "styled-components";
-import Navbar from "@/components/Navbar";
 import { useRouter } from "next/router";
 
 const Container = styled.header`
@@ -14,7 +13,6 @@ export default function Homepage({
   collections,
   handleToggleCorrect,
   handleDeleteFlashcard,
-  handleCreateFlashcard,
   handleUpdateFlashcard,
 }) {
   const router = useRouter();
@@ -40,7 +38,6 @@ export default function Homepage({
         handleDeleteFlashcard={handleDeleteFlashcard}
         handleUpdateFlashcard={handleUpdateFlashcard}
       />
-      <Navbar handleCreateFlashcard={handleCreateFlashcard} />
     </>
   );
 }
