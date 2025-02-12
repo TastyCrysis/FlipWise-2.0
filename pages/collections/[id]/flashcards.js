@@ -2,7 +2,6 @@ import FlashcardList from "@/components/FlashcardList";
 import styled from "styled-components";
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
-import CreateModal from "@/components/CreateModal";
 import { useRouter } from "next/router";
 
 const Container = styled.header`
@@ -41,10 +40,6 @@ export default function Homepage({
           </Link>
         )}
       </Container>
-      <CreateModal
-        handleCreateFlashcard={handleCreateFlashcard}
-        title="Create a new Flashcard"
-      />
       <FlashcardList
         flashcards={filteredFlashcards}
         collections={collections}
@@ -52,7 +47,7 @@ export default function Homepage({
         handleDeleteFlashcard={handleDeleteFlashcard}
         handleUpdateFlashcard={handleUpdateFlashcard}
       />
-      <Navbar />
+      <Navbar handleCreateFlashcard={handleCreateFlashcard} />
     </>
   );
 }

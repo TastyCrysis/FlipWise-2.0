@@ -85,9 +85,10 @@ const ButtonContainer = styled.div`
 export default function CreateModal({ handleCreateFlashcard }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const handleSubmit = (data) => {
-    handleCreateFlashcard(data, () => setIsModalOpen(false));
-  };
+  function handleSubmit(data) {
+    handleCreateFlashcard(data);
+    setIsModalOpen(false);
+  }
 
   return (
     <MainContainer>
@@ -99,7 +100,10 @@ export default function CreateModal({ handleCreateFlashcard }) {
         title="Create a new Flashcard"
       >
         <Content>
-          <FlashcardForm onSubmit={handleSubmit} />
+          <FlashcardForm
+            onSubmit={handleSubmit}
+            onClose={() => setIsModalOpen(false)}
+          />
         </Content>
       </Modal>
     </MainContainer>

@@ -47,7 +47,7 @@ const Text = styled.span`
   transform: translateY(20px);
 `;
 
-const List = styled.li`
+const ListItem = styled.li`
   position: relative;
   list-style: none;
   width: 70px;
@@ -153,7 +153,7 @@ const StyledCreateModal = dynamic(() => import("@/components/CreateModal"), {
   ssr: false,
 });
 
-export default function Navbar() {
+export default function Navbar({ handleCreateFlashcard }) {
   const router = useRouter();
   const pathname = router.pathname;
   const [active, setActive] = useState(pathname);
@@ -172,16 +172,20 @@ export default function Navbar() {
   return (
     <Navigation>
       <NavList>
-        <List $active={active === "/"}>
+        <ListItem $active={active === "/"}>
           <StyledLink href="/">
             <Icon>
               <Image src="/house.png" alt="home-logo" width={32} height={32} />
             </Icon>
             <Text>Home</Text>
           </StyledLink>
-        </List>
-        <ModalWrapper>{isMounted && <StyledCreateModal />}</ModalWrapper>
-        <List $active={active?.includes("/archive")}>
+        </ListItem>
+        <ModalWrapper>
+          {isMounted && (
+            <StyledCreateModal handleCreateFlashcard={handleCreateFlashcard} />
+          )}
+        </ModalWrapper>
+        <ListItem $active={active?.includes("/archive")}>
           <StyledLink href={`/collections/${id}/archive`}>
             <Icon>
               <Image
@@ -193,7 +197,7 @@ export default function Navbar() {
             </Icon>
             <Text>Archive</Text>
           </StyledLink>
-        </List>
+        </ListItem>
         {navPath && <Indicator $active={active} />}
       </NavList>
     </Navigation>

@@ -15,6 +15,8 @@ export default function Archive({
   collections,
   handleToggleCorrect,
   handleDeleteFlashcard,
+  handleCreateFlashcard,
+  handleUpdateFlashcard,
 }) {
   const router = useRouter();
 
@@ -50,8 +52,9 @@ export default function Archive({
         collections={collections}
         handleToggleCorrect={handleToggleCorrect}
         handleDeleteFlashcard={handleDeleteFlashcard}
+        handleUpdateFlashcard={handleUpdateFlashcard}
       />
-      <Navbar />
+      <Navbar handleCreateFlashcard={handleCreateFlashcard} />
     </>
   );
 }

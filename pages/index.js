@@ -8,7 +8,11 @@ const Container = styled.header`
   align-items: center;
 `;
 
-export default function Homepage({ flashcards, collections }) {
+export default function Homepage({
+  flashcards,
+  collections,
+  handleCreateFlashcard,
+}) {
   return (
     <>
       <Container>
@@ -16,7 +20,7 @@ export default function Homepage({ flashcards, collections }) {
         <h2>List of collections</h2>
       </Container>
       <CollectionList flashcards={flashcards} collections={collections} />
-      <Navbar />
+      <Navbar handleCreateFlashcard={handleCreateFlashcard} />
     </>
   );
 }

@@ -15,6 +15,7 @@ export default function ArchiveList({
   collections,
   handleToggleCorrect,
   handleDeleteFlashcard,
+  handleUpdateFlashcard,
 }) {
   const correctFlashcards = flashcards.filter(
     (flashcard) => flashcard.isCorrect
@@ -40,6 +41,7 @@ export default function ArchiveList({
               collection={collection}
               handleToggleCorrect={handleToggleCorrect}
               handleDeleteFlashcard={handleDeleteFlashcard}
+              handleUpdateFlashcard={handleUpdateFlashcard}
             />
           );
         })
