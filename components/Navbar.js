@@ -135,30 +135,6 @@ const Indicator = styled.div`
     }};
   }
 
-  &::before {
-    content: "";
-    position: absolute;
-    top: 50%;
-    left: -22px;
-    width: 20px;
-    height: 20px;
-    background: transparent;
-    border-top-right-radius: 20px;
-    box-shadow: 0 -10px 0 0 #f9f9f9;
-  }
-
-  &::after {
-    content: "";
-    position: absolute;
-    top: 50%;
-    right: -22px;
-    width: 20px;
-    height: 20px;
-    background: transparent;
-    border-top-left-radius: 20px;
-    box-shadow: 0 -10px 0 0 #f9f9f9;
-  }
-
   @media (max-width: 768px) {
     &::before,
     &::after {
