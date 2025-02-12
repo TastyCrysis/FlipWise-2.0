@@ -113,11 +113,7 @@ const Indicator = styled.div`
   display: ${({ $active }) => ($active ? "block" : "none")};
   left: ${({ $active }) => {
     if ($active === "/") return "-8px";
-    if (
-      $active === "/archive" ||
-      $active === `/collections/${undefined}/archive` ||
-      $active?.includes("/archive")
-    )
+    if ($active === "/archive" || $active?.includes("/archive"))
       return "calc(100% - 62px)";
     return "calc(50% - 35px)";
   }};
@@ -125,11 +121,7 @@ const Indicator = styled.div`
   @media (max-width: 768px) {
     left: ${({ $active }) => {
       if ($active === "/") return "-12px";
-      if (
-        $active === "/archive" ||
-        $active === `/collections/${undefined}/archive` ||
-        $active?.includes("/archive")
-      )
+      if ($active === "/archive" || $active?.includes("/archive"))
         return "calc(100% - 56px)";
       return "calc(50% - 30px)";
     }};
