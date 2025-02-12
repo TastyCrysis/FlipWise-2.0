@@ -15,6 +15,7 @@ export default function FlashcardList({
   collections,
   handleToggleCorrect,
   handleDeleteFlashcard,
+  handleUpdateFlashcard,
   listMode,
 }) {
   let FlashcardsForList;
@@ -52,6 +53,7 @@ export default function FlashcardList({
               collection={collection}
               handleToggleCorrect={handleToggleCorrect}
               handleDeleteFlashcard={handleDeleteFlashcard}
+              handleUpdateFlashcard={handleUpdateFlashcard}
             />
           );
         })

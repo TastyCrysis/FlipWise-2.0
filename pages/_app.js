@@ -3,11 +3,10 @@ import { flashcards as initialFlashcards } from "@/lib/db/flashcards";
 import { collections } from "@/lib/db/collections";
 import { useState } from "react";
 import { nanoid } from "nanoid";
-import { useRouter } from "next/router";
+import Navbar from "@/components/Navbar";
 
 export default function App({ Component, pageProps }) {
   const [flashcards, setFlashcards] = useState(initialFlashcards);
-  const router = useRouter();
 
   function handleToggleCorrect(id) {
     setFlashcards((prevFlashcards) =>
@@ -33,7 +32,6 @@ export default function App({ Component, pageProps }) {
         flashcard.id === data.id ? { ...flashcard, ...data } : flashcard
       )
     );
-    router.push(data.isCorrect ? "/archive" : "/");
   }
 
   return (
@@ -45,9 +43,9 @@ export default function App({ Component, pageProps }) {
         collections={collections}
         handleToggleCorrect={handleToggleCorrect}
         handleDeleteFlashcard={handleDeleteFlashcard}
-        handleCreateFlashcard={handleCreateFlashcard}
         handleUpdateFlashcard={handleUpdateFlashcard}
       />
+      <Navbar handleCreateFlashcard={handleCreateFlashcard} />
     </>
   );
 }

@@ -1,7 +1,5 @@
 import FlashcardList from "@/components/FlashcardList";
 import styled from "styled-components";
-import Link from "next/link";
-import FlashcardForm from "@/components/FlashcardForm";
 import { useRouter } from "next/router";
 
 const Container = styled.header`
@@ -15,7 +13,7 @@ export default function Homepage({
   collections,
   handleToggleCorrect,
   handleDeleteFlashcard,
-  handleCreateFlashcard,
+  handleUpdateFlashcard,
 }) {
   const router = useRouter();
   const { id } = router.query;
@@ -32,22 +30,13 @@ export default function Homepage({
         <h1>Flipwise App</h1>
         <h2>List of flashcards</h2>
         <h3>{currentCollection && currentCollection.title}</h3>
-        <Link href="/">Collections list</Link>
-        {currentCollection && (
-          <Link href={`/collections/${currentCollection.id}/archive`}>
-            Archive
-          </Link>
-        )}
       </Container>
-      <FlashcardForm
-        onSubmit={handleCreateFlashcard}
-        title="Create a new Flashcard"
-      />
       <FlashcardList
         flashcards={filteredFlashcards}
         collections={collections}
         handleToggleCorrect={handleToggleCorrect}
         handleDeleteFlashcard={handleDeleteFlashcard}
+        handleUpdateFlashcard={handleUpdateFlashcard}
       />
     </>
   );
