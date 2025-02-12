@@ -1,4 +1,4 @@
-import ArchiveList from "@/components/ArchiveList";
+import FlashcardList from "@/components/FlashcardList";
 import styled from "styled-components";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -23,6 +23,7 @@ export default function Archive({
   const currentCollection = collections.find(
     (collection) => collection.id === id
   );
+  const listMode = "archive";
 
   return (
     <>
@@ -32,11 +33,12 @@ export default function Archive({
         <h3>{currentCollection ? currentCollection.title : ""}</h3>
         <Link href="/">Home</Link>
       </Container>
-      <ArchiveList
+      <FlashcardList
         flashcards={filteredFlashcards}
         collections={collections}
         handleToggleCorrect={handleToggleCorrect}
         handleDeleteFlashcard={handleDeleteFlashcard}
+        listMode={listMode}
       />
     </>
   );
