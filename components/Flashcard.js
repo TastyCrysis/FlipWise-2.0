@@ -1,7 +1,7 @@
 import { useState } from "react";
 import styled from "styled-components";
-import Link from "next/link";
-
+import Modal from "@/components/Modal";
+import FlashcardForm from "@/components/FlashcardForm";
 const StyledFlashcard = styled.div`
   width: 100%;
   height: 150px;
@@ -82,21 +82,8 @@ const StyledDialog = styled.dialog`
   backface-visibility: hidden;
 `;
 
-const StyledLink = styled(Link)`
-  display: inline-block;
-  background-color: #0070f3;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  padding: 10px 15px;
+const OpenButton = styled.button`
   cursor: pointer;
-  font-weight: bold;
-  text-align: center;
-  text-decoration: none;
-
-  &:hover {
-    background-color: #005bb5;
-  }
 `;
 
 export default function Flashcard({
@@ -104,9 +91,11 @@ export default function Flashcard({
   collection,
   handleToggleCorrect,
   handleDeleteFlashcard,
+  handleUpdateFlashcard,
 }) {
   const [flipped, setFlipped] = useState(false);
   const [showConfirmation, setShowConfirmation] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   function handleFlip() {
     setFlipped(!flipped);
@@ -114,6 +103,11 @@ export default function Flashcard({
 
   function toggleConfirmation() {
     setShowConfirmation(!showConfirmation);
+  }
+
+  function handleSubmit(data) {
+    handleUpdateFlashcard(data);
+    setIsModalOpen(false);
   }
 
   return (
@@ -131,14 +125,32 @@ export default function Flashcard({
         >
           delete
         </button>
-        <StyledLink
-          href={`/flashcards/${flashcard.id}/edit`}
+        <OpenButton
           onClick={(event) => {
             event.stopPropagation();
+            setIsModalOpen(true);
           }}
         >
           edit
-        </StyledLink>
+        </OpenButton>
+        <Modal
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+          title="Update Flashcard"
+          needsPortal={true}
+        >
+          <FlashcardForm
+            onSubmit={handleSubmit}
+            initialValues={{
+              id: flashcard?.id || "",
+              collectionId: flashcard?.collectionId || "",
+              question: flashcard?.question || "",
+              answer: flashcard?.answer || "",
+              isCorrect: flashcard?.isCorrect || false,
+            }}
+            onClose={() => setIsModalOpen(false)}
+          />
+        </Modal>
       </FlashcardFront>
       <FlashcardBack>
         <FlashcardContent>
