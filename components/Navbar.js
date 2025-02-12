@@ -6,7 +6,7 @@ import { useState, useEffect } from "react";
 import Modal from "@/components/Modal";
 import FlashcardForm from "@/components/FlashcardForm";
 
-const Navigation = styled.div`
+const Navigation = styled.nav`
   width: 650px;
   height: 70px;
   background: #6fb3ff;
@@ -168,27 +168,20 @@ const OpenButton = styled.button`
 
 export default function Navbar({ handleCreateFlashcard }) {
   const router = useRouter();
-  const pathname = router.pathname;
-  const [active, setActive] = useState(pathname);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
   const { id } = router.query;
-
-  useEffect(() => {
-    setActive(pathname);
-  }, [pathname]);
+  const pathname = router.pathname;
+  const navPath = pathname === "/" || pathname?.includes("/archive");
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   function handleSubmit(data) {
     handleCreateFlashcard(data);
     setIsModalOpen(false);
   }
 
-  const navPath = active === "/" || active?.includes("/archive");
-
   return (
     <Navigation>
       <NavList>
-        <ListItem $active={active === "/"}>
+        <ListItem $active={pathname === "/"}>
           <StyledLink href="/">
             <Icon>
               <Image src="/house.png" alt="home-logo" width={32} height={32} />
@@ -210,7 +203,7 @@ export default function Navbar({ handleCreateFlashcard }) {
             />
           </Modal>
         </ModalWrapper>
-        <ListItem $active={active?.includes("/archive")}>
+        <ListItem $active={pathname?.includes("/archive")}>
           <StyledLink href={`/collections/${id}/archive`}>
             <Icon>
               <Image
@@ -223,7 +216,7 @@ export default function Navbar({ handleCreateFlashcard }) {
             <Text>Archive</Text>
           </StyledLink>
         </ListItem>
-        {navPath && <Indicator $active={active} />}
+        {navPath && <Indicator $active={pathname} />}
       </NavList>
     </Navigation>
   );
