@@ -17,6 +17,7 @@ export default function Homepage({
   handleToggleCorrect,
   handleDeleteFlashcard,
   handleCreateFlashcard,
+  handleUpdateFlashcard,
 }) {
   const router = useRouter();
   const { id } = router.query;
@@ -49,6 +50,7 @@ export default function Homepage({
         collections={collections}
         handleToggleCorrect={handleToggleCorrect}
         handleDeleteFlashcard={handleDeleteFlashcard}
+        handleUpdateFlashcard={handleUpdateFlashcard}
       />
     </>
   );

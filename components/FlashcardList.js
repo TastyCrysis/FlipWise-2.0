@@ -15,6 +15,7 @@ export default function FlashcardList({
   collections,
   handleToggleCorrect,
   handleDeleteFlashcard,
+  handleUpdateFlashcard,
 }) {
   const unansweredFlashcards = flashcards.filter(
     (flashcard) => flashcard.isCorrect === false
@@ -38,6 +39,7 @@ export default function FlashcardList({
               collection={collection}
               handleToggleCorrect={handleToggleCorrect}
               handleDeleteFlashcard={handleDeleteFlashcard}
+              handleUpdateFlashcard={handleUpdateFlashcard}
             />
           );
         })

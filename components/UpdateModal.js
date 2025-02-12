@@ -8,49 +8,32 @@ const MainContainer = styled.main`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 0;
 `;
 
 const OpenButton = styled.button`
-  /*  padding: 10px;
-  width: 50px;
-  height: 50px;
-  background-color: #3b82f6;
-  color: white;
-
-  border: none;
   cursor: pointer;
-  transition: background-color 0.3s;
-  position: fixed;
-  bottom: 24px;
-  right: 24px;
-  font-size: 24px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); */
 `;
 
 const Overlay = styled.div`
   position: fixed;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
+  width: 100vw;
+  height: 100vh;
   background-color: rgba(0, 0, 0, 0.5);
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 50;
+  z-index: 1000;
 `;
 
 const ModalContainer = styled.div`
   background-color: white;
   border-radius: 8px;
-  padding: 24px;
   max-width: 400px;
   width: 90%;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 20px;
 `;
 
 const Header = styled.div`
@@ -85,17 +68,8 @@ const ButtonContainer = styled.div`
   padding: 0 0 32px 0;
 `;
 
-const CloseButton = styled.button`
-  padding: 10px 16px;
-  background-color: #e5e7eb;
-  color: #1f2937;
-  border-radius: 6px;
-  border: none;
-  cursor: pointer;
-  transition: background-color 0.3s;
-`;
-
 export default function UpdateModal({ handleUpdateFlashcard, flashcard }) {
+  console.log("handleUpdateFlashcard:", handleUpdateFlashcard);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleSubmit = (data) => {
@@ -104,65 +78,60 @@ export default function UpdateModal({ handleUpdateFlashcard, flashcard }) {
   };
 
   return (
-    <>
+    <MainContainer>
       <OpenButton
-        onClick={(e) => {
-          e.stopPropagation();
+        onClick={(event) => {
+          event.stopPropagation();
           setIsModalOpen(true);
         }}
       >
         edit
       </OpenButton>
 
-      {isModalOpen &&
-        createPortal(
-          <Modal
-            isOpen={isModalOpen}
+      <Modal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        title="Update a Flashcard"
+      >
+        <Content>
+          <FlashcardForm
+            onSubmit={handleSubmit}
+            initialValues={{
+              id: flashcard?.id || "",
+              collectionId: flashcard?.collectionId || "",
+              question: flashcard?.question || "",
+              answer: flashcard?.answer || "",
+              isCorrect: flashcard?.isCorrect || false,
+            }}
             onClose={() => setIsModalOpen(false)}
-            title="Update Flashcard"
-          >
-            <Content>
-              <FlashcardForm
-                onSubmit={handleSubmit}
-                initialValues={{
-                  id: flashcard?.id || "",
-                  collectionId: flashcard?.collectionId || "",
-                  question: flashcard?.question || "",
-                  answer: flashcard?.answer || "",
-                  isCorrect: flashcard?.isCorrect || false,
-                }}
-              />
-            </Content>
-          </Modal>,
-          document.body
-        )}
-    </>
+          />
+        </Content>
+      </Modal>
+    </MainContainer>
   );
 }
 
 function Modal({ isOpen, onClose, children, title }) {
   if (!isOpen) return null;
 
-  return (
-    <Overlay onClick={(e) => e.stopPropagation()}>
+  return createPortal(
+    <Overlay
+      onClick={(event) => {
+        event.stopPropagation();
+      }}
+    >
       <ModalContainer>
         {title && (
           <Header>
             <Title>{title}</Title>
             <ButtonContainer>
-              <CloseIcon
-                onClick={(e) => {
-                  e.stopPropagation();
-                  onClose();
-                }}
-              >
-                ×
-              </CloseIcon>
+              <CloseIcon onClick={onClose}>×</CloseIcon>
             </ButtonContainer>
           </Header>
         )}
         {children}
       </ModalContainer>
-    </Overlay>
+    </Overlay>,
+    document.body
   );
 }

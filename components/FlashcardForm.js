@@ -36,7 +36,12 @@ const StyledLink = styled(Link)`
   }
 `;
 
-export default function FlashcardForm({ onSubmit, title, initialValues }) {
+export default function FlashcardForm({
+  onSubmit,
+  title,
+  initialValues,
+  onClose,
+}) {
   function handleSubmit(event) {
     event.preventDefault();
     const formData = new FormData(event.target);
@@ -90,15 +95,9 @@ export default function FlashcardForm({ onSubmit, title, initialValues }) {
         </select>
         <button type="submit">{initialValues ? "update" : "create"}</button>
         {initialValues && (
-          <StyledLink
-            href={
-              initialValues?.isCorrect
-                ? `/collections/${initialValues?.collectionId}/archive`
-                : `/collections/${initialValues?.collectionId}/flashcards`
-            }
-          >
+          <button type="button" onClick={onClose}>
             cancel
-          </StyledLink>
+          </button>
         )}
       </StyledForm>
     </Container>
