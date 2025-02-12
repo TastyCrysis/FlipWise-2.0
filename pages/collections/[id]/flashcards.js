@@ -2,6 +2,7 @@ import FlashcardList from "@/components/FlashcardList";
 import styled from "styled-components";
 import Link from "next/link";
 import FlashcardForm from "@/components/FlashcardForm";
+import CreateModal from "@/components/CreateModal";
 import { useRouter } from "next/router";
 
 const Container = styled.header`
@@ -16,6 +17,7 @@ export default function Homepage({
   handleToggleCorrect,
   handleDeleteFlashcard,
   handleCreateFlashcard,
+  handleUpdateFlashcard,
 }) {
   const router = useRouter();
   const { id } = router.query;
@@ -39,8 +41,8 @@ export default function Homepage({
           </Link>
         )}
       </Container>
-      <FlashcardForm
-        onSubmit={handleCreateFlashcard}
+      <CreateModal
+        handleCreateFlashcard={handleCreateFlashcard}
         title="Create a new Flashcard"
       />
       <FlashcardList
@@ -48,6 +50,7 @@ export default function Homepage({
         collections={collections}
         handleToggleCorrect={handleToggleCorrect}
         handleDeleteFlashcard={handleDeleteFlashcard}
+        handleUpdateFlashcard={handleUpdateFlashcard}
       />
     </>
   );
