@@ -3,7 +3,7 @@ import Link from "next/link";
 import FlashcardForm from "@/components/FlashcardForm";
 import { useRouter } from "next/router";
 
-const Container = styled.div`
+const Container = styled.header`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -13,6 +13,7 @@ export default function Edit({ handleUpdateFlashcard, flashcards }) {
   const router = useRouter();
   const { cardId } = router.query;
   const flashcard = flashcards.find((flashcard) => flashcard.id === cardId);
+
   return (
     <>
       <Container>
