@@ -172,6 +172,7 @@ export default function Navbar({ handleCreateFlashcard }) {
   const pathname = router.pathname;
   const navPath = pathname === "/" || pathname?.includes("/archive");
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const archiveLink = id ? `/collections/${id}/archive` : "/archive";
 
   function handleSubmit(data) {
     handleCreateFlashcard(data);
@@ -204,7 +205,7 @@ export default function Navbar({ handleCreateFlashcard }) {
           </Modal>
         </ModalWrapper>
         <ListItem $active={pathname?.includes("/archive")}>
-          <StyledLink href={`/collections/${id}/archive`}>
+          <StyledLink href={archiveLink}>
             <Icon>
               <Image
                 src="/archive.png"
