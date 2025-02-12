@@ -1,6 +1,5 @@
 import ArchiveList from "@/components/ArchiveList";
 import styled from "styled-components";
-import { useRouter } from "next/router";
 
 const Container = styled.header`
   display: flex;
@@ -15,31 +14,19 @@ export default function Archive({
   handleDeleteFlashcard,
   handleUpdateFlashcard,
 }) {
-  const router = useRouter();
-
-  const { id } = router.query;
-
-  // Finde die aktuelle Collection
-  const currentCollection = collections.find(
-    (collection) => collection.id === (id ? String(id) : null)
+  const correctFlashcards = flashcards.filter(
+    (flashcard) => flashcard.isCorrect
   );
-
-  // Filtere die Flashcards
-  const filteredFlashcards = currentCollection
-    ? flashcards.filter(
-        (flashcard) => flashcard.collectionId === currentCollection.id
-      )
-    : flashcards;
 
   return (
     <>
       <Container>
         <h1>Flipwise App</h1>
         <h2>Archive</h2>
-        <h3>{currentCollection ? currentCollection.title : "All Cards"}</h3>
+        <h3>All Cards</h3>
       </Container>
       <ArchiveList
-        flashcards={filteredFlashcards}
+        flashcards={correctFlashcards}
         collections={collections}
         handleToggleCorrect={handleToggleCorrect}
         handleDeleteFlashcard={handleDeleteFlashcard}
