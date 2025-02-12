@@ -3,7 +3,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
-import StyledCreateModal from "@/components/CreateModal";
+import CreateModal from "@/components/CreateModal";
 
 const Navigation = styled.div`
   width: 650px;
@@ -177,7 +177,7 @@ export default function Navbar({ handleCreateFlashcard }) {
         </ListItem>
         <ModalWrapper>
           {isMounted && (
-            <StyledCreateModal handleCreateFlashcard={handleCreateFlashcard} />
+            <CreateModal handleCreateFlashcard={handleCreateFlashcard} />
           )}
         </ModalWrapper>
         <ListItem $active={active?.includes("/archive")}>
