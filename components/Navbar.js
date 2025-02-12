@@ -3,7 +3,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
-import dynamic from "next/dynamic";
+import StyledCreateModal from "@/components/CreateModal";
 
 const Navigation = styled.div`
   width: 650px;
@@ -147,11 +147,6 @@ const ModalWrapper = styled.div`
   border: none;
   padding: 0;
 `;
-
-// Dynamischer Import des CreateModal mit deaktiviertem SSR
-const StyledCreateModal = dynamic(() => import("@/components/CreateModal"), {
-  ssr: false,
-});
 
 export default function Navbar({ handleCreateFlashcard }) {
   const router = useRouter();
