@@ -1,8 +1,7 @@
 import { useState } from "react";
 import styled from "styled-components";
-import Link from "next/link";
-import UpdateModal from "@/components/UpdateModal";
-
+import Modal from "@/components/Modal";
+import FlashcardForm from "@/components/FlashcardForm";
 const StyledFlashcard = styled.div`
   width: 100%;
   height: 150px;
@@ -83,6 +82,10 @@ const StyledDialog = styled.dialog`
   backface-visibility: hidden;
 `;
 
+const OpenButton = styled.button`
+  cursor: pointer;
+`;
+
 export default function Flashcard({
   flashcard,
   collection,
@@ -92,6 +95,7 @@ export default function Flashcard({
 }) {
   const [flipped, setFlipped] = useState(false);
   const [showConfirmation, setShowConfirmation] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   function handleFlip() {
     setFlipped(!flipped);
@@ -99,6 +103,11 @@ export default function Flashcard({
 
   function toggleConfirmation() {
     setShowConfirmation(!showConfirmation);
+  }
+
+  function handleSubmit(data) {
+    handleUpdateFlashcard(data);
+    setIsModalOpen(false);
   }
 
   return (
@@ -116,10 +125,32 @@ export default function Flashcard({
         >
           delete
         </button>
-        <UpdateModal
-          flashcard={flashcard}
-          handleUpdateFlashcard={handleUpdateFlashcard}
-        />
+        <OpenButton
+          onClick={(event) => {
+            event.stopPropagation();
+            setIsModalOpen(true);
+          }}
+        >
+          edit
+        </OpenButton>
+        <Modal
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+          title="Update Flashcard"
+          needsPortal={true}
+        >
+          <FlashcardForm
+            onSubmit={handleSubmit}
+            initialValues={{
+              id: flashcard?.id || "",
+              collectionId: flashcard?.collectionId || "",
+              question: flashcard?.question || "",
+              answer: flashcard?.answer || "",
+              isCorrect: flashcard?.isCorrect || false,
+            }}
+            onClose={() => setIsModalOpen(false)}
+          />
+        </Modal>
       </FlashcardFront>
       <FlashcardBack>
         <FlashcardContent>
