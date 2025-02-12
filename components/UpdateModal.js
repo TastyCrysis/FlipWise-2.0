@@ -69,13 +69,12 @@ const ButtonContainer = styled.div`
 `;
 
 export default function UpdateModal({ handleUpdateFlashcard, flashcard }) {
-  console.log("handleUpdateFlashcard:", handleUpdateFlashcard);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const handleSubmit = (data) => {
+  function handleSubmit(data) {
     handleUpdateFlashcard(data);
     setIsModalOpen(false);
-  };
+  }
 
   return (
     <MainContainer>

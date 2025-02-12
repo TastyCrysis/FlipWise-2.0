@@ -84,22 +84,13 @@ const ButtonContainer = styled.div`
   padding: 0 0 32px 0;
 `;
 
-const CloseButton = styled.button`
-  padding: 10px 16px;
-  background-color: #e5e7eb;
-  color: #1f2937;
-  border-radius: 6px;
-  border: none;
-  cursor: pointer;
-  transition: background-color 0.3s;
-`;
-
 export default function CreateModal({ handleCreateFlashcard }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const handleSubmit = (data) => {
-    handleCreateFlashcard(data, () => setIsModalOpen(false));
-  };
+  function handleSubmit(data) {
+    handleCreateFlashcard(data);
+    setIsModalOpen(false);
+  }
 
   return (
     <MainContainer>
@@ -111,7 +102,10 @@ export default function CreateModal({ handleCreateFlashcard }) {
         title="Create a new Flashcard"
       >
         <Content>
-          <FlashcardForm onSubmit={handleSubmit} />
+          <FlashcardForm
+            onSubmit={handleSubmit}
+            onClose={() => setIsModalOpen(false)}
+          />
         </Content>
       </Modal>
     </MainContainer>
