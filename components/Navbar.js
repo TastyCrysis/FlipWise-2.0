@@ -181,7 +181,7 @@ export default function Navbar() {
           </StyledLink>
         </List>
         <ModalWrapper>{isMounted && <StyledCreateModal />}</ModalWrapper>
-        <List $active={active === `/collections/${id}/archive`}>
+        <List $active={active?.includes("/archive")}>
           <StyledLink href={`/collections/${id}/archive`}>
             <Icon>
               <Image

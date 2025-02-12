@@ -1,7 +1,7 @@
 import FlashcardList from "@/components/FlashcardList";
 import styled from "styled-components";
 import Link from "next/link";
-import FlashcardForm from "@/components/FlashcardForm";
+import Navbar from "@/components/Navbar";
 import CreateModal from "@/components/CreateModal";
 import { useRouter } from "next/router";
 
@@ -52,6 +52,7 @@ export default function Homepage({
         handleDeleteFlashcard={handleDeleteFlashcard}
         handleUpdateFlashcard={handleUpdateFlashcard}
       />
+      <Navbar />
     </>
   );
 }
