@@ -3,7 +3,8 @@ import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
-import CreateModal from "@/components/CreateModal";
+import Modal from "@/components/Modal";
+import FlashcardForm from "@/components/FlashcardForm";
 
 const Navigation = styled.div`
   width: 650px;
@@ -148,20 +149,40 @@ const ModalWrapper = styled.div`
   padding: 0;
 `;
 
+const OpenButton = styled.button`
+  padding: 10px;
+  width: 50px;
+  height: 50px;
+  background-color: #ff6f61;
+  color: white;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  font-size: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+`;
+
 export default function Navbar({ handleCreateFlashcard }) {
   const router = useRouter();
   const pathname = router.pathname;
   const [active, setActive] = useState(pathname);
-  const [isMounted, setIsMounted] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const { id } = router.query;
 
   useEffect(() => {
     setActive(pathname);
-    setIsMounted(true);
   }, [pathname]);
 
-  // Prüfen, ob der aktive Pfad einer der Navigationspfade ist
+  function handleSubmit(data) {
+    handleCreateFlashcard(data);
+    setIsModalOpen(false);
+  }
+
   const navPath = active === "/" || active?.includes("/archive");
 
   return (
@@ -176,9 +197,18 @@ export default function Navbar({ handleCreateFlashcard }) {
           </StyledLink>
         </ListItem>
         <ModalWrapper>
-          {isMounted && (
-            <CreateModal handleCreateFlashcard={handleCreateFlashcard} />
-          )}
+          <OpenButton onClick={() => setIsModalOpen(true)}>+</OpenButton>
+          <Modal
+            isOpen={isModalOpen}
+            onClose={() => setIsModalOpen(false)}
+            title="Create a new Flashcard"
+            needsPortal={true}
+          >
+            <FlashcardForm
+              onSubmit={handleSubmit}
+              onClose={() => setIsModalOpen(false)}
+            />
+          </Modal>
         </ModalWrapper>
         <ListItem $active={active?.includes("/archive")}>
           <StyledLink href={`/collections/${id}/archive`}>
