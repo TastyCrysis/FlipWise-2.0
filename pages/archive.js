@@ -1,6 +1,5 @@
 import ArchiveList from "@/components/ArchiveList";
 import styled from "styled-components";
-import Navbar from "@/components/Navbar";
 
 const Container = styled.header`
   display: flex;
@@ -13,7 +12,6 @@ export default function Archive({
   collections,
   handleToggleCorrect,
   handleDeleteFlashcard,
-  handleCreateFlashcard,
   handleUpdateFlashcard,
 }) {
   const correctFlashcards = flashcards.filter(
@@ -34,7 +32,6 @@ export default function Archive({
         handleDeleteFlashcard={handleDeleteFlashcard}
         handleUpdateFlashcard={handleUpdateFlashcard}
       />
-      <Navbar handleCreateFlashcard={handleCreateFlashcard} />
     </>
   );
 }

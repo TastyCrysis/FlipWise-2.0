@@ -8,7 +8,7 @@ export default createGlobalStyle`
   }
 
   body {
-    background: #fff;
+    background: #f9f9f9;
     margin: 0 0 120px 0;
     font-family: system-ui;
   }

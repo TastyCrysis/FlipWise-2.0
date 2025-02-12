@@ -7,7 +7,7 @@ import Modal from "@/components/Modal";
 import FlashcardForm from "@/components/FlashcardForm";
 
 const Navigation = styled.nav`
-  width: 650px;
+  width: min(650px, 95%);
   height: 70px;
   background: #6fb3ff;
   position: fixed;
@@ -18,13 +18,19 @@ const Navigation = styled.nav`
   justify-content: center;
   align-items: center;
   border-radius: 10px;
+
+  @media (max-width: 768px) {
+    height: 60px;
+    bottom: 10px;
+  }
 `;
 
 const NavList = styled.ul`
   display: flex;
-  width: 420px;
+  width: min(420px, 90%);
   justify-content: space-between;
   padding: 0;
+  position: relative;
 `;
 
 const Icon = styled.span`
@@ -54,6 +60,11 @@ const ListItem = styled.li`
   width: 70px;
   height: 70px;
   z-index: 2;
+
+  @media (max-width: 768px) {
+    width: 60px;
+    height: 60px;
+  }
 
   &:hover {
     ${Icon} {
@@ -100,18 +111,29 @@ const Indicator = styled.div`
   transition: 0.5s;
   z-index: 1;
   display: ${({ $active }) => ($active ? "block" : "none")};
-  transform: translateX(
-    ${({ $active }) => {
-      if ($active === "/") return "-8px";
+  left: ${({ $active }) => {
+    if ($active === "/") return "-8px";
+    if (
+      $active === "/archive" ||
+      $active === `/collections/${undefined}/archive` ||
+      $active?.includes("/archive")
+    )
+      return "calc(100% - 62px)";
+    return "calc(50% - 35px)";
+  }};
+
+  @media (max-width: 768px) {
+    left: ${({ $active }) => {
+      if ($active === "/") return "-12px";
       if (
         $active === "/archive" ||
-        $active === `/collections/${undefined}/archive`
+        $active === `/collections/${undefined}/archive` ||
+        $active?.includes("/archive")
       )
-        return "358px";
-      if ($active?.includes("/archive")) return "358px";
-      return "105px";
-    }}
-  );
+        return "calc(100% - 56px)";
+      return "calc(50% - 30px)";
+    }};
+  }
 
   &::before {
     content: "";
@@ -135,6 +157,20 @@ const Indicator = styled.div`
     background: transparent;
     border-top-left-radius: 20px;
     box-shadow: 0 -10px 0 0 #f9f9f9;
+  }
+
+  @media (max-width: 768px) {
+    &::before,
+    &::after {
+      width: 15px;
+      height: 15px;
+    }
+    &::before {
+      left: -18px;
+    }
+    &::after {
+      right: -18px;
+    }
   }
 `;
 
