@@ -1,6 +1,7 @@
 import { useState } from "react";
 import FlashcardForm from "./FlashcardForm";
 import styled from "styled-components";
+import { createPortal } from "react-dom";
 
 const MainContainer = styled.main`
   display: flex;
@@ -14,15 +15,12 @@ const OpenButton = styled.button`
   padding: 10px;
   width: 50px;
   height: 50px;
-  background-color: #3b82f6;
+  background-color: #ff6f61;
   color: white;
   border-radius: 50%;
   border: none;
   cursor: pointer;
   transition: background-color 0.3s;
-  position: fixed;
-  bottom: 24px;
-  right: 24px;
   font-size: 24px;
   display: flex;
   align-items: center;
@@ -34,22 +32,22 @@ const Overlay = styled.div`
   position: fixed;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
+  width: 100vw;
+  height: 100vh;
   background-color: rgba(0, 0, 0, 0.5);
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 50;
+  z-index: 1000;
 `;
 
 const ModalContainer = styled.div`
   background-color: white;
   border-radius: 8px;
-  padding: 24px;
   max-width: 400px;
   width: 90%;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 20px;
 `;
 
 const Header = styled.div`
@@ -87,10 +85,9 @@ const ButtonContainer = styled.div`
 export default function CreateModal({ handleCreateFlashcard }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  function handleSubmit(data) {
-    handleCreateFlashcard(data);
-    setIsModalOpen(false);
-  }
+  const handleSubmit = (data) => {
+    handleCreateFlashcard(data, () => setIsModalOpen(false));
+  };
 
   return (
     <MainContainer>
@@ -102,10 +99,7 @@ export default function CreateModal({ handleCreateFlashcard }) {
         title="Create a new Flashcard"
       >
         <Content>
-          <FlashcardForm
-            onSubmit={handleSubmit}
-            onClose={() => setIsModalOpen(false)}
-          />
+          <FlashcardForm onSubmit={handleSubmit} />
         </Content>
       </Modal>
     </MainContainer>
@@ -115,7 +109,7 @@ export default function CreateModal({ handleCreateFlashcard }) {
 function Modal({ isOpen, onClose, children, title }) {
   if (!isOpen) return null;
 
-  return (
+  return createPortal(
     <Overlay>
       <ModalContainer>
         {title && (
@@ -128,6 +122,7 @@ function Modal({ isOpen, onClose, children, title }) {
         )}
         {children}
       </ModalContainer>
-    </Overlay>
+    </Overlay>,
+    document.body
   );
 }
