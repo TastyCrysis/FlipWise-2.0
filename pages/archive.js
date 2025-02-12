@@ -1,4 +1,4 @@
-import ArchiveList from "@/components/ArchiveList";
+import FlashcardList from "@/components/FlashcardList";
 import styled from "styled-components";
 
 const Container = styled.header`
@@ -14,9 +14,7 @@ export default function Archive({
   handleDeleteFlashcard,
   handleUpdateFlashcard,
 }) {
-  const correctFlashcards = flashcards.filter(
-    (flashcard) => flashcard.isCorrect
-  );
+  const listMode = "archive";
 
   return (
     <>
@@ -25,12 +23,13 @@ export default function Archive({
         <h2>Archive</h2>
         <h3>All Cards</h3>
       </Container>
-      <ArchiveList
-        flashcards={correctFlashcards}
+      <FlashcardList
+        flashcards={flashcards}
         collections={collections}
         handleToggleCorrect={handleToggleCorrect}
         handleDeleteFlashcard={handleDeleteFlashcard}
         handleUpdateFlashcard={handleUpdateFlashcard}
+        listMode={listMode}
       />
     </>
   );
