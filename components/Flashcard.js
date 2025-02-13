@@ -84,10 +84,6 @@ const StyledDialog = styled.dialog`
   backface-visibility: hidden;
 `;
 
-const OpenButton = styled.button`
-  cursor: pointer;
-`;
-
 export default function Flashcard({
   flashcard,
   collection,
@@ -170,23 +166,21 @@ export default function Flashcard({
       <StyledDialog open={showConfirmation}>
         <h3>Do you really want to delete flashcard?</h3>
         <>
-          <button
+          <Button
             onClick={(event) => {
               event.stopPropagation();
               toggleConfirmation();
             }}
-          >
-            Cancel
-          </button>
-          <button
+            buttonLabel={"cancel"}
+          />
+          <Button
             onClick={(event) => {
               event.stopPropagation();
               toggleConfirmation();
               handleDeleteFlashcard(flashcard.id);
             }}
-          >
-            Delete
-          </button>
+            buttonLabel={"delete"}
+          />
         </>
       </StyledDialog>
     </StyledFlashcard>

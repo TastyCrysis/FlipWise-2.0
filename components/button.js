@@ -10,6 +10,10 @@ const StyledButton = styled.button`
   cursor: pointer;
 `;
 
-export default function Button({ onClick, buttonLabel }) {
-  return <StyledButton onClick={onClick}>{buttonLabel}</StyledButton>;
+export default function Button({ onClick, buttonLabel, type }) {
+  return (
+    <StyledButton type={type} onClick={onClick}>
+      {buttonLabel}
+    </StyledButton>
+  );
 }
