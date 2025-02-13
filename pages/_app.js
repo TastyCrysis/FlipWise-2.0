@@ -9,7 +9,7 @@ import ThemeSwitch from "@/components/ThemeSwitch";
 
 export default function App({ Component, pageProps }) {
   const [flashcards, setFlashcards] = useState(initialFlashcards);
-  const [themeMode, setThemeMode] = useState("light");
+  const [themeMode, setThemeMode] = useState("dark");
 
   function handleToggleCorrect(id) {
     setFlashcards((prevFlashcards) =>
