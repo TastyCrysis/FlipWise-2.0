@@ -2,6 +2,8 @@ import { useState } from "react";
 import styled from "styled-components";
 import Modal from "@/components/Modal";
 import FlashcardForm from "@/components/FlashcardForm";
+import Button from "./button";
+
 const StyledFlashcard = styled.div`
   width: 100%;
   height: 150px;
@@ -117,22 +119,36 @@ export default function Flashcard({
         <FlashcardContent>
           <FlashcardQuestion>{flashcard.question}</FlashcardQuestion>
         </FlashcardContent>
-        <button
+        {/*         <button
           onClick={(event) => {
             event.stopPropagation();
             toggleConfirmation();
           }}
         >
           delete
-        </button>
-        <OpenButton
+        </button> */}
+        <Button
+          onClick={(event) => {
+            event.stopPropagation();
+            toggleConfirmation();
+          }}
+          buttonLabel={"delete"}
+        />
+        {/*         <OpenButton
           onClick={(event) => {
             event.stopPropagation();
             setIsModalOpen(true);
           }}
         >
           edit
-        </OpenButton>
+        </OpenButton> */}
+        <Button
+          onClick={(event) => {
+            event.stopPropagation();
+            setIsModalOpen(true);
+          }}
+          buttonLabel={"edit"}
+        />
         <Modal
           isOpen={isModalOpen}
           onClose={() => setIsModalOpen(false)}
@@ -158,14 +174,21 @@ export default function Flashcard({
             <b>Answer:</b>
           </FlashcardAnswer>
           <FlashcardAnswer>{flashcard.answer}</FlashcardAnswer>
-          <button
+          {/*           <button
             onClick={(event) => {
               event.stopPropagation();
               handleToggleCorrect(flashcard.id);
             }}
           >
             {flashcard.isCorrect ? "wrong" : "correct?"}
-          </button>
+          </button> */}
+          <Button
+            onClick={(event) => {
+              event.stopPropagation();
+              handleToggleCorrect(flashcard.id);
+            }}
+            buttonLabel={flashcard.isCorrect ? "wrong" : "correct?"}
+          />
         </FlashcardContent>
       </FlashcardBack>
       <StyledDialog open={showConfirmation}>
