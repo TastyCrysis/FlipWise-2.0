@@ -9,7 +9,7 @@ import FlashcardForm from "@/components/FlashcardForm";
 const Navigation = styled.nav`
   width: min(650px, 95%);
   height: 70px;
-  background: #6fb3ff;
+  background: ${({ theme }) => theme.navbar};
   position: fixed;
   bottom: 20px;
   left: 50%;
@@ -40,12 +40,12 @@ const Icon = styled.span`
   font-size: 1.5em;
   text-align: center;
   transition: 0.5s;
-  color: #222327;
+  color: ${({ theme }) => theme.navbarText};
 `;
 
 const Text = styled.span`
   position: absolute;
-  color: #222327;
+  color: ${({ theme }) => theme.navbarText};
   font-weight: 400;
   font-size: 0.75em;
   letter-spacing: 0.05em;
@@ -105,9 +105,9 @@ const Indicator = styled.div`
   top: -50%;
   height: 70px;
   width: 70px;
-  background: #29fd53;
+  background: ${({ theme }) => theme.indicator};
   border-radius: 50%;
-  border: 6px solid #f9f9f9;
+  border: 6px solid #101116;
   transition: 0.5s;
   z-index: 1;
   display: ${({ $active }) => ($active ? "block" : "none")};
@@ -157,8 +157,8 @@ const OpenButton = styled.button`
   padding: 10px;
   width: 50px;
   height: 50px;
-  background-color: #ff6f61;
-  color: white;
+  background-color: ${({ theme }) => theme.navbarButton};
+  color: ${({ theme }) => theme.navbarButtonText};
   border-radius: 50%;
   border: none;
   cursor: pointer;

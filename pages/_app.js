@@ -1,9 +1,10 @@
-import GlobalStyle from "../styles";
+import GlobalStyle, { theme } from "../styles";
 import { flashcards as initialFlashcards } from "@/lib/db/flashcards";
 import { collections } from "@/lib/db/collections";
 import { useState } from "react";
 import { nanoid } from "nanoid";
 import Navbar from "@/components/Navbar";
+import { ThemeProvider } from "styled-components";
 
 export default function App({ Component, pageProps }) {
   const [flashcards, setFlashcards] = useState(initialFlashcards);
@@ -35,7 +36,7 @@ export default function App({ Component, pageProps }) {
   }
 
   return (
-    <>
+    <ThemeProvider theme={theme.dark}>
       <GlobalStyle />
       <Component
         {...pageProps}
@@ -46,6 +47,6 @@ export default function App({ Component, pageProps }) {
         handleUpdateFlashcard={handleUpdateFlashcard}
       />
       <Navbar handleCreateFlashcard={handleCreateFlashcard} />
-    </>
+    </ThemeProvider>
   );
 }

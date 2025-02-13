@@ -19,18 +19,20 @@ const StyledCardLink = styled(Link)`
 const CollectionCardArticle = styled.article`
   width: 100%;
   height: 100%;
-  background: #ff6f61;
+  background: #2f3148;
+  color: #587099;
   border-radius: 8px;
   display: flex;
   flex-direction: column;
   padding: 0 24px;
   position: relative;
+  box-shadow: 2px 4px 8px 2px #587099;
 `;
 
 const StyledLink = styled(Link)`
   text-align: right;
   font-style: italic;
-  color: #000;
+  color: #587099;
   margin: 0 0 7px 0;
   position: absolute;
   right: 24px;
