@@ -5,9 +5,11 @@ import { useState } from "react";
 import { nanoid } from "nanoid";
 import Navbar from "@/components/Navbar";
 import { ThemeProvider } from "styled-components";
+import ThemeSwitch from "@/components/ThemeSwitch";
 
 export default function App({ Component, pageProps }) {
   const [flashcards, setFlashcards] = useState(initialFlashcards);
+  const [themeMode, setThemeMode] = useState("dark");
 
   function handleToggleCorrect(id) {
     setFlashcards((prevFlashcards) =>
@@ -36,8 +38,9 @@ export default function App({ Component, pageProps }) {
   }
 
   return (
-    <ThemeProvider theme={theme.dark}>
+    <ThemeProvider theme={theme[themeMode]}>
       <GlobalStyle />
+      <ThemeSwitch theme={themeMode} setTheme={setThemeMode} />
       <Component
         {...pageProps}
         flashcards={flashcards}
