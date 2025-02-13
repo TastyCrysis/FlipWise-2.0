@@ -11,12 +11,12 @@ const Select = styled.select`
   border-radius: 5px;
 `;
 
-export default function ThemeSwitch({ themeMode, setThemeMode }) {
+export default function ThemeSwitch({ themeMode, onHandleToggleThemeMode }) {
   return (
     <div>
       <Select
         value={themeMode}
-        onChange={(event) => setThemeMode(event.target.value)}
+        onChange={(event) => onHandleToggleThemeMode(event.target.value)}
       >
         <option value="dark">Dark</option>
         <option value="flower">Flower</option>

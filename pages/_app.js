@@ -37,10 +37,17 @@ export default function App({ Component, pageProps }) {
     );
   }
 
+  function handleToggleThemeMode(selectedThemeMode) {
+    setThemeMode(selectedThemeMode);
+  }
+
   return (
     <ThemeProvider theme={theme[themeMode]}>
       <GlobalStyle />
-      <ThemeSwitch theme={themeMode} setTheme={setThemeMode} />
+      <ThemeSwitch
+        theme={themeMode}
+        onHandleToggleThemeMode={handleToggleThemeMode}
+      />
       <Component
         {...pageProps}
         flashcards={flashcards}
