@@ -1,7 +1,6 @@
 import styled from "styled-components";
 
 const StyledButton = styled.button`
-  border: 2px solid #6fb3ff;
   border-radius: 5px;
   background-color: ${({ theme }) => theme.buttonBackground};
   font-size: 16px;

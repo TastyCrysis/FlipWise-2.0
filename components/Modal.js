@@ -15,7 +15,8 @@ const Overlay = styled.div`
 `;
 
 const ModalContainer = styled.div`
-  background-color: white;
+  background-color: ${({ theme }) => theme.modalBackground};
+  color: ${({ theme }) => theme.modalText};
   border-radius: 8px;
   padding: 24px;
   max-width: 400px;
@@ -33,13 +34,14 @@ const Header = styled.div`
 const Title = styled.h2`
   font-size: 20px;
   font-weight: 600;
+  color: ${({ theme }) => theme.modalText};
 `;
 
 const CloseIcon = styled.button`
   background: none;
   border: none;
   font-size: 24px;
-  color: #555;
+  color: ${({ theme }) => theme.modalText};
   cursor: pointer;
 `;
 
