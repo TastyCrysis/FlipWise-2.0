@@ -119,14 +119,6 @@ export default function Flashcard({
         <FlashcardContent>
           <FlashcardQuestion>{flashcard.question}</FlashcardQuestion>
         </FlashcardContent>
-        {/*         <button
-          onClick={(event) => {
-            event.stopPropagation();
-            toggleConfirmation();
-          }}
-        >
-          delete
-        </button> */}
         <Button
           onClick={(event) => {
             event.stopPropagation();
@@ -134,14 +126,6 @@ export default function Flashcard({
           }}
           buttonLabel={"delete"}
         />
-        {/*         <OpenButton
-          onClick={(event) => {
-            event.stopPropagation();
-            setIsModalOpen(true);
-          }}
-        >
-          edit
-        </OpenButton> */}
         <Button
           onClick={(event) => {
             event.stopPropagation();
@@ -174,14 +158,6 @@ export default function Flashcard({
             <b>Answer:</b>
           </FlashcardAnswer>
           <FlashcardAnswer>{flashcard.answer}</FlashcardAnswer>
-          {/*           <button
-            onClick={(event) => {
-              event.stopPropagation();
-              handleToggleCorrect(flashcard.id);
-            }}
-          >
-            {flashcard.isCorrect ? "wrong" : "correct?"}
-          </button> */}
           <Button
             onClick={(event) => {
               event.stopPropagation();
