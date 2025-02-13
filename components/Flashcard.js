@@ -2,10 +2,7 @@ import { useState } from "react";
 import styled from "styled-components";
 import Modal from "@/components/Modal";
 import FlashcardForm from "@/components/FlashcardForm";
-<<<<<<< HEAD
 import Button from "./Button";
-=======
->>>>>>> remotes/origin/test/colors
 
 const StyledFlashcard = styled.div`
   width: 100%;
