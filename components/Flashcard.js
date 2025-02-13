@@ -2,6 +2,8 @@ import { useState } from "react";
 import styled from "styled-components";
 import Modal from "@/components/Modal";
 import FlashcardForm from "@/components/FlashcardForm";
+import FlashcardOptionMenu from "@/components/FlashcardOptionMenu";
+
 const StyledFlashcard = styled.div`
   width: 100%;
   height: 150px;
@@ -151,6 +153,7 @@ export default function Flashcard({
             onClose={() => setIsModalOpen(false)}
           />
         </Modal>
+        <FlashcardOptionMenu />
       </FlashcardFront>
       <FlashcardBack>
         <FlashcardContent>
