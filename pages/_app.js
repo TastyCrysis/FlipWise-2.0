@@ -1,12 +1,15 @@
-import GlobalStyle from "../styles";
+import GlobalStyle, { theme } from "../styles";
 import { flashcards as initialFlashcards } from "@/lib/db/flashcards";
 import { collections } from "@/lib/db/collections";
 import { useState } from "react";
 import { nanoid } from "nanoid";
 import Navbar from "@/components/Navbar";
+import { ThemeProvider } from "styled-components";
+import ThemeSwitch from "@/components/ThemeSwitch";
 
 export default function App({ Component, pageProps }) {
   const [flashcards, setFlashcards] = useState(initialFlashcards);
+  const [themeMode, setThemeMode] = useState("dark");
 
   function handleToggleCorrect(id) {
     setFlashcards((prevFlashcards) =>
@@ -35,8 +38,9 @@ export default function App({ Component, pageProps }) {
   }
 
   return (
-    <>
+    <ThemeProvider theme={theme[themeMode]}>
       <GlobalStyle />
+      <ThemeSwitch theme={themeMode} setTheme={setThemeMode} />
       <Component
         {...pageProps}
         flashcards={flashcards}
@@ -46,6 +50,6 @@ export default function App({ Component, pageProps }) {
         handleUpdateFlashcard={handleUpdateFlashcard}
       />
       <Navbar handleCreateFlashcard={handleCreateFlashcard} />
-    </>
+    </ThemeProvider>
   );
 }

@@ -2,7 +2,10 @@ import { useState } from "react";
 import styled from "styled-components";
 import Modal from "@/components/Modal";
 import FlashcardForm from "@/components/FlashcardForm";
+<<<<<<< HEAD
 import Button from "./Button";
+=======
+>>>>>>> remotes/origin/test/colors
 
 const StyledFlashcard = styled.div`
   width: 100%;
@@ -17,7 +20,8 @@ const StyledFlashcard = styled.div`
 `;
 
 const FlashcardFront = styled.div`
-  background: #ff6f61;
+  background: ${({ theme }) => theme.cardPrimary};
+  color: ${({ theme }) => theme.cardPrimaryText};
   position: absolute;
   width: 100%;
   height: 100%;
@@ -29,10 +33,12 @@ const FlashcardFront = styled.div`
   justify-content: center;
   align-items: center;
   border-radius: 8px;
+  box-shadow: ${({ theme }) => theme.boxShadowPrimary};
 `;
 
 const FlashcardBack = styled.div`
-  background: #6fb3ff;
+  background: ${({ theme }) => theme.cardSecondary};
+  color: ${({ theme }) => theme.cardSecondaryText};
   position: absolute;
   width: 100%;
   height: 100%;
@@ -44,6 +50,7 @@ const FlashcardBack = styled.div`
   justify-content: center;
   align-items: center;
   border-radius: 8px;
+  box-shadow: ${({ theme }) => theme.boxShadowSecondary};
 `;
 
 const FlashcardContent = styled.div`
@@ -58,14 +65,13 @@ const FlashcardQuestion = styled.p`
 `;
 
 const FlashcardAnswer = styled.p`
-  color: #000;
   margin: 5px 0;
 `;
 
 const CollectionTitle = styled.p`
   text-align: right;
   font-style: italic;
-  color: #000;
+  color: ${({ theme }) => theme.cardSecondaryText};
   margin: 0 0 7px 0;
   position: absolute;
   right: 24px;
@@ -79,7 +85,6 @@ const StyledDialog = styled.dialog`
   padding: 16px;
   border: solid 1px;
   border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   will-change: transform;
   backface-visibility: hidden;
 `;
