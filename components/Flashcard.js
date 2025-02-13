@@ -2,7 +2,7 @@ import { useState } from "react";
 import styled from "styled-components";
 import Modal from "@/components/Modal";
 import FlashcardForm from "@/components/FlashcardForm";
-import Button from "./1Button";
+import Button from "./Button";
 
 const StyledFlashcard = styled.div`
   width: 100%;

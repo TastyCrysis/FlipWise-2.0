@@ -1,6 +1,6 @@
 import { collections } from "@/lib/db/collections";
 import styled from "styled-components";
-import Button from "./1Button";
+import Button from "./Button";
 
 const StyledForm = styled.form`
   display: flex;
