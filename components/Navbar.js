@@ -190,7 +190,12 @@ export default function Navbar({ handleCreateFlashcard }) {
         <ListItem $active={pathname === "/"}>
           <StyledLink href="/">
             <Icon>
-              <Image src="/house.png" alt="home-logo" width={32} height={32} />
+              <Image
+                src="/asset/house.png"
+                alt="home-logo"
+                width={32}
+                height={32}
+              />
             </Icon>
             <Text>Home</Text>
           </StyledLink>
@@ -213,7 +218,7 @@ export default function Navbar({ handleCreateFlashcard }) {
           <StyledLink href={archiveLink}>
             <Icon>
               <Image
-                src="/archive.png"
+                src="/asset/archive.png"
                 alt="archive-logo"
                 width={32}
                 height={32}

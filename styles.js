@@ -18,6 +18,8 @@ export const theme = {
     boxShadowPrimary: "2px 4px 8px 2px #587099",
     boxShadowSecondary: "2px 4px 8px 2px #3f5576",
     boxShadowCollectionCard: "2px 4px 8px 2px #587099",
+    buttonBackground: "#3f5576",
+    buttonText: "white",
   },
   light: {
     background: "#FFFFFF",
@@ -36,6 +38,8 @@ export const theme = {
     boxShadowPrimary: "2px 4px 8px 2px #587099",
     boxShadowSecondary: "2px 4px 8px 2px #3f5576",
     boxShadowCollectionCard: "2px 4px 8px 2px #587099",
+    buttonBackground: "#3f5576",
+    buttonText: "white",
   },
   flower: {
     background: "#e0e0e0",
@@ -54,6 +58,8 @@ export const theme = {
     boxShadowPrimary: "2px 4px 8px 2px #223C20",
     boxShadowSecondary: "2px 4px 8px 2px #DE60CA",
     boxShadowCollectionCard: "2px 4px 8px 2px #223C20",
+    buttonBackground: "#3f5576",
+    buttonText: "white",
   },
 };
 

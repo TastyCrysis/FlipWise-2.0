@@ -18,9 +18,9 @@ export default function ThemeSwitch({ themeMode, onHandleToggleThemeMode }) {
         value={themeMode}
         onChange={(event) => onHandleToggleThemeMode(event.target.value)}
       >
-        <option value="dark">Dark</option>
-        <option value="flower">Flower</option>
-        <option value="light">Light</option>
+        <option value="dark">&#x263E; Dark</option>
+        <option value="flower">&#x2698; Flower</option>
+        <option value="light">&#x2600; Light</option>
       </Select>
     </div>
   );
