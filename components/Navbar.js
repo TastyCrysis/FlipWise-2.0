@@ -18,6 +18,8 @@ const Navigation = styled.nav`
   justify-content: center;
   align-items: center;
   border-radius: 10px;
+  border: 2px solid ${({ theme }) => theme.background};
+  z-index: 100;
 
   @media (max-width: 768px) {
     height: 60px;
@@ -107,10 +109,9 @@ const Indicator = styled.div`
   width: 70px;
   background: ${({ theme }) => theme.indicator};
   border-radius: 50%;
-  border: 6px solid #101116;
+  border: 6px solid ${({ theme }) => theme.background};
   transition: 0.5s;
   z-index: 1;
-  display: ${({ $active }) => ($active ? "block" : "none")};
   left: ${({ $active }) => {
     if ($active === "/") return "-8px";
     if ($active === "/archive" || $active?.includes("/archive"))
