@@ -8,6 +8,22 @@ const Container = styled.header`
   align-items: center;
 `;
 
+const StyledPageTitle = styled.h2`
+  font-size: 2.1rem;
+  font-weight: 400;
+  margin-bottom: 54px;
+  margin-top: 6px;
+`;
+
+const StyledCollectionTitle = styled.h3`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 1.6rem;
+  font-weight: 400;
+  margin-bottom: 6px;
+`;
+
 export default function Homepage({
   flashcards,
   collections,
@@ -27,10 +43,11 @@ export default function Homepage({
   return (
     <>
       <Container>
-        <h1>Flipwise App</h1>
-        <h2>List of flashcards</h2>
-        <h3>{currentCollection && currentCollection.title}</h3>
+        <StyledPageTitle>List of flashcards</StyledPageTitle>
       </Container>
+      <StyledCollectionTitle>
+        {currentCollection && currentCollection.title}
+      </StyledCollectionTitle>
       <FlashcardList
         flashcards={filteredFlashcards}
         collections={collections}

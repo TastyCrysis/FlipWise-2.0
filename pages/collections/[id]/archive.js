@@ -8,6 +8,22 @@ const Container = styled.header`
   align-items: center;
 `;
 
+const StyledPageTitle = styled.h2`
+  font-size: 2.1rem;
+  font-weight: 400;
+  margin-bottom: 54px;
+  margin-top: 6px;
+`;
+
+const StyledCollectionTitle = styled.h3`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 1.6rem;
+  font-weight: 400;
+  margin-bottom: 6px;
+`;
+
 export default function Archive({
   flashcards,
   collections,
@@ -34,10 +50,11 @@ export default function Archive({
   return (
     <>
       <Container>
-        <h1>Flipwise App</h1>
-        <h2>Archive</h2>
-        <h3>{currentCollection ? currentCollection.title : "All Cards"}</h3>
+        <StyledPageTitle>Archive</StyledPageTitle>
       </Container>
+      <StyledCollectionTitle>
+        {currentCollection ? currentCollection.title : "All Cards"}
+      </StyledCollectionTitle>
       <ArchiveList
         flashcards={filteredFlashcards}
         collections={collections}

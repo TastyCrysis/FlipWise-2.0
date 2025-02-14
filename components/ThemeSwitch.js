@@ -2,8 +2,9 @@ import styled from "styled-components";
 
 const Select = styled.select`
   position: absolute;
-  top: 10px;
-  right: 20px;
+  top: 170px;
+  right: 50%;
+  transform: translateX(50%);
   background: ${({ theme }) => theme.background};
   color: ${({ theme }) => theme.text};
   border: 1px solid ${({ theme }) => theme.border};

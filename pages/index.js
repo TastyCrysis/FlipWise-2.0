@@ -5,14 +5,21 @@ const Container = styled.header`
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-bottom: 14px;
+`;
+
+const StyledPageTitle = styled.h2`
+  font-size: 2.1rem;
+  font-weight: 400;
+  margin-bottom: 54px;
+  margin-top: 6px;
 `;
 
 export default function Homepage({ flashcards, collections }) {
   return (
     <>
       <Container>
-        <h1>Flipwise App</h1>
-        <h2>List of collections</h2>
+        <StyledPageTitle>List of collections</StyledPageTitle>
       </Container>
       <CollectionList flashcards={flashcards} collections={collections} />
     </>
