@@ -24,6 +24,7 @@ export const theme = {
     modalText: "#101116",
   },
   light: {
+    //Color Palette #4544 from colorpalettes.net
     //#033540 #015366 #63898C #A7D1D2 #E0F4F5
     background: "#E0F4F5",
     text: "#033540",
@@ -47,6 +48,8 @@ export const theme = {
     modalText: "#E0F4F5",
   },
   flower: {
+    //Color Palette #4557 from colorpalettes.net
+    //#223C20 #4C8D26 #D5FB00 #DE60CA #882380
     background: "#e0e0e0",
     text: "#223C20",
     cardPrimary: "#4C8D26",
