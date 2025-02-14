@@ -2,8 +2,7 @@ import { useState } from "react";
 import styled from "styled-components";
 import Modal from "@/components/Modal";
 import FlashcardForm from "@/components/FlashcardForm";
-import FlashcardOptionMenu from "@/components/FlashcardOptionMenu";
-
+import FlashcardOptionButton from "@/components/FlashcardOptionsButton";
 import Button from "./Button";
 import ArrowRedoDot from "@/components/Elements/Arrow_redo-dot";
 
@@ -127,6 +126,10 @@ export default function Flashcard({
     setIsModalOpen(false);
   }
 
+  function handleOpenMenu() {
+    console.log("blubb1");
+  }
+
   return (
     <StyledFlashcard key={flashcard.id} $flipped={flipped} onClick={handleFlip}>
       <CollectionTitle>{collection.title}</CollectionTitle>
@@ -166,7 +169,15 @@ export default function Flashcard({
             onClose={() => setIsModalOpen(false)}
           />
         </Modal>
-        <FlashcardOptionMenu />
+
+        <FlashcardOptionButton
+          type="button"
+          onClick={(event) => {
+            event.stopPropagation();
+            handleOpenMenu();
+            const isMenuOpen = true;
+          }}
+        />
       </FlashcardFront>
       <FlashcardMenu>
         <ArrowRedoDot />
