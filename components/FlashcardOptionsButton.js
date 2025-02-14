@@ -8,14 +8,27 @@ const StyledButton = styled.button`
   cursor: pointer;
 `;
 
-export default function FlashcardOptionButton({ onClick, type, isMenuOpen }) {
-  console.log("isMenuOpen_", isMenuOpen);
+export default function FlashcardOptionButton({
+  type,
+  onClick,
+  isMenuOpen,
+  toggleConfirmation,
+  toggleOptionMenu,
+  setIsModalOpen,
+}) {
   return (
     <>
       <StyledButton type={type} onClick={onClick}>
         <MenuThreePoint />
       </StyledButton>
-      {isMenuOpen && <FlashcardOptionMenu />}
+      {isMenuOpen && (
+        <FlashcardOptionMenu
+          isMenuOpen={isMenuOpen}
+          toggleConfirmation={toggleConfirmation}
+          toggleOptionMenu={toggleOptionMenu}
+          setIsModalOpen={setIsModalOpen}
+        />
+      )}
     </>
   );
 }

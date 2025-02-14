@@ -1,5 +1,6 @@
-import { useState } from "react";
 import styled from "styled-components";
+import Button from "./Button";
+import { useState } from "react";
 
 const StyledPopupMenu = styled.div`
   position: absolute;
@@ -16,23 +17,32 @@ const StyledPopupMenu = styled.div`
   background-color: var(--color-secondary);
 `;
 
-export default function FlashcardOptionsMenu() {
-  const [isOptionMenuOpen, setIsOptionMenuOpen] = useState(false);
-
-  function toggleOptionsMenu() {
-    setIsOptionMenuOpen(!isOptionMenuOpen);
-  }
-
-  function handleOpenMenu() {
-    console.log("blubb2");
-  }
-
+export default function FlashcardOptionsMenu({
+  isMenuOpen,
+  toggleConfirmation,
+  toggleOptionMenu,
+  setIsModalOpen = { setIsModalOpen },
+}) {
   return (
     <StyledPopupMenu>
-      <ul>
-        <li>1</li>
-        <li>2</li>
-      </ul>
+      <dialog open={isMenuOpen}>
+        <Button
+          onClick={(event) => {
+            event.stopPropagation();
+            toggleConfirmation();
+            toggleOptionMenu();
+          }}
+          buttonLabel={"delete"}
+        />
+        <Button
+          onClick={(event) => {
+            event.stopPropagation();
+            setIsModalOpen(true);
+            toggleOptionMenu();
+          }}
+          buttonLabel={"edit"}
+        />
+      </dialog>
     </StyledPopupMenu>
   );
 }

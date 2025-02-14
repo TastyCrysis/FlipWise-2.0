@@ -112,7 +112,7 @@ export default function Flashcard({
   const [flipped, setFlipped] = useState(false);
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  let isMenuOpen = true;
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   function handleFlip() {
     setFlipped(!flipped);
@@ -127,8 +127,8 @@ export default function Flashcard({
     setIsModalOpen(false);
   }
 
-  function handleOpenMenu() {
-    console.log("blubb1");
+  function toggleOptionMenu() {
+    setIsMenuOpen(!isMenuOpen);
   }
 
   return (
@@ -138,20 +138,6 @@ export default function Flashcard({
         <FlashcardContent>
           <FlashcardQuestion>{flashcard.question}</FlashcardQuestion>
         </FlashcardContent>
-        <Button
-          onClick={(event) => {
-            event.stopPropagation();
-            toggleConfirmation();
-          }}
-          buttonLabel={"delete"}
-        />
-        <Button
-          onClick={(event) => {
-            event.stopPropagation();
-            setIsModalOpen(true);
-          }}
-          buttonLabel={"edit"}
-        />
         <Modal
           isOpen={isModalOpen}
           onClose={() => setIsModalOpen(false)}
@@ -175,9 +161,12 @@ export default function Flashcard({
           type="button"
           onClick={(event) => {
             event.stopPropagation();
-            handleOpenMenu();
+            toggleOptionMenu();
           }}
           isMenuOpen={isMenuOpen}
+          toggleConfirmation={toggleConfirmation}
+          toggleOptionMenu={toggleOptionMenu}
+          setIsModalOpen={setIsModalOpen}
         />
       </FlashcardFront>
       <FlashcardMenu>
