@@ -2,7 +2,7 @@ import FlashcardList from "@/components/FlashcardList";
 import styled from "styled-components";
 import { useRouter } from "next/router";
 
-const Container = styled.header`
+const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;

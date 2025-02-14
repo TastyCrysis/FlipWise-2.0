@@ -1,7 +1,7 @@
 import CollectionList from "@/components/CollectionList";
 import styled from "styled-components";
 
-const Container = styled.header`
+const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;

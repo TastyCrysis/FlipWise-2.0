@@ -83,7 +83,7 @@ const CollectionTitle = styled.p`
 const FlashcardMenu = styled.div`
   text-align: right;
   font-style: italic;
-  color: ${({ theme }) => theme.cardSecondaryText};
+  color: ${({ theme }) => theme.cardPrimaryText};
   margin: 0 0 70px 0;
   position: absolute;
   right: 4px;

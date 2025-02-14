@@ -54,11 +54,14 @@ export default function App({ Component, pageProps }) {
   return (
     <ThemeProvider theme={theme[themeMode]}>
       <GlobalStyle />
-      <ThemeSwitch
-        theme={themeMode}
-        onHandleToggleThemeMode={handleToggleThemeMode}
-      />
-      <StyledTitle>Flipwise App</StyledTitle>
+      <header>
+        <StyledTitle>Flipwise App</StyledTitle>
+        <ThemeSwitch
+          theme={themeMode}
+          onHandleToggleThemeMode={handleToggleThemeMode}
+        />
+      </header>
+
       <Component
         {...pageProps}
         flashcards={flashcards}
