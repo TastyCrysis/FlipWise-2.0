@@ -114,17 +114,21 @@ const FlashcardMenu = styled.div`
 `;
 
 const StyledDialog = styled.dialog`
-  padding: 16px;
-  border: solid 1px;
-  border-radius: 8px;
-  will-change: transform;
-  backface-visibility: hidden;
+  background-color: ${({ theme }) => theme.modalBackground};
+  width: 380px;
+  margin: 12px 12px 0 0;
+  padding: 0 12px 12px 12px;
 `;
 
 const ButtonContainer = styled.div`
   position: absolute;
   bottom: 12px;
   right: 18px;
+`;
+
+const ConfirmButtonContainer = styled.div`
+  display: flex;
+  gap: 12px;
 `;
 
 export default function Flashcard({
@@ -216,14 +220,7 @@ export default function Flashcard({
       </FlashcardBack>
       <StyledDialog open={showConfirmation}>
         <h3>Do you really want to delete flashcard?</h3>
-        <>
-          <Button
-            onClick={(event) => {
-              event.stopPropagation();
-              toggleConfirmation();
-            }}
-            buttonLabel={"cancel"}
-          />
+        <ConfirmButtonContainer>
           <Button
             onClick={(event) => {
               event.stopPropagation();
@@ -232,7 +229,14 @@ export default function Flashcard({
             }}
             buttonLabel={"delete"}
           />
-        </>
+          <Button
+            onClick={(event) => {
+              event.stopPropagation();
+              toggleConfirmation();
+            }}
+            buttonLabel={"cancel"}
+          />
+        </ConfirmButtonContainer>
       </StyledDialog>
     </StyledFlashcard>
   );

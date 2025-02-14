@@ -19,7 +19,7 @@ const Navigation = styled.nav`
   align-items: center;
   border-radius: 10px;
   border: 2px solid ${({ theme }) => theme.background};
-  z-index: 100;
+  z-index: 10;
 
   @media (max-width: 768px) {
     height: 60px;
