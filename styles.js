@@ -24,6 +24,7 @@ export const theme = {
     buttonText: "white",
     modalBackground: "#3f5576",
     modalText: "#101116",
+    modalBorder: "#8689ac",
   },
   light: {
     //Color Palette #4544 from colorpalettes.net
@@ -48,6 +49,7 @@ export const theme = {
     buttonText: "#E0F4F5",
     modalBackground: "#015366",
     modalText: "#E0F4F5",
+    modalBorder: "#E0F4F5",
   },
   flower: {
     //Color Palette #4557 from colorpalettes.net
@@ -72,6 +74,7 @@ export const theme = {
     buttonText: "white",
     modalBackground: "#882380",
     modalText: "#e0e0e0",
+    modalBorder: "#D5FB00",
   },
 };
 
