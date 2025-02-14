@@ -112,6 +112,7 @@ export default function Flashcard({
   const [flipped, setFlipped] = useState(false);
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  let isMenuOpen = true;
 
   function handleFlip() {
     setFlipped(!flipped);
@@ -175,8 +176,8 @@ export default function Flashcard({
           onClick={(event) => {
             event.stopPropagation();
             handleOpenMenu();
-            const isMenuOpen = true;
           }}
+          isMenuOpen={isMenuOpen}
         />
       </FlashcardFront>
       <FlashcardMenu>

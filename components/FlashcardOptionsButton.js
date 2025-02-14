@@ -9,6 +9,7 @@ const StyledButton = styled.button`
 `;
 
 export default function FlashcardOptionButton({ onClick, type, isMenuOpen }) {
+  console.log("isMenuOpen_", isMenuOpen);
   return (
     <>
       <StyledButton type={type} onClick={onClick}>
