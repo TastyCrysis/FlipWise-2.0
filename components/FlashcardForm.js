@@ -11,8 +11,6 @@ const StyledForm = styled.form`
 `;
 
 const Container = styled.div`
-  /* border: solid 2px;
-  border-radius: 8px; */
   margin: 4px 24px 4px 24px;
   padding: 0 0 16px 0;
 `;

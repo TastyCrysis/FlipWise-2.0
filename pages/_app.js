@@ -19,7 +19,7 @@ const StyledTitle = styled.h1`
 
 export default function App({ Component, pageProps }) {
   const [flashcards, setFlashcards] = useState(initialFlashcards);
-  const [themeMode, setThemeMode] = useState("flower");
+  const [themeMode, setThemeMode] = useState("dark");
 
   function handleToggleCorrect(id) {
     setFlashcards((prevFlashcards) =>

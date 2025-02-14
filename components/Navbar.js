@@ -168,7 +168,8 @@ const OpenButton = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: ${({ theme }) => theme.boxShadowButton};
+  border: 1px solid ${({ theme }) => theme.buttonBorder};
 `;
 
 export default function Navbar({ handleCreateFlashcard }) {

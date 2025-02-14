@@ -46,7 +46,7 @@ const FlashcardBack = styled.div`
   top: 0;
   left: 0;
   display: flex;
-  justify-content: center;
+  justify-content: start;
   align-items: center;
   border-radius: 8px;
   box-shadow: ${({ theme }) => theme.boxShadowSecondary};
@@ -55,16 +55,35 @@ const FlashcardBack = styled.div`
 const FlashcardContent = styled.div`
   display: flex;
   flex-direction: column;
+  align-items: center;
+`;
+
+const FlashcardBackContent = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  margin: 0 0 24px 24px;
 `;
 
 const FlashcardQuestion = styled.p`
+  font-size: 1.5rem;
   font-weight: bold;
-  margin: 0;
+  margin: 0 0 24px 0;
   text-align: center;
 `;
 
 const FlashcardAnswer = styled.p`
   margin: 5px 0;
+  font-size: 1.8rem;
+  text-decoration: underline;
+  font-weight: bolder;
+`;
+
+const FlashcardAnswerText = styled.p`
+  margin: 5px 0;
+  font-size: 1.5rem;
+  font-weight: bold;
+  font-style: italic;
 `;
 
 const CollectionTitle = styled.p`
@@ -100,6 +119,12 @@ const StyledDialog = styled.dialog`
   border-radius: 8px;
   will-change: transform;
   backface-visibility: hidden;
+`;
+
+const ButtonContainer = styled.div`
+  position: absolute;
+  bottom: 12px;
+  right: 18px;
 `;
 
 export default function Flashcard({
@@ -173,19 +198,21 @@ export default function Flashcard({
         <ArrowRedoDot />
       </FlashcardMenu>
       <FlashcardBack>
-        <FlashcardContent>
+        <FlashcardBackContent>
           <FlashcardAnswer>
             <b>Answer:</b>
           </FlashcardAnswer>
-          <FlashcardAnswer>{flashcard.answer}</FlashcardAnswer>
+          <FlashcardAnswerText>{flashcard.answer}</FlashcardAnswerText>
+        </FlashcardBackContent>
+        <ButtonContainer>
           <Button
             onClick={(event) => {
               event.stopPropagation();
               handleToggleCorrect(flashcard.id);
             }}
-            buttonLabel={flashcard.isCorrect ? "wrong" : "correct?"}
+            buttonLabel={flashcard.isCorrect ? "wrong" : "correct"}
           />
-        </FlashcardContent>
+        </ButtonContainer>
       </FlashcardBack>
       <StyledDialog open={showConfirmation}>
         <h3>Do you really want to delete flashcard?</h3>

@@ -8,6 +8,9 @@ const StyledButton = styled.button`
   color: ${({ theme }) => theme.buttonText};
   font-size: 16px;
   padding: 10px 20px;
+  box-shadow: ${({ theme }) => theme.boxShadowButton};
+  border: 1px solid ${({ theme }) => theme.buttonBorder};
+  border-radius: 8px;
   cursor: pointer;
 `;
 
