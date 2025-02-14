@@ -2,6 +2,8 @@ import { createGlobalStyle } from "styled-components";
 
 export const theme = {
   dark: {
+    //Color Palette #4544 from colorpalettes.net
+    //#033540 #015366 #63898C #A7D1D2 #E0F4F5
     background: "#101116",
     text: "#8689AC",
     cardPrimary: "#2f3148",

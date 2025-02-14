@@ -1,9 +1,10 @@
 import styled from "styled-components";
 import Link from "next/link";
+import ArrowChevronRight from "./Elements/Arrow_chevron-right";
 
 const CardItem = styled.li`
   width: 100%;
-  height: 150px;
+  height: 250px;
   max-width: 550px;
   margin: 15px auto;
   cursor: pointer;
@@ -61,6 +62,7 @@ export default function CollectionCard({ flashcards, collection }) {
           <StyledTitle>Collection: {collection.title}</StyledTitle>
           <p>Cards: {numberFlashcards}</p>
           <p>Correct Cards: {correctFlashcards.length}</p>
+          <ArrowChevronRight />
         </CollectionCardArticle>
       </StyledCardLink>
       <StyledLink href={`/collections/${collection.id}/archive`}>

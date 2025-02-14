@@ -3,6 +3,7 @@ import styled from "styled-components";
 import Modal from "@/components/Modal";
 import FlashcardForm from "@/components/FlashcardForm";
 import Button from "./Button";
+import ArrowRedoDot from "@/components/Elements/Arrow_redo-dot";
 
 const StyledFlashcard = styled.div`
   width: 100%;
@@ -149,6 +150,7 @@ export default function Flashcard({
             onClose={() => setIsModalOpen(false)}
           />
         </Modal>
+        <ArrowRedoDot />
       </FlashcardFront>
       <FlashcardBack>
         <FlashcardContent>
