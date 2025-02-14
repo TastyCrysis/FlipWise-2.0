@@ -81,6 +81,20 @@ const CollectionTitle = styled.p`
   transform: rotateY(0deg);
 `;
 
+const FlashcardMenu = styled.div`
+  text-align: right;
+  font-style: italic;
+  color: ${({ theme }) => theme.cardSecondaryText};
+  margin: 0 0 70px 0;
+  position: absolute;
+  right: 4px;
+  bottom: -72px;
+  backface-visibility: hidden;
+  will-change: transform;
+  z-index: 10;
+  transform: rotateY(0deg);
+`;
+
 const StyledDialog = styled.dialog`
   padding: 16px;
   border: solid 1px;
@@ -153,8 +167,10 @@ export default function Flashcard({
           />
         </Modal>
         <FlashcardOptionMenu />
-        <ArrowRedoDot />
       </FlashcardFront>
+      <FlashcardMenu>
+        <ArrowRedoDot />
+      </FlashcardMenu>
       <FlashcardBack>
         <FlashcardContent>
           <FlashcardAnswer>
