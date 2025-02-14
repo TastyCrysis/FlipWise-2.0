@@ -70,7 +70,7 @@ const FlashcardAnswer = styled.p`
 const CollectionTitle = styled.p`
   text-align: right;
   font-style: italic;
-  color: ${({ theme }) => theme.cardSecondaryText};
+  color: ${({ theme }) => theme.cardPrimaryText};
   margin: 0 0 7px 0;
   position: absolute;
   right: 24px;

@@ -5,7 +5,17 @@ import { useState } from "react";
 import { nanoid } from "nanoid";
 import Navbar from "@/components/Navbar";
 import { ThemeProvider } from "styled-components";
+import styled from "styled-components";
 import ThemeSwitch from "@/components/ThemeSwitch";
+
+const StyledTitle = styled.h1`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 3.5rem;
+  font-weight: 700;
+  margin-bottom: 0px;
+`;
 
 export default function App({ Component, pageProps }) {
   const [flashcards, setFlashcards] = useState(initialFlashcards);
@@ -48,6 +58,7 @@ export default function App({ Component, pageProps }) {
         theme={themeMode}
         onHandleToggleThemeMode={handleToggleThemeMode}
       />
+      <StyledTitle>Flipwise App</StyledTitle>
       <Component
         {...pageProps}
         flashcards={flashcards}

@@ -20,10 +20,12 @@ export const theme = {
     boxShadowPrimary: "2px 4px 8px 2px #587099",
     boxShadowSecondary: "2px 4px 8px 2px #3f5576",
     boxShadowCollectionCard: "2px 4px 8px 2px #587099",
+    boxShadowCollectionCardHover: "2px 4px 8px 2px #3f5576",
     buttonBackground: "#101116",
     buttonText: "white",
     modalBackground: "#3f5576",
     modalText: "#101116",
+    modalBorder: "#8689ac",
   },
   light: {
     //Color Palette #4544 from colorpalettes.net
@@ -44,10 +46,12 @@ export const theme = {
     boxShadowPrimary: "2px 4px 8px 2px #015366",
     boxShadowSecondary: "2px 4px 8px 2px #033540",
     boxShadowCollectionCard: "2px 4px 8px 2px #015366",
+    boxShadowCollectionCardHover: "2px 4px 8px 2px #033540",
     buttonBackground: "#033540",
     buttonText: "#E0F4F5",
     modalBackground: "#015366",
     modalText: "#E0F4F5",
+    modalBorder: "#E0F4F5",
   },
   flower: {
     //Color Palette #4557 from colorpalettes.net
@@ -68,10 +72,12 @@ export const theme = {
     boxShadowPrimary: "2px 4px 8px 2px #223C20",
     boxShadowSecondary: "2px 4px 8px 2px #DE60CA",
     boxShadowCollectionCard: "2px 4px 8px 2px #223C20",
+    boxShadowCollectionCardHover: "2px 4px 8px 2px #4C8D26",
     buttonBackground: "#223C20",
     buttonText: "white",
     modalBackground: "#882380",
     modalText: "#e0e0e0",
+    modalBorder: "#D5FB00",
   },
 };
 
