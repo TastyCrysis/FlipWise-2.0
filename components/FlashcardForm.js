@@ -45,6 +45,13 @@ const ButtonContainer = styled.div`
   padding: 32px 0 8px 0;
 `;
 
+const AddCollectionContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  width: 50%;
+  padding: 0 0 0 0;
+`;
+
 export default function FlashcardForm({
   onSubmit,
   title,
@@ -102,6 +109,18 @@ export default function FlashcardForm({
             </option>
           ))}
         </Select>
+
+        <Input
+          id="collection"
+          type="text"
+          name="collectionName"
+          placeholder={"Collection*"}
+          required
+        />
+
+        <AddCollectionContainer>
+          <Button type="button" onClick={} buttonLabel="Add collection" />
+        </AddCollectionContainer>
         <ButtonContainer>
           <Button
             type="submit"
