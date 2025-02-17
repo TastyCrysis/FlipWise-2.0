@@ -1,6 +1,7 @@
 import FlashcardList from "@/components/FlashcardList";
 import styled from "styled-components";
 import { useRouter } from "next/router";
+import FlashcardListApi from "@/components/FlashcardListApi";
 
 const Container = styled.header`
   display: flex;
@@ -32,6 +33,13 @@ export default function Homepage({
         <h3>{currentCollection && currentCollection.title}</h3>
       </Container>
       <FlashcardList
+        flashcards={filteredFlashcards}
+        collections={collections}
+        handleToggleCorrect={handleToggleCorrect}
+        handleDeleteFlashcard={handleDeleteFlashcard}
+        handleUpdateFlashcard={handleUpdateFlashcard}
+      />
+      <FlashcardListApi
         flashcards={filteredFlashcards}
         collections={collections}
         handleToggleCorrect={handleToggleCorrect}

@@ -4,6 +4,9 @@ import { collections } from "@/lib/db/collections";
 import { useState } from "react";
 import { nanoid } from "nanoid";
 import Navbar from "@/components/Navbar";
+import { SWRConfig } from "swr";
+
+const fetcher = (url) => fetch(url).then((response) => response.json());
 
 export default function App({ Component, pageProps }) {
   const [flashcards, setFlashcards] = useState(initialFlashcards);
@@ -37,15 +40,17 @@ export default function App({ Component, pageProps }) {
   return (
     <>
       <GlobalStyle />
-      <Component
-        {...pageProps}
-        flashcards={flashcards}
-        collections={collections}
-        handleToggleCorrect={handleToggleCorrect}
-        handleDeleteFlashcard={handleDeleteFlashcard}
-        handleUpdateFlashcard={handleUpdateFlashcard}
-      />
-      <Navbar handleCreateFlashcard={handleCreateFlashcard} />
+      <SWRConfig value={{ fetcher }}>
+        <Component
+          {...pageProps}
+          flashcards={flashcards}
+          collections={collections}
+          handleToggleCorrect={handleToggleCorrect}
+          handleDeleteFlashcard={handleDeleteFlashcard}
+          handleUpdateFlashcard={handleUpdateFlashcard}
+        />
+        <Navbar handleCreateFlashcard={handleCreateFlashcard} />
+      </SWRConfig>
     </>
   );
 }
