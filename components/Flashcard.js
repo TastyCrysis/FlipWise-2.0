@@ -116,8 +116,9 @@ const FlashcardMenu = styled.div`
 const StyledDialog = styled.dialog`
   background-color: ${({ theme }) => theme.modalBackground};
   width: 380px;
-  margin: 12px 12px 0 0;
+  margin: 16px 12px 0 10px;
   padding: 0 12px 12px 12px;
+  z-index: 10;
 `;
 
 const ButtonContainer = styled.div`
@@ -161,7 +162,15 @@ export default function Flashcard({
   }
 
   return (
-    <StyledFlashcard key={flashcard.id} $flipped={flipped} onClick={handleFlip}>
+    <StyledFlashcard
+      key={flashcard.id}
+      $flipped={flipped}
+      onClick={() => {
+        handleFlip();
+        setIsMenuOpen(false);
+        setShowConfirmation(false);
+      }}
+    >
       <CollectionTitle>{collection.title}</CollectionTitle>
       <FlashcardFront>
         <FlashcardContent>
