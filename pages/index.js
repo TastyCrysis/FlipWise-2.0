@@ -7,14 +7,22 @@ const Container = styled.header`
   align-items: center;
 `;
 
-export default function Homepage({ flashcards, collections }) {
+export default function Homepage({
+  flashcards,
+  collections,
+  handleDeleteCollection,
+}) {
   return (
     <>
       <Container>
         <h1>Flipwise App</h1>
         <h2>List of collections</h2>
       </Container>
-      <CollectionList flashcards={flashcards} collections={collections} />
+      <CollectionList
+        flashcards={flashcards}
+        collections={collections}
+        handleDeleteCollection={handleDeleteCollection}
+      />
     </>
   );
 }
