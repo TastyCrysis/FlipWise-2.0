@@ -45,7 +45,10 @@ const Icon = styled.span`
   color: ${({ theme }) => theme.navbarText};
 
   & img {
-    filter: brightness(0) saturate(70%) invert(45%);
+    filter: ${({ theme }) =>
+      theme.navbarText === "black"
+        ? "brightness(0) invert(0.8) brightness(0.9)"
+        : "brightness(0)"};
   }
 `;
 
