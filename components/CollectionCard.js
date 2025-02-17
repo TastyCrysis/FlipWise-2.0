@@ -43,6 +43,10 @@ const StyledTitle = styled.h3`
   font-size: 2.2rem;
   font-weight: 700;
   margin-bottom: 42px;
+
+  @media (max-width: 768px) {
+    font-size: 1.8rem;
+  }
 `;
 
 const StyledStats = styled.div`
@@ -56,6 +60,11 @@ const StyledStatsItem = styled.p`
   align-items: center;
   gap: 8px;
   font-size: 1.3rem;
+
+  @media (max-width: 768px) {
+    font-size: 1.1rem;
+    margin-bottom: 54px;
+  }
 `;
 
 const StyledStatsItemSpan = styled.span`
@@ -71,6 +80,11 @@ const StyledIconContainer = styled.div`
   top: 50%;
   left: 132px;
   transform: translateY(-50%);
+
+  @media (max-width: 768px) {
+    left: 70%;
+    transform: translate(-50%, -50%);
+  }
 `;
 
 const StyledLink = styled(BaseLink)`
@@ -84,6 +98,11 @@ const StyledLink = styled(BaseLink)`
   padding: 8px 16px;
   border-radius: 6px;
   z-index: 1;
+
+  @media (max-width: 768px) {
+    bottom: 12px;
+    right: 8px;
+  }
 
   &::before {
     content: "";
