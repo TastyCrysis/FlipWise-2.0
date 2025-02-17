@@ -43,6 +43,10 @@ const Icon = styled.span`
   text-align: center;
   transition: 0.5s;
   color: ${({ theme }) => theme.navbarText};
+
+  & img {
+    filter: brightness(0) saturate(70%) invert(45%);
+  }
 `;
 
 const Text = styled.span`
