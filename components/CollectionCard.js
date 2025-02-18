@@ -92,11 +92,7 @@ export default function CollectionCard({
         </CollectionCardArticle>
       </StyledCardLink>
 
-      <DeleteButton
-        onClick={(event) => {
-          toggleConfirmation();
-        }}
-      >
+      <DeleteButton onClick={toggleConfirmation} type="button">
         delete
       </DeleteButton>
 
@@ -112,18 +108,13 @@ export default function CollectionCard({
         </p>
         <p>⚠️ This action cannot be undone!</p>
         <>
-          <button
-            onClick={() => {
-              toggleConfirmation();
-            }}
-          >
-            Cancel
-          </button>
+          <button onClick={toggleConfirmation}>Cancel</button>
           <button
             onClick={() => {
               toggleConfirmation();
               handleDeleteCollection(collection.id);
             }}
+            type="button"
           >
             Delete
           </button>
