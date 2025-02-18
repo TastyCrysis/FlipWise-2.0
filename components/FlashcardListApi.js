@@ -19,7 +19,10 @@ export default function FlashcardList({
   handleUpdateFlashcard,
 }) {
   const { data, isLoading } = useSWR("/api/flashcards");
+  const { collectionsData, isLoading2 } = useSWR("/api/collections");
   console.log("data_", data);
+  //console.log("data[0]_", data[0].isCorrect);
+  console.log("flashcards_", flashcards);
   if (isLoading) {
     return <h1>Loading...</h1>;
   }
@@ -40,7 +43,7 @@ export default function FlashcardList({
         <p>There are no flashcards in this collection.</p>
       ) : (
         unansweredFlashcards.map((flashcard) => {
-          const collection = collections.find(
+          const collection = collectionsData.find(
             (collection) => collection.id === flashcard.collectionId
           );
           return (

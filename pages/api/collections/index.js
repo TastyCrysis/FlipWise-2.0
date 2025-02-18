@@ -1,22 +1,22 @@
 import dbConnect from "@/db/connect";
-import Flashcard from "@/db/models/Flashcard";
+import Collection from "@/db/models/Collection";
 
 export default async function handler(request, response) {
   await dbConnect();
 
   if (request.method === "GET") {
-    const flashcards = await Flashcard.find();
+    const collections = await Collection.find();
 
-    response.status(200).json(flashcards);
+    response.status(200).json(collections);
     return;
   }
 
   if (request.method === "POST") {
     try {
-      const flashcardData = request.body;
-      await Flashcard.create(flashcardData);
+      const collectionData = request.body;
+      await Collection.create(collectionData);
 
-      response.status(201).json({ status: "Flashcard created." });
+      response.status(201).json({ status: "Collection created." });
     } catch (error) {
       console.log(error);
       response.status(400).json({ error: error.message });
