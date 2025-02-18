@@ -111,15 +111,19 @@ export default function FlashcardForm({
         </Select>
 
         <Input
-          id="collection"
+          id="title"
           type="text"
-          name="collectionName"
+          name="title"
           placeholder={"Collection*"}
           required
         />
 
         <AddCollectionContainer>
-          <Button type="button" onClick={} buttonLabel="Add collection" />
+          <Button
+            type="button"
+            onClick={handleAddCollection}
+            buttonLabel="Add collection"
+          />
         </AddCollectionContainer>
         <ButtonContainer>
           <Button

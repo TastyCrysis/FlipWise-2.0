@@ -1,6 +1,6 @@
 import GlobalStyle, { theme } from "../styles";
 import { flashcards as initialFlashcards } from "@/lib/db/flashcards";
-import { collections } from "@/lib/db/collections";
+import { collections as initialCollections } from "@/lib/db/collections";
 import { useState } from "react";
 import { nanoid } from "nanoid";
 import Navbar from "@/components/Navbar";
@@ -19,6 +19,7 @@ const StyledTitle = styled.h1`
 
 export default function App({ Component, pageProps }) {
   const [flashcards, setFlashcards] = useState(initialFlashcards);
+  const [collections, setCollections] = useState(initialCollections);
   const [themeMode, setThemeMode] = useState("dark");
 
   function handleToggleCorrect(id) {
@@ -45,6 +46,10 @@ export default function App({ Component, pageProps }) {
         flashcard.id === data.id ? { ...flashcard, ...data } : flashcard
       )
     );
+  }
+
+  function handleCreateCollection(data) {
+    setCollections([{ id: nanoid(), ...data }, ...collections]);
   }
 
   function handleToggleThemeMode(selectedThemeMode) {
