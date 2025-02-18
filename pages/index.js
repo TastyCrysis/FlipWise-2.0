@@ -15,13 +15,21 @@ const StyledPageTitle = styled.h2`
   margin-top: 6px;
 `;
 
-export default function Homepage({ flashcards, collections }) {
+export default function Homepage({
+  flashcards,
+  collections,
+  handleCreateCollections,
+}) {
   return (
     <>
       <Container>
         <StyledPageTitle>List of collections</StyledPageTitle>
       </Container>
-      <CollectionList flashcards={flashcards} collections={collections} />
+      <CollectionList
+        flashcards={flashcards}
+        collections={collections}
+        handleCreateCollections={handleCreateCollections}
+      />
     </>
   );
 }

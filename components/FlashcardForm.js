@@ -1,3 +1,5 @@
+import { useState } from "react";
+import { nanoid } from "nanoid";
 import { collections } from "@/lib/db/collections";
 import styled from "styled-components";
 import Button from "./Button";
@@ -49,7 +51,6 @@ const AddCollectionContainer = styled.div`
   display: flex;
   justify-content: space-between;
   width: 50%;
-  padding: 0 0 0 0;
 `;
 
 export default function FlashcardForm({
@@ -57,18 +58,37 @@ export default function FlashcardForm({
   title,
   initialValues,
   onClose,
+  handleCreateCollection,
+  collections,
 }) {
+  console.log("Collections:", collections);
+
+  const [showCollectionInput, setShowCollectionInput] = useState(false);
+
   function handleSubmit(event) {
     event.preventDefault();
     const formData = new FormData(event.target);
     const data = Object.fromEntries(formData);
 
+    let collectionId = data.collectionId;
+
+    if (showCollectionInput && data.title.trim() !== "") {
+      const newCollection = { id: nanoid(), title: data.title };
+      handleCreateCollection(newCollection);
+      collectionId = newCollection.id;
+    }
+
     const mergeData = {
       ...initialValues,
       ...data,
+      collectionId,
     };
 
     onSubmit(mergeData);
+  }
+
+  function handleToggleCollection() {
+    setShowCollectionInput((prev) => !prev);
   }
 
   return (
@@ -93,38 +113,53 @@ export default function FlashcardForm({
           defaultValue={initialValues?.answer || ""}
           required
         />
-        <Label htmlFor="collections-select">Collection:</Label>
-        <Select
-          name="collectionId"
-          id="collections-select"
-          defaultValue={initialValues?.collectionId || ""}
-          required
-        >
-          <option value="" disabled>
-            --Please select a collection--
-          </option>
-          {collections.map((collection) => (
-            <option key={collection.id} value={collection.id}>
-              {collection.title}
-            </option>
-          ))}
-        </Select>
 
-        <Input
-          id="title"
-          type="text"
-          name="title"
-          placeholder={"Collection*"}
-          required
-        />
+        {/* Wenn showCollectionInput false ist, Dropdown anzeigen */}
+        {!showCollectionInput && (
+          <>
+            <Label htmlFor="collections-select">Collection:</Label>
+            <Select
+              name="collectionId"
+              id="collections-select"
+              defaultValue={initialValues?.collectionId || ""}
+              required={!showCollectionInput}
+              disabled={showCollectionInput}
+            >
+              <option value="" disabled>
+                --Please select a collection--
+              </option>
+              {collections &&
+                collections.length > 0 &&
+                collections.map((collection) => (
+                  <option key={collection.id} value={collection.id}>
+                    {collection.title}
+                  </option>
+                ))}
+            </Select>
+          </>
+        )}
+
+        {/* Wenn showCollectionInput true ist, Eingabefeld anzeigen */}
+        {showCollectionInput && (
+          <>
+            <Label htmlFor="new-collection">New Collection:</Label>
+            <Input
+              id="title"
+              type="text"
+              name="title"
+              placeholder="Collection*"
+            />
+          </>
+        )}
 
         <AddCollectionContainer>
           <Button
             type="button"
-            onClick={handleAddCollection}
-            buttonLabel="Add collection"
+            onClick={handleToggleCollection}
+            buttonLabel={showCollectionInput ? "Cancel" : "Add collection"}
           />
         </AddCollectionContainer>
+
         <ButtonContainer>
           <Button
             type="submit"

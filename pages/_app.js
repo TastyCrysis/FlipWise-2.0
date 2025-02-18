@@ -22,6 +22,8 @@ export default function App({ Component, pageProps }) {
   const [collections, setCollections] = useState(initialCollections);
   const [themeMode, setThemeMode] = useState("dark");
 
+  console.log("Collections in _app.js:", collections);
+
   function handleToggleCorrect(id) {
     setFlashcards((prevFlashcards) =>
       prevFlashcards.map((flashcard) =>
@@ -49,7 +51,8 @@ export default function App({ Component, pageProps }) {
   }
 
   function handleCreateCollection(data) {
-    setCollections([{ id: nanoid(), ...data }, ...collections]);
+    const newCollection = { id: nanoid(), ...data };
+    setCollections((prevCollections) => [newCollection, ...prevCollections]);
   }
 
   function handleToggleThemeMode(selectedThemeMode) {
@@ -70,12 +73,15 @@ export default function App({ Component, pageProps }) {
       <Component
         {...pageProps}
         flashcards={flashcards}
-        collections={collections}
+        collections={collections || []}
         handleToggleCorrect={handleToggleCorrect}
         handleDeleteFlashcard={handleDeleteFlashcard}
         handleUpdateFlashcard={handleUpdateFlashcard}
       />
-      <Navbar handleCreateFlashcard={handleCreateFlashcard} />
+      <Navbar
+        handleCreateFlashcard={handleCreateFlashcard}
+        handleCreateCollection={handleCreateCollection}
+      />
     </ThemeProvider>
   );
 }
