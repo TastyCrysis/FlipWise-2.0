@@ -139,7 +139,6 @@ export default function FlashcardForm({
           </>
         )}
 
-        {/* Wenn showCollectionInput true ist, Eingabefeld anzeigen */}
         {showCollectionInput && (
           <>
             <Label htmlFor="new-collection">New Collection:</Label>
