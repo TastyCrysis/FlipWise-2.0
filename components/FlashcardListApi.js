@@ -18,26 +18,33 @@ export default function FlashcardList({
   handleDeleteFlashcard,
   handleUpdateFlashcard,
 }) {
-  const { data, isLoading } = useSWR("/api/flashcards");
-  const { collectionsData, isLoading2 } = useSWR("/api/collections");
-  console.log("data_", data);
-  //console.log("data[0]_", data[0].isCorrect);
-  console.log("flashcards_", flashcards);
+  const { data: flashcardsData, isLoading } = useSWR("/api/flashcards");
+  const { data: collectionsData, isLoading: collectionsLoading } =
+    useSWR("/api/collections");
+  console.log("flashcardsData_", flashcardsData);
+  console.log("collectionsData_", collectionsData);
+
   if (isLoading) {
     return <h1>Loading...</h1>;
   }
+  if (collectionsLoading) {
+    return <h1>Loading...</h1>;
+  }
 
-  if (!data) {
+  if (!flashcardsData) {
+    return;
+  }
+  if (!collectionsData) {
     return;
   }
 
-  const unansweredFlashcards = data.filter(
+  const unansweredFlashcards = flashcardsData.filter(
     (flashcard) => flashcard.isCorrect === false
   );
   console.log("unansweredFlashcards_", unansweredFlashcards);
   return (
     <CardList>
-      {data.length === 0 ? (
+      {flashcardsData.length === 0 ? (
         <p>All cards have been deleted.</p>
       ) : unansweredFlashcards.length === 0 ? (
         <p>There are no flashcards in this collection.</p>
