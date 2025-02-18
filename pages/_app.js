@@ -17,6 +17,7 @@ export default function App({ Component, pageProps }) {
     fetcher
   );
   const [flashcards, setFlashcards] = useState([]);
+  const [collections, setCollections] = useState([]);
 
   useEffect(() => {
     if (flashcardsData) {
@@ -24,11 +25,9 @@ export default function App({ Component, pageProps }) {
     }
   }, [flashcardsData]);
 
-  const [collections, setCollections] = useState([]);
-
   useEffect(() => {
     if (collectionsData) {
-      setFlashcards(collectionsData);
+      setCollections(collectionsData);
     }
   }, [collectionsData]);
 
@@ -73,7 +72,7 @@ export default function App({ Component, pageProps }) {
         <Component
           {...pageProps}
           flashcards={flashcards}
-          collections={collectionsData}
+          collections={collections}
           handleToggleCorrect={handleToggleCorrect}
           handleDeleteFlashcard={handleDeleteFlashcard}
           handleUpdateFlashcard={handleUpdateFlashcard}
