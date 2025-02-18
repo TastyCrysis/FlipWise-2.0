@@ -17,9 +17,13 @@ export default function Homepage({
 }) {
   const router = useRouter();
   const { id } = router.query;
-  const filteredFlashcards = id
-    ? flashcards.filter((flashcard) => flashcard.collectionId === id)
-    : flashcards;
+  if (!id) {
+    return <div>Loading...</div>;
+  }
+
+  const filteredFlashcards = flashcards.filter(
+    (flashcard) => flashcard.collectionId === id
+  );
   const currentCollection = collections.find(
     (collection) => collection.id === id
   );
