@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import Flashcard from "@/components/Flashcard";
-import useSWR from "swr";
 
 const CardList = styled.ul`
   display: flex;
@@ -18,39 +17,19 @@ export default function FlashcardList({
   handleDeleteFlashcard,
   handleUpdateFlashcard,
 }) {
-  const { data: flashcardsData, isLoading } = useSWR("/api/flashcards");
-  const { data: collectionsData, isLoading: collectionsLoading } =
-    useSWR("/api/collections");
-  console.log("flashcardsData_", flashcardsData);
-  console.log("collectionsData_", collectionsData);
-
-  if (isLoading) {
-    return <h1>Loading...</h1>;
-  }
-  if (collectionsLoading) {
-    return <h1>Loading...</h1>;
-  }
-
-  if (!flashcardsData) {
-    return;
-  }
-  if (!collectionsData) {
-    return;
-  }
-
-  const unansweredFlashcards = flashcardsData.filter(
+  const unansweredFlashcards = flashcards.filter(
     (flashcard) => flashcard.isCorrect === false
   );
-  console.log("unansweredFlashcards_", unansweredFlashcards);
+
   return (
     <CardList>
-      {flashcardsData.length === 0 ? (
+      {flashcards.length === 0 ? (
         <p>All cards have been deleted.</p>
       ) : unansweredFlashcards.length === 0 ? (
         <p>There are no flashcards in this collection.</p>
       ) : (
         unansweredFlashcards.map((flashcard) => {
-          const collection = collectionsData.find(
+          const collection = collections.find(
             (collection) => collection.id === flashcard.collectionId
           );
           return (

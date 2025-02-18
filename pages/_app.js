@@ -1,15 +1,44 @@
 import GlobalStyle from "../styles";
-import { flashcards as initialFlashcards } from "@/lib/db/flashcards";
-import { collections } from "@/lib/db/collections";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { nanoid } from "nanoid";
 import Navbar from "@/components/Navbar";
 import { SWRConfig } from "swr";
+import useSWR from "swr";
 
 const fetcher = (url) => fetch(url).then((response) => response.json());
 
 export default function App({ Component, pageProps }) {
-  const [flashcards, setFlashcards] = useState(initialFlashcards);
+  const { data: flashcardsData, isLoading: flashcardsLoading } = useSWR(
+    "/api/flashcards",
+    fetcher
+  );
+  const { data: collectionsData, isLoading: collectionsLoading } = useSWR(
+    "/api/collections",
+    fetcher
+  );
+  const [flashcards, setFlashcards] = useState([]);
+
+  useEffect(() => {
+    if (flashcardsData) {
+      setFlashcards(flashcardsData);
+    }
+  }, [flashcardsData]);
+
+  const [collections, setCollections] = useState([]);
+
+  useEffect(() => {
+    if (collectionsData) {
+      setFlashcards(collectionsData);
+    }
+  }, [collectionsData]);
+
+  if (flashcardsLoading || collectionsLoading) {
+    return <h1>Loading...</h1>;
+  }
+
+  if (!flashcardsData || !collectionsData) {
+    return;
+  }
 
   function handleToggleCorrect(id) {
     setFlashcards((prevFlashcards) =>
@@ -44,7 +73,7 @@ export default function App({ Component, pageProps }) {
         <Component
           {...pageProps}
           flashcards={flashcards}
-          collections={collections}
+          collections={collectionsData}
           handleToggleCorrect={handleToggleCorrect}
           handleDeleteFlashcard={handleDeleteFlashcard}
           handleUpdateFlashcard={handleUpdateFlashcard}

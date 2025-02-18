@@ -1,7 +1,6 @@
 import FlashcardList from "@/components/FlashcardList";
 import styled from "styled-components";
 import { useRouter } from "next/router";
-import FlashcardListApi from "@/components/FlashcardListApi";
 
 const Container = styled.header`
   display: flex;
@@ -19,7 +18,7 @@ export default function Homepage({
   const router = useRouter();
   const { id } = router.query;
   const filteredFlashcards = id
-    ? flashcards.filter((flashcard) => flashcard.collectionId === id)
+    ? flashcards.filter((flashcard) => flashcard.collectionId === parseInt(id))
     : flashcards;
   const currentCollection = collections.find(
     (collection) => collection.id === id
@@ -33,13 +32,6 @@ export default function Homepage({
         <h3>{currentCollection && currentCollection.title}</h3>
       </Container>
       <FlashcardList
-        flashcards={filteredFlashcards}
-        collections={collections}
-        handleToggleCorrect={handleToggleCorrect}
-        handleDeleteFlashcard={handleDeleteFlashcard}
-        handleUpdateFlashcard={handleUpdateFlashcard}
-      />
-      <FlashcardListApi
         flashcards={filteredFlashcards}
         collections={collections}
         handleToggleCorrect={handleToggleCorrect}
