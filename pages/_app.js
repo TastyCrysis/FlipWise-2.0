@@ -18,6 +18,7 @@ export default function App({ Component, pageProps }) {
   );
   const [flashcards, setFlashcards] = useState([]);
   const [collections, setCollections] = useState([]);
+  const { mutate } = useSWR("/api/flashcards", fetcher);
 
   useEffect(() => {
     if (flashcardsData) {
@@ -53,8 +54,19 @@ export default function App({ Component, pageProps }) {
     setFlashcards(flashcards.filter((flashcard) => flashcard.id !== id));
   }
 
-  function handleCreateFlashcard(data) {
-    setFlashcards([{ id: nanoid(), ...data, isCorrect: false }, ...flashcards]);
+  async function handleCreateFlashcard(data) {
+    const response = await fetch("/api/flashcards", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+    if (!response.ok) {
+      console.error("Failed to create flashcard");
+      return;
+    }
+    mutate();
   }
 
   function handleUpdateFlashcard(data) {

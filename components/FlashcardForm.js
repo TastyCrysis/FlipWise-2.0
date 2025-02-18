@@ -1,5 +1,6 @@
 import { collections } from "@/lib/db/collections";
 import styled from "styled-components";
+import { nanoid } from "nanoid";
 
 const StyledForm = styled.form`
   display: flex;
@@ -24,7 +25,7 @@ export default function FlashcardForm({
   initialValues,
   onClose,
 }) {
-  function handleSubmit(event) {
+  async function handleSubmit(event) {
     event.preventDefault();
     const formData = new FormData(event.target);
     const data = Object.fromEntries(formData);
@@ -32,9 +33,12 @@ export default function FlashcardForm({
     const mergeData = {
       ...initialValues,
       ...data,
+      id: nanoid(),
+      isCorrect: false,
     };
 
-    onSubmit(mergeData);
+    await onSubmit(mergeData);
+    console.log("mergeData_", mergeData);
   }
 
   return (
