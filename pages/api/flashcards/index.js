@@ -4,24 +4,25 @@ import Flashcard from "@/db/models/Flashcard";
 export default async function handler(request, response) {
   await dbConnect();
 
-  if (request.method === "GET") {
-    const flashcards = await Flashcard.find();
+  try {
+    switch (request.method) {
+      case "GET": {
+        const flashcards = await Flashcard.find();
+        return response.status(200).json(flashcards);
+      }
 
-    response.status(200).json(flashcards);
-    return;
-  }
+      case "POST": {
+        const flashcard = await Flashcard.create(request.body);
+        return response
+          .status(201)
+          .json({ status: "Flashcard created", data: flashcard });
+      }
 
-  if (request.method === "POST") {
-    try {
-      const flashcardData = request.body;
-      await Flashcard.create(flashcardData);
-
-      response.status(201).json({ status: "Flashcard created." });
-    } catch (error) {
-      console.log(error);
-      response.status(400).json({ error: error.message });
+      default:
+        return response.status(405).json({ status: "Method not allowed" });
     }
+  } catch (error) {
+    console.error(error);
+    return response.status(500).json({ status: "Internal Server Error" });
   }
-
-  response.status(405).json({ status: "Method not allowed." });
 }

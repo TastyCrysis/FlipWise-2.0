@@ -4,24 +4,25 @@ import Collection from "@/db/models/Collection";
 export default async function handler(request, response) {
   await dbConnect();
 
-  if (request.method === "GET") {
-    const collections = await Collection.find();
+  try {
+    switch (request.method) {
+      case "GET": {
+        const collections = await Collection.find();
+        return response.status(200).json(collections);
+      }
 
-    response.status(200).json(collections);
-    return;
-  }
+      case "POST": {
+        const collection = await Collection.create(request.body);
+        return response
+          .status(201)
+          .json({ status: "Collection created", data: collection });
+      }
 
-  if (request.method === "POST") {
-    try {
-      const collectionData = request.body;
-      await Collection.create(collectionData);
-
-      response.status(201).json({ status: "Collection created." });
-    } catch (error) {
-      console.log(error);
-      response.status(400).json({ error: error.message });
+      default:
+        return response.status(405).json({ status: "Method not allowed" });
     }
+  } catch (error) {
+    console.error(error);
+    return response.status(500).json({ status: "Internal Server Error" });
   }
-
-  response.status(405).json({ status: "Method not allowed." });
 }

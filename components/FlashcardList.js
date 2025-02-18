@@ -34,9 +34,10 @@ export default function FlashcardList({
           );
           return (
             <Flashcard
-              key={flashcard.id}
+              key={flashcard._id}
               flashcard={flashcard}
               collection={collection}
+              collections={collections}
               handleToggleCorrect={handleToggleCorrect}
               handleDeleteFlashcard={handleDeleteFlashcard}
               handleUpdateFlashcard={handleUpdateFlashcard}

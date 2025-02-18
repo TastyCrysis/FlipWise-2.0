@@ -40,18 +40,34 @@ export default function App({ Component, pageProps }) {
     return;
   }
 
-  function handleToggleCorrect(id) {
-    setFlashcards((prevFlashcards) =>
-      prevFlashcards.map((flashcard) =>
-        flashcard.id === id
-          ? { ...flashcard, isCorrect: !flashcard.isCorrect }
-          : flashcard
-      )
-    );
+  async function handleToggleCorrect(id) {
+    const flashcard = flashcards.find((card) => card._id === id);
+    const response = await fetch(`/api/flashcards/${id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ isCorrect: !flashcard.isCorrect }),
+    });
+    if (!response.ok) {
+      console.error("Failed to update flashcard");
+      return;
+    }
+    mutate();
   }
 
-  function handleDeleteFlashcard(id) {
-    setFlashcards(flashcards.filter((flashcard) => flashcard.id !== id));
+  async function handleDeleteFlashcard(id) {
+    try {
+      const response = await fetch(`/api/flashcards/${id}`, {
+        method: "DELETE",
+      });
+      if (!response.ok) {
+        throw new Error("Failed to delete flashcard");
+      }
+      mutate();
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   async function handleCreateFlashcard(data) {
@@ -69,12 +85,19 @@ export default function App({ Component, pageProps }) {
     mutate();
   }
 
-  function handleUpdateFlashcard(data) {
-    setFlashcards((prevFlashcards) =>
-      prevFlashcards.map((flashcard) =>
-        flashcard.id === data.id ? { ...flashcard, ...data } : flashcard
-      )
-    );
+  async function handleUpdateFlashcard(_id, data) {
+    const response = await fetch(`/api/flashcards/${_id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+    if (!response.ok) {
+      console.error("Failed to update flashcard");
+      return;
+    }
+    mutate();
   }
 
   return (
@@ -89,7 +112,10 @@ export default function App({ Component, pageProps }) {
           handleDeleteFlashcard={handleDeleteFlashcard}
           handleUpdateFlashcard={handleUpdateFlashcard}
         />
-        <Navbar handleCreateFlashcard={handleCreateFlashcard} />
+        <Navbar
+          handleCreateFlashcard={handleCreateFlashcard}
+          collections={collections}
+        />
       </SWRConfig>
     </>
   );

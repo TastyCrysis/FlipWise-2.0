@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 const { Schema } = mongoose;
 
 const collectionSchema = new Schema({
-  id: { type: Number, required: true },
+  id: { type: String, required: true },
   title: { type: String, required: true },
 });
 

@@ -1,4 +1,3 @@
-import { collections } from "@/lib/db/collections";
 import styled from "styled-components";
 import { nanoid } from "nanoid";
 
@@ -24,7 +23,10 @@ export default function FlashcardForm({
   title,
   initialValues,
   onClose,
+  collections,
 }) {
+  console.log("Collections in Form:", collections); // Debug log
+
   async function handleSubmit(event) {
     event.preventDefault();
     const formData = new FormData(event.target);
@@ -33,12 +35,15 @@ export default function FlashcardForm({
     const mergeData = {
       ...initialValues,
       ...data,
-      id: nanoid(),
-      isCorrect: false,
+      id: initialValues ? initialValues.id : nanoid(),
+      isCorrect: initialValues ? initialValues.isCorrect : false,
     };
 
-    await onSubmit(mergeData);
-    console.log("mergeData_", mergeData);
+    if (initialValues?._id) {
+      await onSubmit(initialValues._id, mergeData);
+    } else {
+      await onSubmit(mergeData);
+    }
   }
 
   return (
@@ -73,7 +78,7 @@ export default function FlashcardForm({
           <option value="" disabled>
             --Please select a collection--
           </option>
-          {collections.map((collection) => (
+          {collections?.map((collection) => (
             <option key={collection.id} value={collection.id}>
               {collection.title}
             </option>

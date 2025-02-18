@@ -18,7 +18,7 @@ export default function Homepage({
   const router = useRouter();
   const { id } = router.query;
   const filteredFlashcards = id
-    ? flashcards.filter((flashcard) => flashcard.collectionId === parseInt(id))
+    ? flashcards.filter((flashcard) => flashcard.collectionId === id)
     : flashcards;
   const currentCollection = collections.find(
     (collection) => collection.id === id

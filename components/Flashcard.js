@@ -2,6 +2,7 @@ import { useState } from "react";
 import styled from "styled-components";
 import Modal from "@/components/Modal";
 import FlashcardForm from "@/components/FlashcardForm";
+
 const StyledFlashcard = styled.div`
   width: 100%;
   height: 150px;
@@ -89,6 +90,7 @@ const OpenButton = styled.button`
 export default function Flashcard({
   flashcard,
   collection,
+  collections,
   handleToggleCorrect,
   handleDeleteFlashcard,
   handleUpdateFlashcard,
@@ -105,14 +107,14 @@ export default function Flashcard({
     setShowConfirmation(!showConfirmation);
   }
 
-  function handleSubmit(data) {
-    handleUpdateFlashcard(data);
+  function handleSubmit(id, data) {
+    handleUpdateFlashcard(id, data);
     setIsModalOpen(false);
   }
 
   return (
     <StyledFlashcard key={flashcard.id} $flipped={flipped} onClick={handleFlip}>
-      <CollectionTitle>{collection.title}</CollectionTitle>
+      {collection && <CollectionTitle>{collection.title}</CollectionTitle>}
       <FlashcardFront>
         <FlashcardContent>
           <FlashcardQuestion>{flashcard.question}</FlashcardQuestion>
@@ -141,7 +143,9 @@ export default function Flashcard({
         >
           <FlashcardForm
             onSubmit={handleSubmit}
+            collections={collections}
             initialValues={{
+              _id: flashcard._id,
               id: flashcard?.id || "",
               collectionId: flashcard?.collectionId || "",
               question: flashcard?.question || "",
@@ -161,7 +165,7 @@ export default function Flashcard({
           <button
             onClick={(event) => {
               event.stopPropagation();
-              handleToggleCorrect(flashcard.id);
+              handleToggleCorrect(flashcard._id);
             }}
           >
             {flashcard.isCorrect ? "wrong" : "correct?"}
@@ -183,7 +187,7 @@ export default function Flashcard({
             onClick={(event) => {
               event.stopPropagation();
               toggleConfirmation();
-              handleDeleteFlashcard(flashcard.id);
+              handleDeleteFlashcard(flashcard._id);
             }}
           >
             Delete
