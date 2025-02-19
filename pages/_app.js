@@ -1,11 +1,27 @@
 import GlobalStyle from "../styles";
 import Navbar from "@/components/Navbar";
+import { useState } from "react";
 import { SWRConfig } from "swr";
 import useSWR from "swr";
+import { ThemeProvider } from "styled-components";
+import styled from "styled-components";
+import ThemeSwitch from "@/components/ThemeSwitch";
+import { theme } from "@/styles";
+
+const StyledTitle = styled.h1`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 3.5rem;
+  font-weight: 700;
+  margin-bottom: 0;
+`;
 
 const fetcher = (url) => fetch(url).then((response) => response.json());
 
 export default function App({ Component, pageProps }) {
+  const [themeMode, setThemeMode] = useState("dark");
+
   const {
     data: flashcards,
     isLoading: flashcardsLoading,
@@ -87,23 +103,50 @@ export default function App({ Component, pageProps }) {
     mutate();
   }
 
+  function handleToggleThemeMode(selectedThemeMode) {
+    setThemeMode(selectedThemeMode);
+  }
+
+  async function handleDeleteCollection(_id) {
+    const response = await fetch(`/api/collections/${_id}`, {
+      method: "DELETE",
+    });
+    if (!response.ok) {
+      console.error("Failed to delete collection");
+      return;
+    }
+    mutate();
+  }
+
   return (
-    <>
+    <ThemeProvider theme={theme[themeMode]}>
       <GlobalStyle />
       <SWRConfig value={{ fetcher }}>
-        <Component
-          {...pageProps}
-          flashcards={flashcards}
-          collections={collections}
-          handleToggleCorrect={handleToggleCorrect}
-          handleDeleteFlashcard={handleDeleteFlashcard}
-          handleUpdateFlashcard={handleUpdateFlashcard}
-        />
-        <Navbar
-          handleCreateFlashcard={handleCreateFlashcard}
-          collections={collections}
-        />
+        <header>
+          <StyledTitle>Flipwise App</StyledTitle>
+          <ThemeSwitch
+            theme={themeMode}
+            onHandleToggleThemeMode={handleToggleThemeMode}
+          />
+        </header>
+        <main>
+          <Component
+            {...pageProps}
+            flashcards={flashcards}
+            collections={collections}
+            handleToggleCorrect={handleToggleCorrect}
+            handleDeleteFlashcard={handleDeleteFlashcard}
+            handleUpdateFlashcard={handleUpdateFlashcard}
+            handleDeleteCollection={handleDeleteCollection}
+          />
+        </main>
+        <footer>
+          <Navbar
+            handleCreateFlashcard={handleCreateFlashcard}
+            collections={collections}
+          />
+        </footer>
       </SWRConfig>
-    </>
+    </ThemeProvider>
   );
 }

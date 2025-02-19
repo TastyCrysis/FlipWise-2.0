@@ -10,9 +10,13 @@ const CardList = styled.ul`
   margin: 0;
 `;
 
-export default function CollectionList({ flashcards, collections }) {
+export default function CollectionList({
+  flashcards,
+  collections,
+  handleDeleteCollection,
+}) {
   return collections.length === 0 ? (
-    <p>All cards have been deleted.</p>
+    <p>All collections have been deleted.</p>
   ) : (
     <CardList>
       {collections.map((collection) => (
@@ -20,6 +24,7 @@ export default function CollectionList({ flashcards, collections }) {
           key={collection._id}
           collection={collection}
           flashcards={flashcards}
+          handleDeleteCollection={handleDeleteCollection}
         />
       ))}
     </CardList>

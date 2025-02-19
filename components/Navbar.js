@@ -9,7 +9,7 @@ import FlashcardForm from "@/components/FlashcardForm";
 const Navigation = styled.nav`
   width: min(650px, 95%);
   height: 70px;
-  background: #6fb3ff;
+  background: ${({ theme }) => theme.navbar};
   position: fixed;
   bottom: 20px;
   left: 50%;
@@ -18,6 +18,8 @@ const Navigation = styled.nav`
   justify-content: center;
   align-items: center;
   border-radius: 10px;
+  border: 2px solid ${({ theme }) => theme.background};
+  z-index: 10;
 
   @media (max-width: 768px) {
     height: 60px;
@@ -40,12 +42,19 @@ const Icon = styled.span`
   font-size: 1.5em;
   text-align: center;
   transition: 0.5s;
-  color: #222327;
+  color: ${({ theme }) => theme.navbarText};
+
+  & img {
+    filter: ${({ theme }) =>
+      theme.navbarText === "#a3a8c8"
+        ? "invert(0.6) brightness(1) sepia(0.5) hue-rotate(210deg) saturate(1) contrast(1)"
+        : "brightness(0)"};
+  }
 `;
 
 const Text = styled.span`
   position: absolute;
-  color: #222327;
+  color: ${({ theme }) => theme.navbarText};
   font-weight: 400;
   font-size: 0.75em;
   letter-spacing: 0.05em;
@@ -80,7 +89,7 @@ const ListItem = styled.li`
     $active &&
     `
     ${Icon} {
-      transform: translateY(-32px);
+      transform: translateY(-35px);
     }
     ${Text} {
       opacity: 1;
@@ -102,42 +111,42 @@ const StyledLink = styled(Link)`
 
 const Indicator = styled.div`
   position: absolute;
-  top: -50%;
+  top: -38px;
   height: 70px;
   width: 70px;
-  background: #29fd53;
+  background: ${({ theme }) => theme.indicator};
   border-radius: 50%;
-  border: 6px solid #f9f9f9;
+  border: 6px solid ${({ theme }) => theme.background};
   transition: 0.5s;
   z-index: 1;
-  display: ${({ $active }) => ($active ? "block" : "none")};
   left: ${({ $active }) => {
-    if ($active === "/") return "-8px";
+    if ($active === "/") return "-8.5px";
     if ($active === "/archive" || $active?.includes("/archive"))
       return "calc(100% - 62px)";
     return "calc(50% - 35px)";
   }};
 
   @media (max-width: 768px) {
+    top: -38px;
     left: ${({ $active }) => {
-      if ($active === "/") return "-12px";
+      if ($active === "/") return "-12.5px";
       if ($active === "/archive" || $active?.includes("/archive"))
-        return "calc(100% - 56px)";
-      return "calc(50% - 30px)";
+        return "calc(100% - 58px)";
+      return "calc(50% - 24px)";
     }};
   }
 
   @media (max-width: 768px) {
     &::before,
     &::after {
-      width: 15px;
-      height: 15px;
+      width: 10px;
+      height: 10px;
     }
     &::before {
-      left: -18px;
+      left: -12px;
     }
     &::after {
-      right: -18px;
+      right: -12px;
     }
   }
 `;
@@ -157,8 +166,8 @@ const OpenButton = styled.button`
   padding: 10px;
   width: 50px;
   height: 50px;
-  background-color: #ff6f61;
-  color: white;
+  background-color: ${({ theme }) => theme.navbarButton};
+  color: ${({ theme }) => theme.navbarButtonText};
   border-radius: 50%;
   border: none;
   cursor: pointer;
@@ -167,7 +176,8 @@ const OpenButton = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: ${({ theme }) => theme.boxShadowButton};
+  border: 1px solid ${({ theme }) => theme.buttonBorder};
 `;
 
 export default function Navbar({ handleCreateFlashcard, collections }) {
@@ -189,7 +199,12 @@ export default function Navbar({ handleCreateFlashcard, collections }) {
         <ListItem $active={pathname === "/"}>
           <StyledLink href="/">
             <Icon>
-              <Image src="/house.png" alt="home-logo" width={32} height={32} />
+              <Image
+                src="/asset/house.png"
+                alt="home-logo"
+                width={32}
+                height={32}
+              />
             </Icon>
             <Text>Home</Text>
           </StyledLink>
@@ -213,7 +228,7 @@ export default function Navbar({ handleCreateFlashcard, collections }) {
           <StyledLink href={archiveLink}>
             <Icon>
               <Image
-                src="/archive.png"
+                src="/asset/archive.png"
                 alt="archive-logo"
                 width={32}
                 height={32}
