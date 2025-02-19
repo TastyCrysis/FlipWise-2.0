@@ -108,7 +108,6 @@ export default function CollectionCard({
         </p>
         <p>⚠️ This action cannot be undone!</p>
         <>
-          <button onClick={toggleConfirmation}>Cancel</button>
           <button
             onClick={() => {
               toggleConfirmation();
@@ -118,6 +117,7 @@ export default function CollectionCard({
           >
             Delete
           </button>
+          <button onClick={toggleConfirmation}>Cancel</button>
         </>
       </StyledDialog>
     </CardItem>
