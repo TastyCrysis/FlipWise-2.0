@@ -1,7 +1,8 @@
+import { useState } from "react";
 import styled from "styled-components";
 import Link from "next/link";
 import ArrowChevronRight from "./Elements/Arrow_chevron-right";
-
+import Button from "@/components/Button";
 const CardItem = styled.li`
   width: 100%;
   height: 250px;
@@ -117,13 +118,46 @@ const StyledLink = styled(BaseLink)`
   }
 `;
 
-export default function CollectionCard({ flashcards, collection }) {
+const StyledDialog = styled.dialog`
+  background-color: ${({ theme }) => theme.modalBackground};
+  width: 380px;
+  margin: 16px 12px 0 10px;
+  padding: 0 12px 12px 12px;
+  z-index: 10;
+`;
+
+const DeleteButton = styled.button`
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+`;
+
+const ConfirmButtonContainer = styled.div`
+  display: flex;
+  gap: 12px;
+`;
+
+export default function CollectionCard({
+  flashcards,
+  collection,
+  handleDeleteCollection,
+}) {
+  const [showConfirmation, setShowConfirmation] = useState(false);
+
   const collectionFlashcards = flashcards.filter(
     (flashcard) => flashcard.collectionId === collection.id
   );
   const correctFlashcards = collectionFlashcards.filter(
     (flashcard) => flashcard.isCorrect
   );
+
+  function toggleConfirmation() {
+    setShowConfirmation(!showConfirmation);
+  }
 
   return (
     <CardItem>
@@ -145,6 +179,28 @@ export default function CollectionCard({ flashcards, collection }) {
         <StyledLink href={`/collections/${collection.id}/archive`}>
           Archive
         </StyledLink>
+        <DeleteButton onClick={toggleConfirmation} type="button">
+          delete
+        </DeleteButton>
+        <StyledDialog open={showConfirmation}>
+          <h3>Do you really want to delete this collection?</h3>
+          <p>
+            🚨 This will also permanently delete all flashcards in this
+            collection.
+          </p>
+          <p>⚠️ This action cannot be undone!</p>
+          <ConfirmButtonContainer>
+            <Button
+              onClick={() => {
+                toggleConfirmation();
+                handleDeleteCollection(collection.id);
+              }}
+              type="button"
+              buttonLabel={"delete"}
+            />
+            <Button onClick={toggleConfirmation} buttonLabel={"cancel"} />
+          </ConfirmButtonContainer>
+        </StyledDialog>
       </CollectionCardArticle>
     </CardItem>
   );
