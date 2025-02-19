@@ -21,7 +21,7 @@ export default function CollectionList({
     <CardList>
       {collections.map((collection) => (
         <CollectionCard
-          key={collection.id}
+          key={collection._id}
           collection={collection}
           flashcards={flashcards}
           handleDeleteCollection={handleDeleteCollection}

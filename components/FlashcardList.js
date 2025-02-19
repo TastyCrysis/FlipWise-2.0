@@ -30,13 +30,14 @@ export default function FlashcardList({
       ) : (
         unansweredFlashcards.map((flashcard) => {
           const collection = collections.find(
-            (collection) => collection.id === flashcard.collectionId
+            (collection) => collection._id === flashcard.collectionId
           );
           return (
             <Flashcard
-              key={flashcard.id}
+              key={flashcard._id}
               flashcard={flashcard}
               collection={collection}
+              collections={collections}
               handleToggleCorrect={handleToggleCorrect}
               handleDeleteFlashcard={handleDeleteFlashcard}
               handleUpdateFlashcard={handleUpdateFlashcard}

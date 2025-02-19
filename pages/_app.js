@@ -1,12 +1,12 @@
-import GlobalStyle, { theme } from "../styles";
-import { flashcards as initialFlashcards } from "@/lib/db/flashcards";
-import { collections as initialCollections } from "@/lib/db/collections";
-import { useState } from "react";
-import { nanoid } from "nanoid";
+import GlobalStyle from "../styles";
 import Navbar from "@/components/Navbar";
+import { useState } from "react";
+import { SWRConfig } from "swr";
+import useSWR from "swr";
 import { ThemeProvider } from "styled-components";
 import styled from "styled-components";
 import ThemeSwitch from "@/components/ThemeSwitch";
+import { theme } from "@/styles";
 
 const StyledTitle = styled.h1`
   display: flex;
@@ -17,72 +17,136 @@ const StyledTitle = styled.h1`
   margin-bottom: 0;
 `;
 
+const fetcher = (url) => fetch(url).then((response) => response.json());
+
 export default function App({ Component, pageProps }) {
-  const [flashcards, setFlashcards] = useState(initialFlashcards);
-  const [collections, setCollections] = useState(initialCollections);
   const [themeMode, setThemeMode] = useState("dark");
 
-  function handleToggleCorrect(id) {
-    setFlashcards((prevFlashcards) =>
-      prevFlashcards.map((flashcard) =>
-        flashcard.id === id
-          ? { ...flashcard, isCorrect: !flashcard.isCorrect }
-          : flashcard
-      )
-    );
+  const {
+    data: flashcards,
+    isLoading: flashcardsLoading,
+    error: flashcardError,
+    mutate,
+  } = useSWR("/api/flashcards", fetcher);
+  const {
+    data: collections,
+    isLoading: collectionsLoading,
+    error: collectionsError,
+  } = useSWR("/api/collections", fetcher);
+  if (flashcardsLoading || collectionsLoading) {
+    return <h1>Loading...</h1>;
+  }
+  if (flashcardError || collectionsError) {
+    return <h1>database is not connected.</h1>;
+  }
+  if (!flashcards || !collections) {
+    return;
   }
 
-  function handleDeleteFlashcard(id) {
-    setFlashcards(flashcards.filter((flashcard) => flashcard.id !== id));
+  async function handleToggleCorrect(id) {
+    const flashcard = flashcards.find((card) => card._id === id);
+    const response = await fetch(`/api/flashcards/${id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ isCorrect: !flashcard.isCorrect }),
+    });
+    if (!response.ok) {
+      console.error("Failed to update flashcard");
+      return;
+    }
+    mutate();
   }
 
-  function handleCreateFlashcard(data) {
-    setFlashcards([{ id: nanoid(), ...data, isCorrect: false }, ...flashcards]);
+  async function handleDeleteFlashcard(id) {
+    try {
+      const response = await fetch(`/api/flashcards/${id}`, {
+        method: "DELETE",
+      });
+      if (!response.ok) {
+        throw new Error("Failed to delete flashcard");
+      }
+      mutate();
+    } catch (error) {
+      console.error(error);
+    }
   }
 
-  function handleUpdateFlashcard(data) {
-    setFlashcards((prevFlashcards) =>
-      prevFlashcards.map((flashcard) =>
-        flashcard.id === data.id ? { ...flashcard, ...data } : flashcard
-      )
-    );
+  async function handleCreateFlashcard(data) {
+    const response = await fetch("/api/flashcards", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+    if (!response.ok) {
+      console.error("Failed to create flashcard");
+      return;
+    }
+    mutate();
+  }
+
+  async function handleUpdateFlashcard(_id, data) {
+    const response = await fetch(`/api/flashcards/${_id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+    if (!response.ok) {
+      console.error("Failed to update flashcard");
+      return;
+    }
+    mutate();
   }
 
   function handleToggleThemeMode(selectedThemeMode) {
     setThemeMode(selectedThemeMode);
   }
 
-  function handleDeleteCollection(id) {
-    setCollections(collections.filter((collection) => collection.id !== id));
-    setFlashcards(
-      flashcards.filter((flashcard) => flashcard.collectionId !== id)
-    );
+  async function handleDeleteCollection(_id) {
+    const response = await fetch(`/api/collections/${_id}`, {
+      method: "DELETE",
+    });
+    if (!response.ok) {
+      console.error("Failed to delete collection");
+      return;
+    }
+    mutate();
   }
 
   return (
     <ThemeProvider theme={theme[themeMode]}>
       <GlobalStyle />
-      <header>
-        <StyledTitle>Flipwise App</StyledTitle>
-        <ThemeSwitch
-          theme={themeMode}
-          onHandleToggleThemeMode={handleToggleThemeMode}
-        />
-      </header>
-      <main>
-        <Component
-          {...pageProps}
-          flashcards={flashcards}
-          collections={collections}
-          handleToggleCorrect={handleToggleCorrect}
-          handleDeleteFlashcard={handleDeleteFlashcard}
-          handleUpdateFlashcard={handleUpdateFlashcard}
-          handleDeleteCollection={handleDeleteCollection}
-        />
-      </main>
-      <footer>
-        <Navbar handleCreateFlashcard={handleCreateFlashcard} />
-      </footer>
+      <SWRConfig value={{ fetcher }}>
+        <header>
+          <StyledTitle>Flipwise App</StyledTitle>
+          <ThemeSwitch
+            theme={themeMode}
+            onHandleToggleThemeMode={handleToggleThemeMode}
+          />
+        </header>
+        <main>
+          <Component
+            {...pageProps}
+            flashcards={flashcards}
+            collections={collections}
+            handleToggleCorrect={handleToggleCorrect}
+            handleDeleteFlashcard={handleDeleteFlashcard}
+            handleUpdateFlashcard={handleUpdateFlashcard}
+            handleDeleteCollection={handleDeleteCollection}
+          />
+        </main>
+        <footer>
+          <Navbar
+            handleCreateFlashcard={handleCreateFlashcard}
+            collections={collections}
+          />
+        </footer>
+      </SWRConfig>
     </ThemeProvider>
   );
 }

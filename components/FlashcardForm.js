@@ -1,4 +1,3 @@
-import { collections } from "@/lib/db/collections";
 import styled from "styled-components";
 import Button from "./Button";
 
@@ -42,18 +41,28 @@ const ButtonContainer = styled.div`
   padding: 32px 0 8px 0;
 `;
 
-export default function FlashcardForm({ onSubmit, initialValues, onClose }) {
-  function handleSubmit(event) {
+export default function FlashcardForm({
+  onSubmit,
+  initialValues,
+  onClose,
+  collections,
+}) {
+  async function handleSubmit(event) {
     event.preventDefault();
     const formData = new FormData(event.target);
     const data = Object.fromEntries(formData);
 
-    const mergeData = {
+    const mergedData = {
       ...initialValues,
       ...data,
+      isCorrect: initialValues ? initialValues.isCorrect : false,
     };
 
-    onSubmit(mergeData);
+    if (initialValues?._id) {
+      await onSubmit(initialValues._id, mergedData);
+    } else {
+      await onSubmit(mergedData);
+    }
   }
 
   return (
@@ -86,8 +95,8 @@ export default function FlashcardForm({ onSubmit, initialValues, onClose }) {
         <option value="" disabled>
           --Please select a collection--
         </option>
-        {collections.map((collection) => (
-          <option key={collection.id} value={collection.id}>
+        {collections?.map((collection) => (
+          <option key={collection._id} value={collection._id}>
             {collection.title}
           </option>
         ))}

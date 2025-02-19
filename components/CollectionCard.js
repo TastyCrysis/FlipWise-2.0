@@ -149,7 +149,7 @@ export default function CollectionCard({
   const [showConfirmation, setShowConfirmation] = useState(false);
 
   const collectionFlashcards = flashcards.filter(
-    (flashcard) => flashcard.collectionId === collection.id
+    (flashcard) => flashcard.collectionId === collection._id
   );
   const correctFlashcards = collectionFlashcards.filter(
     (flashcard) => flashcard.isCorrect
@@ -162,7 +162,7 @@ export default function CollectionCard({
   return (
     <CardItem>
       <CollectionCardArticle>
-        <StyledCardLink href={`/collections/${collection.id}/flashcards`}>
+        <StyledCardLink href={`/collections/${collection._id}/flashcards`}>
           <StyledTitle>{collection.title}</StyledTitle>
 
           <StyledStatsItem>
@@ -176,7 +176,7 @@ export default function CollectionCard({
             <ArrowChevronRight />
           </StyledIconContainer>
         </StyledCardLink>
-        <StyledLink href={`/collections/${collection.id}/archive`}>
+        <StyledLink href={`/collections/${collection._id}/archive`}>
           Archive
         </StyledLink>
         <DeleteButton onClick={toggleConfirmation} type="button">
@@ -193,7 +193,7 @@ export default function CollectionCard({
             <Button
               onClick={() => {
                 toggleConfirmation();
-                handleDeleteCollection(collection.id);
+                handleDeleteCollection(collection._id);
               }}
               type="button"
               buttonLabel={"delete"}

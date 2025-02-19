@@ -180,7 +180,7 @@ const OpenButton = styled.button`
   border: 1px solid ${({ theme }) => theme.buttonBorder};
 `;
 
-export default function Navbar({ handleCreateFlashcard }) {
+export default function Navbar({ handleCreateFlashcard, collections }) {
   const router = useRouter();
   const { id } = router.query;
   const pathname = router.pathname;
@@ -219,6 +219,7 @@ export default function Navbar({ handleCreateFlashcard }) {
           >
             <FlashcardForm
               onSubmit={handleSubmit}
+              collections={collections}
               onClose={() => setIsModalOpen(false)}
             />
           </Modal>
