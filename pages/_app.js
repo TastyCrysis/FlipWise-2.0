@@ -8,14 +8,16 @@ import useSWR from "swr";
 const fetcher = (url) => fetch(url).then((response) => response.json());
 
 export default function App({ Component, pageProps }) {
-  const { data: flashcardsData, isLoading: flashcardsLoading } = useSWR(
-    "/api/flashcards",
-    fetcher
-  );
-  const { data: collectionsData, isLoading: collectionsLoading } = useSWR(
-    "/api/collections",
-    fetcher
-  );
+  const {
+    data: flashcardsData,
+    isLoading: flashcardsLoading,
+    error: flashcardError,
+  } = useSWR("/api/flashcards", fetcher);
+  const {
+    data: collectionsData,
+    isLoading: collectionsLoading,
+    error: collectionsError,
+  } = useSWR("/api/collections", fetcher);
   const [flashcards, setFlashcards] = useState([]);
   const [collections, setCollections] = useState([]);
   const { mutate } = useSWR("/api/flashcards", fetcher);
@@ -40,6 +42,7 @@ export default function App({ Component, pageProps }) {
     return;
   }
 
+
   async function handleToggleCorrect(id) {
     const flashcard = flashcards.find((card) => card._id === id);
     const response = await fetch(`/api/flashcards/${id}`, {
@@ -54,7 +57,12 @@ export default function App({ Component, pageProps }) {
       return;
     }
     mutate();
+
+  if (flashcardError || collectionsError) {
+    return <h1>database is not connected.</h1>;
   }
+
+
 
   async function handleDeleteFlashcard(id) {
     try {
