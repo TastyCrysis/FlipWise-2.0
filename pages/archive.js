@@ -1,10 +1,26 @@
 import ArchiveList from "@/components/ArchiveList";
 import styled from "styled-components";
 
-const Container = styled.header`
+const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+`;
+
+const StyledPageTitle = styled.h2`
+  font-size: 2.1rem;
+  font-weight: 400;
+  margin-bottom: 54px;
+  margin-top: 6px;
+`;
+
+const StyledCollectionTitle = styled.h3`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 1.6rem;
+  font-weight: 400;
+  margin-bottom: 6px;
 `;
 
 export default function Archive({
@@ -14,19 +30,14 @@ export default function Archive({
   handleDeleteFlashcard,
   handleUpdateFlashcard,
 }) {
-  const correctFlashcards = flashcards.filter(
-    (flashcard) => flashcard.isCorrect
-  );
-
   return (
     <>
       <Container>
-        <h1>Flipwise App</h1>
-        <h2>Archive</h2>
-        <h3>All Cards</h3>
+        <StyledPageTitle>Archive</StyledPageTitle>
       </Container>
+      <StyledCollectionTitle>All Cards</StyledCollectionTitle>
       <ArchiveList
-        flashcards={correctFlashcards}
+        flashcards={flashcards}
         collections={collections}
         handleToggleCorrect={handleToggleCorrect}
         handleDeleteFlashcard={handleDeleteFlashcard}

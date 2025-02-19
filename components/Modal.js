@@ -15,38 +15,41 @@ const Overlay = styled.div`
 `;
 
 const ModalContainer = styled.div`
-  background-color: white;
+  background-color: ${({ theme }) => theme.modalBackground};
+  color: ${({ theme }) => theme.modalText};
+  border: 1px solid ${({ theme }) => theme.modalBorder};
   border-radius: 8px;
-  padding: 24px;
+  padding: 6px 6px 12px 6px;
   max-width: 400px;
   width: 90%;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 `;
 
-const Header = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+const Header = styled.header`
   margin-bottom: 16px;
 `;
 
 const Title = styled.h2`
   font-size: 20px;
   font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: ${({ theme }) => theme.modalText};
 `;
 
 const CloseIcon = styled.button`
   background: none;
   border: none;
   font-size: 24px;
-  color: #555;
+  color: ${({ theme }) => theme.modalText};
   cursor: pointer;
 `;
 
 const ButtonContainer = styled.div`
   display: flex;
   justify-content: flex-end;
-  padding: 0 0 32px 0;
+  padding: 0 0 6px 0;
+  margin: 0;
 `;
 
 export default function Modal({
@@ -68,10 +71,10 @@ export default function Modal({
         <ModalContainer>
           {title && (
             <Header>
-              <Title>{title}</Title>
               <ButtonContainer>
                 <CloseIcon onClick={onClose}>×</CloseIcon>
               </ButtonContainer>
+              <Title>{title}</Title>
             </Header>
           )}
           {children}
@@ -86,10 +89,10 @@ export default function Modal({
       <ModalContainer>
         {title && (
           <Header>
-            <Title>{title}</Title>
             <ButtonContainer>
               <CloseIcon onClick={onClose}>×</CloseIcon>
             </ButtonContainer>
+            <Title>{title}</Title>
           </Header>
         )}
         {children}

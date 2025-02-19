@@ -1,13 +1,26 @@
-import GlobalStyle from "../styles";
+import GlobalStyle, { theme } from "../styles";
 import { flashcards as initialFlashcards } from "@/lib/db/flashcards";
 import { collections as initialCollections } from "@/lib/db/collections";
 import { useState } from "react";
 import { nanoid } from "nanoid";
 import Navbar from "@/components/Navbar";
+import { ThemeProvider } from "styled-components";
+import styled from "styled-components";
+import ThemeSwitch from "@/components/ThemeSwitch";
+
+const StyledTitle = styled.h1`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 3.5rem;
+  font-weight: 700;
+  margin-bottom: 0;
+`;
 
 export default function App({ Component, pageProps }) {
   const [flashcards, setFlashcards] = useState(initialFlashcards);
   const [collections, setCollections] = useState(initialCollections);
+  const [themeMode, setThemeMode] = useState("dark");
 
   function handleToggleCorrect(id) {
     setFlashcards((prevFlashcards) =>
@@ -35,26 +48,33 @@ export default function App({ Component, pageProps }) {
     );
   }
 
-  function handleDeleteCollection(id) {
-    setCollections(collections.filter((collection) => collection.id !== id));
-    setFlashcards(
-      flashcards.filter((flashcard) => flashcard.collectionId !== id)
-    );
+  function handleToggleThemeMode(selectedThemeMode) {
+    setThemeMode(selectedThemeMode);
   }
 
   return (
-    <>
+    <ThemeProvider theme={theme[themeMode]}>
       <GlobalStyle />
-      <Component
-        {...pageProps}
-        flashcards={flashcards}
-        collections={collections}
-        handleToggleCorrect={handleToggleCorrect}
-        handleDeleteFlashcard={handleDeleteFlashcard}
-        handleUpdateFlashcard={handleUpdateFlashcard}
-        handleDeleteCollection={handleDeleteCollection}
-      />
-      <Navbar handleCreateFlashcard={handleCreateFlashcard} />
-    </>
+      <header>
+        <StyledTitle>Flipwise App</StyledTitle>
+        <ThemeSwitch
+          theme={themeMode}
+          onHandleToggleThemeMode={handleToggleThemeMode}
+        />
+      </header>
+      <main>
+        <Component
+          {...pageProps}
+          flashcards={flashcards}
+          collections={collections}
+          handleToggleCorrect={handleToggleCorrect}
+          handleDeleteFlashcard={handleDeleteFlashcard}
+          handleUpdateFlashcard={handleUpdateFlashcard}
+        />
+      </main>
+      <footer>
+        <Navbar handleCreateFlashcard={handleCreateFlashcard} />
+      </footer>
+    </ThemeProvider>
   );
 }

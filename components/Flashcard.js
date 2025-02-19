@@ -2,6 +2,10 @@ import { useState } from "react";
 import styled from "styled-components";
 import Modal from "@/components/Modal";
 import FlashcardForm from "@/components/FlashcardForm";
+import FlashcardOptionButton from "@/components/FlashcardOptionsButton";
+import Button from "@/components/Button";
+import ArrowRedoDot from "@/components/Elements/Arrow_redo-dot";
+
 const StyledFlashcard = styled.div`
   width: 100%;
   height: 150px;
@@ -15,7 +19,8 @@ const StyledFlashcard = styled.div`
 `;
 
 const FlashcardFront = styled.div`
-  background: #ff6f61;
+  background: ${({ theme }) => theme.cardPrimary};
+  color: ${({ theme }) => theme.cardPrimaryText};
   position: absolute;
   width: 100%;
   height: 100%;
@@ -27,10 +32,12 @@ const FlashcardFront = styled.div`
   justify-content: center;
   align-items: center;
   border-radius: 8px;
+  box-shadow: ${({ theme }) => theme.boxShadowPrimary};
 `;
 
 const FlashcardBack = styled.div`
-  background: #6fb3ff;
+  background: ${({ theme }) => theme.cardSecondary};
+  color: ${({ theme }) => theme.cardSecondaryText};
   position: absolute;
   width: 100%;
   height: 100%;
@@ -39,31 +46,50 @@ const FlashcardBack = styled.div`
   top: 0;
   left: 0;
   display: flex;
-  justify-content: center;
+  justify-content: start;
   align-items: center;
   border-radius: 8px;
+  box-shadow: ${({ theme }) => theme.boxShadowSecondary};
 `;
 
 const FlashcardContent = styled.div`
   display: flex;
   flex-direction: column;
+  align-items: center;
+`;
+
+const FlashcardBackContent = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  margin: 0 0 24px 24px;
 `;
 
 const FlashcardQuestion = styled.p`
+  font-size: 1.5rem;
   font-weight: bold;
-  margin: 0;
+  margin: 0 0 24px 0;
   text-align: center;
 `;
 
 const FlashcardAnswer = styled.p`
-  color: #000;
   margin: 5px 0;
+  font-size: 1.8rem;
+  text-decoration: underline;
+  font-weight: bolder;
+`;
+
+const FlashcardAnswerText = styled.p`
+  margin: 5px 0;
+  font-size: 1.5rem;
+  font-weight: bold;
+  font-style: italic;
 `;
 
 const CollectionTitle = styled.p`
   text-align: right;
   font-style: italic;
-  color: #000;
+  color: ${({ theme }) => theme.cardPrimaryText};
   margin: 0 0 7px 0;
   position: absolute;
   right: 24px;
@@ -73,17 +99,37 @@ const CollectionTitle = styled.p`
   transform: rotateY(0deg);
 `;
 
-const StyledDialog = styled.dialog`
-  padding: 16px;
-  border: solid 1px;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  will-change: transform;
+const FlashcardMenu = styled.div`
+  text-align: right;
+  font-style: italic;
+  color: ${({ theme }) => theme.cardPrimaryText};
+  margin: 0 0 70px 0;
+  position: absolute;
+  right: 4px;
+  bottom: -72px;
   backface-visibility: hidden;
+  will-change: transform;
+  z-index: 10;
+  transform: rotateY(0deg);
 `;
 
-const OpenButton = styled.button`
-  cursor: pointer;
+const StyledDialog = styled.dialog`
+  background-color: ${({ theme }) => theme.modalBackground};
+  width: 380px;
+  margin: 16px 12px 0 10px;
+  padding: 0 12px 12px 12px;
+  z-index: 10;
+`;
+
+const ButtonContainer = styled.div`
+  position: absolute;
+  bottom: 12px;
+  right: 18px;
+`;
+
+const ConfirmButtonContainer = styled.div`
+  display: flex;
+  gap: 12px;
 `;
 
 export default function Flashcard({
@@ -96,6 +142,7 @@ export default function Flashcard({
   const [flipped, setFlipped] = useState(false);
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   function handleFlip() {
     setFlipped(!flipped);
@@ -110,29 +157,25 @@ export default function Flashcard({
     setIsModalOpen(false);
   }
 
+  function toggleOptionMenu() {
+    setIsMenuOpen(!isMenuOpen);
+  }
+
   return (
-    <StyledFlashcard key={flashcard.id} $flipped={flipped} onClick={handleFlip}>
+    <StyledFlashcard
+      key={flashcard.id}
+      $flipped={flipped}
+      onClick={() => {
+        handleFlip();
+        setIsMenuOpen(false);
+        setShowConfirmation(false);
+      }}
+    >
       <CollectionTitle>{collection.title}</CollectionTitle>
       <FlashcardFront>
         <FlashcardContent>
           <FlashcardQuestion>{flashcard.question}</FlashcardQuestion>
         </FlashcardContent>
-        <button
-          onClick={(event) => {
-            event.stopPropagation();
-            toggleConfirmation();
-          }}
-        >
-          delete
-        </button>
-        <OpenButton
-          onClick={(event) => {
-            event.stopPropagation();
-            setIsModalOpen(true);
-          }}
-        >
-          edit
-        </OpenButton>
         <Modal
           isOpen={isModalOpen}
           onClose={() => setIsModalOpen(false)}
@@ -151,44 +194,58 @@ export default function Flashcard({
             onClose={() => setIsModalOpen(false)}
           />
         </Modal>
+
+        <FlashcardOptionButton
+          type="button"
+          onClick={(event) => {
+            event.stopPropagation();
+            toggleOptionMenu();
+          }}
+          isMenuOpen={isMenuOpen}
+          toggleConfirmation={toggleConfirmation}
+          toggleOptionMenu={toggleOptionMenu}
+          setIsModalOpen={setIsModalOpen}
+        />
       </FlashcardFront>
+      <FlashcardMenu>
+        <ArrowRedoDot />
+      </FlashcardMenu>
       <FlashcardBack>
-        <FlashcardContent>
+        <FlashcardBackContent>
           <FlashcardAnswer>
             <b>Answer:</b>
           </FlashcardAnswer>
-          <FlashcardAnswer>{flashcard.answer}</FlashcardAnswer>
-          <button
+          <FlashcardAnswerText>{flashcard.answer}</FlashcardAnswerText>
+        </FlashcardBackContent>
+        <ButtonContainer>
+          <Button
             onClick={(event) => {
               event.stopPropagation();
               handleToggleCorrect(flashcard.id);
             }}
-          >
-            {flashcard.isCorrect ? "wrong" : "correct?"}
-          </button>
-        </FlashcardContent>
+            buttonLabel={flashcard.isCorrect ? "wrong" : "correct"}
+          />
+        </ButtonContainer>
       </FlashcardBack>
       <StyledDialog open={showConfirmation}>
         <h3>Do you really want to delete flashcard?</h3>
-        <>
-          <button
-            onClick={(event) => {
-              event.stopPropagation();
-              toggleConfirmation();
-            }}
-          >
-            Cancel
-          </button>
-          <button
+        <ConfirmButtonContainer>
+          <Button
             onClick={(event) => {
               event.stopPropagation();
               toggleConfirmation();
               handleDeleteFlashcard(flashcard.id);
             }}
-          >
-            Delete
-          </button>
-        </>
+            buttonLabel={"delete"}
+          />
+          <Button
+            onClick={(event) => {
+              event.stopPropagation();
+              toggleConfirmation();
+            }}
+            buttonLabel={"cancel"}
+          />
+        </ConfirmButtonContainer>
       </StyledDialog>
     </StyledFlashcard>
   );
