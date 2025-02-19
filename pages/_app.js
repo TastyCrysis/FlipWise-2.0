@@ -7,6 +7,7 @@ import { ThemeProvider } from "styled-components";
 import styled from "styled-components";
 import ThemeSwitch from "@/components/ThemeSwitch";
 import { theme } from "@/styles";
+import { SessionProvider } from "next-auth/react";
 
 const StyledTitle = styled.h1`
   display: flex;
@@ -119,34 +120,36 @@ export default function App({ Component, pageProps }) {
   }
 
   return (
-    <ThemeProvider theme={theme[themeMode]}>
-      <GlobalStyle />
-      <SWRConfig value={{ fetcher }}>
-        <header>
-          <StyledTitle>Flipwise App</StyledTitle>
-          <ThemeSwitch
-            theme={themeMode}
-            onHandleToggleThemeMode={handleToggleThemeMode}
-          />
-        </header>
-        <main>
-          <Component
-            {...pageProps}
-            flashcards={flashcards}
-            collections={collections}
-            handleToggleCorrect={handleToggleCorrect}
-            handleDeleteFlashcard={handleDeleteFlashcard}
-            handleUpdateFlashcard={handleUpdateFlashcard}
-            handleDeleteCollection={handleDeleteCollection}
-          />
-        </main>
-        <footer>
-          <Navbar
-            handleCreateFlashcard={handleCreateFlashcard}
-            collections={collections}
-          />
-        </footer>
-      </SWRConfig>
-    </ThemeProvider>
+    <SessionProvider session={session}>
+      <ThemeProvider theme={theme[themeMode]}>
+        <GlobalStyle />
+        <SWRConfig value={{ fetcher }}>
+          <header>
+            <StyledTitle>Flipwise App</StyledTitle>
+            <ThemeSwitch
+              theme={themeMode}
+              onHandleToggleThemeMode={handleToggleThemeMode}
+            />
+          </header>
+          <main>
+            <Component
+              {...pageProps}
+              flashcards={flashcards}
+              collections={collections}
+              handleToggleCorrect={handleToggleCorrect}
+              handleDeleteFlashcard={handleDeleteFlashcard}
+              handleUpdateFlashcard={handleUpdateFlashcard}
+              handleDeleteCollection={handleDeleteCollection}
+            />
+          </main>
+          <footer>
+            <Navbar
+              handleCreateFlashcard={handleCreateFlashcard}
+              collections={collections}
+            />
+          </footer>
+        </SWRConfig>
+      </ThemeProvider>
+    </SessionProvider>
   );
 }
