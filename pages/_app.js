@@ -26,14 +26,16 @@ export default function App({ Component, pageProps }) {
   useEffect(() => {
     if (flashcardsData) {
       setFlashcards(flashcardsData);
+    } else if (flashcardsLoading === false) {
+      setError("Error when loading flashcards.");
     }
-  }, [flashcardsData]);
+  }, [flashcardsData, flashcardsLoading]);
 
   useEffect(() => {
     if (collectionsData) {
       setCollections(collectionsData);
     } else if (collectionsLoading === false) {
-      setError("Fehler beim Laden der Sammlungen.");
+      setError("Error when loading collections.");
     }
   }, [collectionsData, collectionsLoading]);
 
@@ -45,10 +47,13 @@ export default function App({ Component, pageProps }) {
     return <h1>{error}</h1>;
   }
 
+  if (flashcardError || collectionsError) {
+    return <h1>database is not connected.</h1>;
+  }
+
   if (!flashcardsData || !collectionsData) {
     return;
   }
-
 
   async function handleToggleCorrect(id) {
     const flashcard = flashcards.find((card) => card._id === id);
@@ -64,12 +69,7 @@ export default function App({ Component, pageProps }) {
       return;
     }
     mutate();
-
-  if (flashcardError || collectionsError) {
-    return <h1>database is not connected.</h1>;
   }
-
-
 
   async function handleDeleteFlashcard(id) {
     try {
