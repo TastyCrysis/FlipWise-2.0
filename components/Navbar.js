@@ -129,7 +129,7 @@ const Indicator = styled.div`
   @media (max-width: 768px) {
     top: -38px;
     left: ${({ $active }) => {
-      if ($active === "/") return "-13px";
+      if ($active === "/") return "-12.5px";
       if ($active === "/archive" || $active?.includes("/archive"))
         return "calc(100% - 58px)";
       return "calc(50% - 24px)";
