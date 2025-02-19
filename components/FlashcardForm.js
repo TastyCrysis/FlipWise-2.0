@@ -48,8 +48,8 @@ const ButtonContainer = styled.div`
 
 const AddCollectionContainer = styled.div`
   display: flex;
-  justify-content: space-between;
-  width: 50%;
+  justify-content: center;
+  width: 70%;
 `;
 
 export default function FlashcardForm({
@@ -152,7 +152,11 @@ export default function FlashcardForm({
           <Button
             type="button"
             onClick={handleToggleCollection}
-            buttonLabel={showCollectionInput ? "Cancel" : "Add collection"}
+            buttonLabel={
+              showCollectionInput
+                ? "Choose existing collection"
+                : "Add collection"
+            }
           />
         </AddCollectionContainer>
 
