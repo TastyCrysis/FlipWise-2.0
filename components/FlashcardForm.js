@@ -9,9 +9,6 @@ const StyledForm = styled.form`
   flex-direction: column;
   align-items: center;
   gap: 8px;
-`;
-
-const Container = styled.div`
   margin: 4px 24px 4px 24px;
   padding: 0 0 16px 0;
 `;
@@ -54,7 +51,6 @@ const AddCollectionContainer = styled.div`
 
 export default function FlashcardForm({
   onSubmit,
-  title,
   initialValues,
   onClose,
   handleCreateCollection,
@@ -62,7 +58,7 @@ export default function FlashcardForm({
 }) {
   const [showCollectionInput, setShowCollectionInput] = useState(false);
 
-  function handleSubmit(event) {
+  async function handleSubmit(event) {
     event.preventDefault();
     const formData = new FormData(event.target);
     const data = Object.fromEntries(formData);
@@ -70,18 +66,23 @@ export default function FlashcardForm({
     let collectionId = data.collectionId;
 
     if (showCollectionInput && data.title.trim() !== "") {
-      const newCollection = { id: nanoid(), title: data.title };
+      const newCollection = await response.json();
       handleCreateCollection(newCollection);
-      collectionId = newCollection.id;
+      collectionId = newCollection._id;
     }
 
-    const mergeData = {
+    const mergedData = {
       ...initialValues,
       ...data,
       collectionId,
+      isCorrect: initialValues ? initialValues.isCorrect : false,
     };
 
-    onSubmit(mergeData);
+    if (initialValues?._id) {
+      await onSubmit(initialValues._id, mergedData);
+    } else {
+      await onSubmit(mergedData);
+    }
   }
 
   function handleToggleCollection() {
@@ -89,85 +90,79 @@ export default function FlashcardForm({
   }
 
   return (
-    <Container>
-      <h3>{title}</h3>
-      <StyledForm onSubmit={handleSubmit}>
-        <Label htmlFor="question">Question:</Label>
-        <Input
-          id="question"
-          type="text"
-          name="question"
-          placeholder={initialValues ? "" : "Question*"}
-          defaultValue={initialValues?.question || ""}
-          required
-        />
-        <Label htmlFor="answer">Answer:</Label>
-        <Input
-          id="answer"
-          type="text"
-          name="answer"
-          placeholder={initialValues ? "" : "Answer*"}
-          defaultValue={initialValues?.answer || ""}
-          required
-        />
+    <StyledForm onSubmit={handleSubmit}>
+      <Label htmlFor="question">Question:</Label>
+      <Input
+        id="question"
+        type="text"
+        name="question"
+        placeholder={initialValues ? "" : "Question*"}
+        defaultValue={initialValues?.question || ""}
+        required
+      />
+      <Label htmlFor="answer">Answer:</Label>
+      <Input
+        id="answer"
+        type="text"
+        name="answer"
+        placeholder={initialValues ? "" : "Answer*"}
+        defaultValue={initialValues?.answer || ""}
+        required
+      />
+      {!showCollectionInput && (
+        <>
+          <Label htmlFor="collections-select">Collection:</Label>
+          <Select
+            name="collectionId"
+            id="collections-select"
+            defaultValue={initialValues?.collectionId || ""}
+            required={!showCollectionInput}
+            disabled={showCollectionInput}
+          >
+            <option value="" disabled>
+              --Please select a collection--
+            </option>
+            {collections &&
+              collections.length > 0 &&
+              collections.map((collection) => (
+                <option key={collection.id} value={collection.id}>
+                  {collection.title}
+                </option>
+              ))}
+          </Select>
+        </>
+      )}
 
-        {/* Wenn showCollectionInput false ist, Dropdown anzeigen */}
-        {!showCollectionInput && (
-          <>
-            <Label htmlFor="collections-select">Collection:</Label>
-            <Select
-              name="collectionId"
-              id="collections-select"
-              defaultValue={initialValues?.collectionId || ""}
-              required={!showCollectionInput}
-              disabled={showCollectionInput}
-            >
-              <option value="" disabled>
-                --Please select a collection--
-              </option>
-              {collections &&
-                collections.length > 0 &&
-                collections.map((collection) => (
-                  <option key={collection.id} value={collection.id}>
-                    {collection.title}
-                  </option>
-                ))}
-            </Select>
-          </>
-        )}
-
-        {showCollectionInput && (
-          <>
-            <Label htmlFor="new-collection">New Collection:</Label>
-            <Input
-              id="title"
-              type="text"
-              name="title"
-              placeholder="Collection*"
-            />
-          </>
-        )}
-
-        <AddCollectionContainer>
-          <Button
-            type="button"
-            onClick={handleToggleCollection}
-            buttonLabel={
-              showCollectionInput
-                ? "Choose existing collection"
-                : "Add collection"
-            }
+      {showCollectionInput && (
+        <>
+          <Label htmlFor="new-collection">New Collection:</Label>
+          <Input
+            id="title"
+            type="text"
+            name="title"
+            placeholder="Collection*"
           />
-        </AddCollectionContainer>
+        </>
+      )}
 
-        <ButtonContainer>
-          <Button
-            type="submit"
-            buttonLabel={initialValues ? "update" : "create"}
-          />
-          <Button type="button" onClick={onClose} buttonLabel={"cancel"} />
-        </ButtonContainer>
-      </StyledForm>
-    </Container>
+      <AddCollectionContainer>
+        <Button
+          type="button"
+          onClick={handleToggleCollection}
+          buttonLabel={
+            showCollectionInput
+              ? "Choose existing collection"
+              : "Add collection"
+          }
+        />
+      </AddCollectionContainer>
+      <ButtonContainer>
+        <Button
+          type="submit"
+          buttonLabel={initialValues ? "update" : "create"}
+        />
+        <Button type="button" onClick={onClose} buttonLabel={"cancel"} />
+      </ButtonContainer>
+    </StyledForm>
   );
 }

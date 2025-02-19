@@ -14,8 +14,10 @@ const Select = styled.select`
 
 export default function ThemeSwitch({ themeMode, onHandleToggleThemeMode }) {
   return (
-    <div>
+    <>
+      <label htmlFor="theme-select"></label>
       <Select
+        id="theme-select"
         value={themeMode}
         onChange={(event) => onHandleToggleThemeMode(event.target.value)}
       >
@@ -23,6 +25,6 @@ export default function ThemeSwitch({ themeMode, onHandleToggleThemeMode }) {
         <option value="flower">&#x2698; Flower</option>
         <option value="light">&#x2600; Light</option>
       </Select>
-    </div>
+    </>
   );
 }

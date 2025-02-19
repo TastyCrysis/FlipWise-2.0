@@ -19,6 +19,7 @@ export default function Homepage({
   flashcards,
   collections,
   handleCreateCollection,
+  handleDeleteCollection,
 }) {
   return (
     <>
@@ -29,6 +30,7 @@ export default function Homepage({
         flashcards={flashcards}
         collections={collections}
         handleCreateCollection={handleCreateCollection}
+        handleDeleteCollection={handleDeleteCollection}
       />
     </>
   );

@@ -45,7 +45,10 @@ const Icon = styled.span`
   color: ${({ theme }) => theme.navbarText};
 
   & img {
-    filter: brightness(0) saturate(70%) invert(45%);
+    filter: ${({ theme }) =>
+      theme.navbarText === "#a3a8c8"
+        ? "invert(0.6) brightness(1) sepia(0.5) hue-rotate(210deg) saturate(1) contrast(1)"
+        : "brightness(0)"};
   }
 `;
 
@@ -86,7 +89,7 @@ const ListItem = styled.li`
     $active &&
     `
     ${Icon} {
-      transform: translateY(-32px);
+      transform: translateY(-35px);
     }
     ${Text} {
       opacity: 1;
@@ -108,7 +111,7 @@ const StyledLink = styled(Link)`
 
 const Indicator = styled.div`
   position: absolute;
-  top: -50%;
+  top: -38px;
   height: 70px;
   width: 70px;
   background: ${({ theme }) => theme.indicator};
@@ -117,32 +120,33 @@ const Indicator = styled.div`
   transition: 0.5s;
   z-index: 1;
   left: ${({ $active }) => {
-    if ($active === "/") return "-8px";
+    if ($active === "/") return "-8.5px";
     if ($active === "/archive" || $active?.includes("/archive"))
       return "calc(100% - 62px)";
     return "calc(50% - 35px)";
   }};
 
   @media (max-width: 768px) {
+    top: -38px;
     left: ${({ $active }) => {
-      if ($active === "/") return "-12px";
+      if ($active === "/") return "-12.5px";
       if ($active === "/archive" || $active?.includes("/archive"))
-        return "calc(100% - 56px)";
-      return "calc(50% - 30px)";
+        return "calc(100% - 58px)";
+      return "calc(50% - 24px)";
     }};
   }
 
   @media (max-width: 768px) {
     &::before,
     &::after {
-      width: 15px;
-      height: 15px;
+      width: 10px;
+      height: 10px;
     }
     &::before {
-      left: -18px;
+      left: -12px;
     }
     &::after {
-      right: -18px;
+      right: -12px;
     }
   }
 `;
@@ -219,9 +223,9 @@ export default function Navbar({
           >
             <FlashcardForm
               onSubmit={handleSubmit}
+              collections={collections}
               onClose={() => setIsModalOpen(false)}
               handleCreateCollection={handleCreateCollection}
-              collections={collections}
             />
           </Modal>
         </ModalWrapper>

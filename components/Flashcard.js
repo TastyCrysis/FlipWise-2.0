@@ -3,7 +3,7 @@ import styled from "styled-components";
 import Modal from "@/components/Modal";
 import FlashcardForm from "@/components/FlashcardForm";
 import FlashcardOptionButton from "@/components/FlashcardOptionsButton";
-import Button from "./Button";
+import Button from "@/components/Button";
 import ArrowRedoDot from "@/components/Elements/Arrow_redo-dot";
 
 const StyledFlashcard = styled.div`
@@ -135,6 +135,7 @@ const ConfirmButtonContainer = styled.div`
 export default function Flashcard({
   flashcard,
   collection,
+  collections,
   handleToggleCorrect,
   handleDeleteFlashcard,
   handleUpdateFlashcard,
@@ -152,8 +153,8 @@ export default function Flashcard({
     setShowConfirmation(!showConfirmation);
   }
 
-  function handleSubmit(data) {
-    handleUpdateFlashcard(data);
+  function handleSubmit(id, data) {
+    handleUpdateFlashcard(id, data);
     setIsModalOpen(false);
   }
 
@@ -171,7 +172,7 @@ export default function Flashcard({
         setShowConfirmation(false);
       }}
     >
-      <CollectionTitle>{collection.title}</CollectionTitle>
+      {collection && <CollectionTitle>{collection.title}</CollectionTitle>}
       <FlashcardFront>
         <FlashcardContent>
           <FlashcardQuestion>{flashcard.question}</FlashcardQuestion>
@@ -184,8 +185,9 @@ export default function Flashcard({
         >
           <FlashcardForm
             onSubmit={handleSubmit}
+            collections={collections}
             initialValues={{
-              id: flashcard?.id || "",
+              _id: flashcard._id,
               collectionId: flashcard?.collectionId || "",
               question: flashcard?.question || "",
               answer: flashcard?.answer || "",
@@ -221,7 +223,7 @@ export default function Flashcard({
           <Button
             onClick={(event) => {
               event.stopPropagation();
-              handleToggleCorrect(flashcard.id);
+              handleToggleCorrect(flashcard._id);
             }}
             buttonLabel={flashcard.isCorrect ? "wrong" : "correct"}
           />
@@ -234,7 +236,7 @@ export default function Flashcard({
             onClick={(event) => {
               event.stopPropagation();
               toggleConfirmation();
-              handleDeleteFlashcard(flashcard.id);
+              handleDeleteFlashcard(flashcard._id);
             }}
             buttonLabel={"delete"}
           />

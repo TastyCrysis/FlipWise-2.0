@@ -24,7 +24,7 @@ const ModalContainer = styled.div`
   width: 90%;
 `;
 
-const Header = styled.div`
+const Header = styled.header`
   margin-bottom: 16px;
 `;
 
