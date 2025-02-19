@@ -14,7 +14,7 @@ const StyledTitle = styled.h1`
   align-items: center;
   font-size: 3.5rem;
   font-weight: 700;
-  margin-bottom: 0px;
+  margin-bottom: 0;
 `;
 
 export default function App({ Component, pageProps }) {
@@ -61,16 +61,19 @@ export default function App({ Component, pageProps }) {
           onHandleToggleThemeMode={handleToggleThemeMode}
         />
       </header>
-
-      <Component
-        {...pageProps}
-        flashcards={flashcards}
-        collections={collections}
-        handleToggleCorrect={handleToggleCorrect}
-        handleDeleteFlashcard={handleDeleteFlashcard}
-        handleUpdateFlashcard={handleUpdateFlashcard}
-      />
-      <Navbar handleCreateFlashcard={handleCreateFlashcard} />
+      <main>
+        <Component
+          {...pageProps}
+          flashcards={flashcards}
+          collections={collections}
+          handleToggleCorrect={handleToggleCorrect}
+          handleDeleteFlashcard={handleDeleteFlashcard}
+          handleUpdateFlashcard={handleUpdateFlashcard}
+        />
+      </main>
+      <footer>
+        <Navbar handleCreateFlashcard={handleCreateFlashcard} />
+      </footer>
     </ThemeProvider>
   );
 }

@@ -3,7 +3,7 @@ import styled from "styled-components";
 import Modal from "@/components/Modal";
 import FlashcardForm from "@/components/FlashcardForm";
 import FlashcardOptionButton from "@/components/FlashcardOptionsButton";
-import Button from "./Button";
+import Button from "@/components/Button";
 import ArrowRedoDot from "@/components/Elements/Arrow_redo-dot";
 
 const StyledFlashcard = styled.div`

@@ -6,6 +6,8 @@ export const theme = {
     //#033540 #015366 #63898C #A7D1D2 #E0F4F5
     background: "#101116",
     text: "#8689AC",
+    primary: "#63898C",
+    secondary: "#A7D1D2",
     cardPrimary: "#2f3148",
     cardPrimaryText: "#587099",
     cardSecondary: "#3f5576",
@@ -34,6 +36,8 @@ export const theme = {
     //#033540 #015366 #63898C #A7D1D2 #E0F4F5
     background: "#E0F4F5",
     text: "#033540",
+    primary: "#63898C",
+    secondary: "#A7D1D2",
     cardPrimary: "#A7D1D2",
     cardPrimaryText: "#015366",
     cardSecondary: "#63898C",
@@ -62,6 +66,8 @@ export const theme = {
     //#223C20 #4C8D26 #D5FB00 #DE60CA #882380
     background: "#e0e0e0",
     text: "#223C20",
+    primary: "#4C8D26",
+    secondary: "#DE60CA",
     cardPrimary: "#4C8D26",
     cardPrimaryText: "#D5FB00",
     cardSecondary: "#882380",

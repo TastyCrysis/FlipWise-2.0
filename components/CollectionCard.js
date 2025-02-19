@@ -8,8 +8,6 @@ const CardItem = styled.li`
   max-width: 550px;
   margin: 15px auto;
   cursor: pointer;
-  display: flex;
-  flex-direction: column;
   border-radius: 12px;
   overflow: hidden;
   box-shadow: ${({ theme }) => theme.boxShadowCollectionCard};
@@ -47,12 +45,6 @@ const StyledTitle = styled.h3`
   @media (max-width: 768px) {
     font-size: 1.8rem;
   }
-`;
-
-const StyledStats = styled.div`
-  position: absolute;
-  bottom: 54px;
-  left: 0px;
 `;
 
 const StyledStatsItem = styled.p`
@@ -138,14 +130,14 @@ export default function CollectionCard({ flashcards, collection }) {
       <CollectionCardArticle>
         <StyledCardLink href={`/collections/${collection.id}/flashcards`}>
           <StyledTitle>{collection.title}</StyledTitle>
-          <StyledStats>
-            <StyledStatsItem>
-              Correct Cards:{" "}
-              <StyledStatsItemSpan>
-                {correctFlashcards.length} / {collectionFlashcards.length}
-              </StyledStatsItemSpan>
-            </StyledStatsItem>
-          </StyledStats>
+
+          <StyledStatsItem>
+            Correct Cards:
+            <StyledStatsItemSpan>
+              {correctFlashcards.length} / {collectionFlashcards.length}
+            </StyledStatsItemSpan>
+          </StyledStatsItem>
+
           <StyledIconContainer>
             <ArrowChevronRight />
           </StyledIconContainer>

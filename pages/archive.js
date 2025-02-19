@@ -30,10 +30,6 @@ export default function Archive({
   handleDeleteFlashcard,
   handleUpdateFlashcard,
 }) {
-  const correctFlashcards = flashcards.filter(
-    (flashcard) => flashcard.isCorrect
-  );
-
   return (
     <>
       <Container>
@@ -41,7 +37,7 @@ export default function Archive({
       </Container>
       <StyledCollectionTitle>All Cards</StyledCollectionTitle>
       <ArchiveList
-        flashcards={correctFlashcards}
+        flashcards={flashcards}
         collections={collections}
         handleToggleCorrect={handleToggleCorrect}
         handleDeleteFlashcard={handleDeleteFlashcard}

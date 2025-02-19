@@ -6,7 +6,6 @@ const StyledButton = styled.button`
   background-color: ${({ theme }) => theme.buttonBackground};
   font-size: 16px;
   color: ${({ theme }) => theme.buttonText};
-  font-size: 16px;
   padding: 10px 20px;
   box-shadow: ${({ theme }) => theme.boxShadowButton};
   border: 1px solid ${({ theme }) => theme.buttonBorder};
