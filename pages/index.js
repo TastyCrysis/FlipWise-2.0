@@ -18,7 +18,7 @@ const StyledPageTitle = styled.h2`
 export default function Homepage({
   flashcards,
   collections,
-  handleCreateCollections,
+  handleCreateCollection,
 }) {
   return (
     <>
@@ -28,7 +28,7 @@ export default function Homepage({
       <CollectionList
         flashcards={flashcards}
         collections={collections}
-        handleCreateCollections={handleCreateCollections}
+        handleCreateCollection={handleCreateCollection}
       />
     </>
   );

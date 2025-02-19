@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { nanoid } from "nanoid";
-import { collections } from "@/lib/db/collections";
 import styled from "styled-components";
 import Button from "./Button";
 
@@ -61,8 +60,6 @@ export default function FlashcardForm({
   handleCreateCollection,
   collections,
 }) {
-  console.log("Collections:", collections);
-
   const [showCollectionInput, setShowCollectionInput] = useState(false);
 
   function handleSubmit(event) {
