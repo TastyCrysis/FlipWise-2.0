@@ -46,8 +46,8 @@ const Icon = styled.span`
 
   & img {
     filter: ${({ theme }) =>
-      theme.navbarText === "black"
-        ? "invert(0.8) brightness(1)"
+      theme.navbarText === "#a3a8c8"
+        ? "invert(0.6) brightness(1) sepia(0.5) hue-rotate(210deg) saturate(1) contrast(1)"
         : "brightness(0)"};
   }
 `;
@@ -127,25 +127,26 @@ const Indicator = styled.div`
   }};
 
   @media (max-width: 768px) {
+    top: -55%;
     left: ${({ $active }) => {
-      if ($active === "/") return "-12px";
+      if ($active === "/") return "-13px";
       if ($active === "/archive" || $active?.includes("/archive"))
-        return "calc(100% - 56px)";
-      return "calc(50% - 30px)";
+        return "calc(100% - 58px)";
+      return "calc(50% - 24px)";
     }};
   }
 
   @media (max-width: 768px) {
     &::before,
     &::after {
-      width: 15px;
-      height: 15px;
+      width: 10px;
+      height: 10px;
     }
     &::before {
-      left: -18px;
+      left: -12px;
     }
     &::after {
-      right: -18px;
+      right: -12px;
     }
   }
 `;
