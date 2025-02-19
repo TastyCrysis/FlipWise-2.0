@@ -1,3 +1,4 @@
+import { useState } from "react";
 import styled from "styled-components";
 import Link from "next/link";
 
@@ -43,7 +44,32 @@ const StyledTitle = styled.h3`
   line-height: 1.5;
 `;
 
-export default function CollectionCard({ flashcards, collection }) {
+const StyledDialog = styled.dialog`
+  z-index: 10;
+  top: 10px;
+  padding: 16px;
+  border: solid 1px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+`;
+
+const DeleteButton = styled.button`
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+`;
+
+export default function CollectionCard({
+  flashcards,
+  collection,
+  handleDeleteCollection,
+}) {
+  const [showConfirmation, setShowConfirmation] = useState(false);
+
   const collectionFlashcards = flashcards.filter(
     (flashcard) => flashcard.collectionId === collection.id
   );
@@ -51,6 +77,10 @@ export default function CollectionCard({ flashcards, collection }) {
     (flashcard) => flashcard.isCorrect
   );
   const numberFlashcards = collectionFlashcards.length;
+
+  function toggleConfirmation() {
+    setShowConfirmation(!showConfirmation);
+  }
 
   return (
     <CardItem>
@@ -61,9 +91,35 @@ export default function CollectionCard({ flashcards, collection }) {
           <p>Correct Cards: {correctFlashcards.length}</p>
         </CollectionCardArticle>
       </StyledCardLink>
+
+      <DeleteButton onClick={toggleConfirmation} type="button">
+        delete
+      </DeleteButton>
+
       <StyledLink href={`/collections/${collection.id}/archive`}>
         Archive
       </StyledLink>
+
+      <StyledDialog open={showConfirmation}>
+        <h3>Do you really want to delete this collection?</h3>
+        <p>
+          🚨 This will also permanently delete all flashcards in this
+          collection.
+        </p>
+        <p>⚠️ This action cannot be undone!</p>
+        <>
+          <button
+            onClick={() => {
+              toggleConfirmation();
+              handleDeleteCollection(collection.id);
+            }}
+            type="button"
+          >
+            Delete
+          </button>
+          <button onClick={toggleConfirmation}>Cancel</button>
+        </>
+      </StyledDialog>
     </CardItem>
   );
 }
