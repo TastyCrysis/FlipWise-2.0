@@ -52,6 +52,13 @@ export default function App({ Component, pageProps }) {
     setThemeMode(selectedThemeMode);
   }
 
+  function handleDeleteCollection(id) {
+    setCollections(collections.filter((collection) => collection.id !== id));
+    setFlashcards(
+      flashcards.filter((flashcard) => flashcard.collectionId !== id)
+    );
+  }
+
   return (
     <ThemeProvider theme={theme[themeMode]}>
       <GlobalStyle />
@@ -70,6 +77,7 @@ export default function App({ Component, pageProps }) {
           handleToggleCorrect={handleToggleCorrect}
           handleDeleteFlashcard={handleDeleteFlashcard}
           handleUpdateFlashcard={handleUpdateFlashcard}
+          handleDeleteCollection={handleDeleteCollection}
         />
       </main>
       <footer>
