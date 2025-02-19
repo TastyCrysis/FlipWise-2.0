@@ -1,6 +1,4 @@
 import GlobalStyle from "../styles";
-import { useState, useEffect } from "react";
-import { nanoid } from "nanoid";
 import Navbar from "@/components/Navbar";
 import { SWRConfig } from "swr";
 import useSWR from "swr";
@@ -9,49 +7,23 @@ const fetcher = (url) => fetch(url).then((response) => response.json());
 
 export default function App({ Component, pageProps }) {
   const {
-    data: flashcardsData,
+    data: flashcards,
     isLoading: flashcardsLoading,
     error: flashcardError,
+    mutate,
   } = useSWR("/api/flashcards", fetcher);
   const {
-    data: collectionsData,
+    data: collections,
     isLoading: collectionsLoading,
     error: collectionsError,
   } = useSWR("/api/collections", fetcher);
-  const [flashcards, setFlashcards] = useState([]);
-  const [collections, setCollections] = useState([]);
-  const { mutate } = useSWR("/api/flashcards", fetcher);
-  const [error, setError] = useState(null);
-
-  useEffect(() => {
-    if (flashcardsData) {
-      setFlashcards(flashcardsData);
-    } else if (flashcardsLoading === false) {
-      setError("Error when loading flashcards.");
-    }
-  }, [flashcardsData, flashcardsLoading]);
-
-  useEffect(() => {
-    if (collectionsData) {
-      setCollections(collectionsData);
-    } else if (collectionsLoading === false) {
-      setError("Error when loading collections.");
-    }
-  }, [collectionsData, collectionsLoading]);
-
   if (flashcardsLoading || collectionsLoading) {
     return <h1>Loading...</h1>;
   }
-
-  if (error) {
-    return <h1>{error}</h1>;
-  }
-
   if (flashcardError || collectionsError) {
     return <h1>database is not connected.</h1>;
   }
-
-  if (!flashcardsData || !collectionsData) {
+  if (!flashcards || !collections) {
     return;
   }
 

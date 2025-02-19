@@ -21,13 +21,13 @@ export default function Archive({
 
   // Finde die aktuelle Collection
   const currentCollection = collections.find(
-    (collection) => collection.id === (id ? String(id) : null)
+    (collection) => collection._id === (id ? String(id) : null)
   );
 
   // Filtere die Flashcards
   const filteredFlashcards = currentCollection
     ? flashcards.filter(
-        (flashcard) => flashcard.collectionId === currentCollection.id
+        (flashcard) => flashcard.collectionId === currentCollection._id
       )
     : flashcards;
 

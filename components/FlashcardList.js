@@ -30,7 +30,7 @@ export default function FlashcardList({
       ) : (
         unansweredFlashcards.map((flashcard) => {
           const collection = collections.find(
-            (collection) => collection.id === flashcard.collectionId
+            (collection) => collection._id === flashcard.collectionId
           );
           return (
             <Flashcard

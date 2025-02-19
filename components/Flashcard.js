@@ -113,7 +113,11 @@ export default function Flashcard({
   }
 
   return (
-    <StyledFlashcard key={flashcard.id} $flipped={flipped} onClick={handleFlip}>
+    <StyledFlashcard
+      key={flashcard._id}
+      $flipped={flipped}
+      onClick={handleFlip}
+    >
       {collection && <CollectionTitle>{collection.title}</CollectionTitle>}
       <FlashcardFront>
         <FlashcardContent>
@@ -146,7 +150,6 @@ export default function Flashcard({
             collections={collections}
             initialValues={{
               _id: flashcard._id,
-              id: flashcard?.id || "",
               collectionId: flashcard?.collectionId || "",
               question: flashcard?.question || "",
               answer: flashcard?.answer || "",

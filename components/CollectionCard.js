@@ -45,7 +45,7 @@ const StyledTitle = styled.h3`
 
 export default function CollectionCard({ flashcards, collection }) {
   const collectionFlashcards = flashcards.filter(
-    (flashcard) => flashcard.collectionId === collection.id
+    (flashcard) => flashcard.collectionId === collection._id
   );
   const correctFlashcards = collectionFlashcards.filter(
     (flashcard) => flashcard.isCorrect
@@ -54,14 +54,14 @@ export default function CollectionCard({ flashcards, collection }) {
 
   return (
     <CardItem>
-      <StyledCardLink href={`/collections/${collection.id}/flashcards`}>
+      <StyledCardLink href={`/collections/${collection._id}/flashcards`}>
         <CollectionCardArticle>
           <StyledTitle>Collection: {collection.title}</StyledTitle>
           <p>Cards: {numberFlashcards}</p>
           <p>Correct Cards: {correctFlashcards.length}</p>
         </CollectionCardArticle>
       </StyledCardLink>
-      <StyledLink href={`/collections/${collection.id}/archive`}>
+      <StyledLink href={`/collections/${collection._id}/archive`}>
         Archive
       </StyledLink>
     </CardItem>

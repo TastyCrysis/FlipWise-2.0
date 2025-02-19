@@ -3,7 +3,11 @@ import "./Collection";
 const { Schema } = mongoose;
 
 const flashcardSchema = new Schema({
-  collectionId: { type: String, required: true }, //{ type: [Schema.Types.ObjectId], ref: "Collection" },
+  collectionId: {
+    type: Schema.Types.ObjectId,
+    ref: "Collection",
+    required: true,
+  },
   question: { type: String, required: true },
   answer: { type: String, required: true },
   isCorrect: { type: Boolean, required: true },

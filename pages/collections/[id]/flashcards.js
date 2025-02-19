@@ -25,7 +25,7 @@ export default function Homepage({
     (flashcard) => flashcard.collectionId === id
   );
   const currentCollection = collections.find(
-    (collection) => collection.id === id
+    (collection) => collection._id === id
   );
 
   return (
