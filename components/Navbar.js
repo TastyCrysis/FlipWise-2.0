@@ -89,7 +89,7 @@ const ListItem = styled.li`
     $active &&
     `
     ${Icon} {
-      transform: translateY(-32px);
+      transform: translateY(-35px);
     }
     ${Text} {
       opacity: 1;
@@ -111,7 +111,7 @@ const StyledLink = styled(Link)`
 
 const Indicator = styled.div`
   position: absolute;
-  top: -50%;
+  top: -38px;
   height: 70px;
   width: 70px;
   background: ${({ theme }) => theme.indicator};
@@ -120,14 +120,14 @@ const Indicator = styled.div`
   transition: 0.5s;
   z-index: 1;
   left: ${({ $active }) => {
-    if ($active === "/") return "-8px";
+    if ($active === "/") return "-8.5px";
     if ($active === "/archive" || $active?.includes("/archive"))
       return "calc(100% - 62px)";
     return "calc(50% - 35px)";
   }};
 
   @media (max-width: 768px) {
-    top: -55%;
+    top: -38px;
     left: ${({ $active }) => {
       if ($active === "/") return "-13px";
       if ($active === "/archive" || $active?.includes("/archive"))
