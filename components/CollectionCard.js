@@ -3,7 +3,7 @@ import styled from "styled-components";
 import Link from "next/link";
 import ArrowChevronRight from "./Elements/Arrow_chevron-right";
 import Modal from "@/components/Modal";
-import FlashcardForm from "@/components/FlashcardForm";
+import CollectioncardForm from "@/components/CollectioncardForm";
 import CardOptionButton from "@/components/CardOptionsButton";
 import Button from "@/components/Button";
 import ArrowRedoDot from "@/components/Elements/Arrow_redo-dot";
@@ -197,11 +197,12 @@ export default function CollectionCard({
           title="Update Colelction"
           needsPortal={true}
         >
-          <FlashcardForm
+          <CollectioncardForm
             onSubmit={handleSubmit}
             collections={collections}
             initialValues={{
               _id: collection._id,
+
               collectionId: collection?.collectionId || "",
               title: collection?.title,
             }}

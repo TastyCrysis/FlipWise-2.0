@@ -99,15 +99,6 @@ export default function FlashcardForm({
         required
       />
 
-      <Label htmlFor="collectionUpdate">Coll:</Label>
-      <Input
-        id="title"
-        type="text"
-        name="Title"
-        placeholder={initialValues ? "" : "*"}
-        defaultValue={initialValues?.title || ""}
-        required
-      />
       {!showCollectionInput && (
         <>
           <Label htmlFor="collections-select">Collection:</Label>
