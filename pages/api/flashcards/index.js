@@ -13,8 +13,15 @@ export default async function handler(request, response) {
   try {
     switch (request.method) {
       case "GET": {
-        const flashcards = await Flashcard.find();
-        return response.status(200).json(flashcards);
+        if (session) {
+          const flashcards = await Flashcard.find({ userID: userId });
+          return response.status(200).json(flashcards);
+        } else {
+          const flashcards = await Flashcard.find({
+            userID: { $exists: false },
+          });
+          return response.status(200).json(flashcards);
+        }
       }
 
       case "POST": {

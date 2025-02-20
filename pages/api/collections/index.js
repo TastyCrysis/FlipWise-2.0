@@ -13,8 +13,15 @@ export default async function handler(request, response) {
   try {
     switch (request.method) {
       case "GET": {
-        const collections = await Collection.find();
-        return response.status(200).json(collections);
+        if (session) {
+          const collections = await Collection.find({ userID: userID });
+          return response.status(200).json(collections);
+        } else {
+          const collections = await Collection.find({
+            userID: { $exists: false },
+          });
+          return response.status(200).json(collections);
+        }
       }
 
       case "POST": {
