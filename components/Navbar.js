@@ -5,6 +5,7 @@ import { useRouter } from "next/router";
 import { useState } from "react";
 import Modal from "@/components/Modal";
 import FlashcardForm from "@/components/FlashcardForm";
+import AiForm from "@/components/AiForm";
 
 const Navigation = styled.nav`
   width: min(650px, 95%);
@@ -190,7 +191,9 @@ export default function Navbar({
   const pathname = router.pathname;
   const navPath = pathname === "/" || pathname?.includes("/archive");
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [form, setForm] = useState("flashcard");
   const archiveLink = id ? `/collections/${id}/archive` : "/archive";
+  const [activeTab, setActiveTab] = useState("flashcard");
 
   async function handleSubmit(data) {
     try {
@@ -218,6 +221,16 @@ export default function Navbar({
     }
   }
 
+  function switchForm(tab) {
+    if (tab === "flashcard") {
+      setActiveTab("flashcard");
+      setForm("flashcard");
+    } else if (tab === "ai") {
+      setActiveTab("ai");
+      setForm("ai");
+    }
+  }
+
   return (
     <Navigation>
       <NavList>
@@ -241,13 +254,23 @@ export default function Navbar({
             onClose={() => setIsModalOpen(false)}
             title="Create a new Flashcard"
             needsPortal={true}
+            switchForm={switchForm}
+            activeTab={activeTab}
+            setActiveTab={setActiveTab}
           >
-            <FlashcardForm
-              onSubmit={handleSubmit}
-              collections={collections}
-              onClose={() => setIsModalOpen(false)}
-              handleCreateCollection={handleCreateCollection}
-            />
+            {form === "flashcard" ? (
+              <FlashcardForm
+                onSubmit={handleSubmit}
+                collections={collections}
+                onClose={() => setIsModalOpen(false)}
+                handleCreateCollection={handleCreateCollection}
+              />
+            ) : (
+              <AiForm
+                collections={collections}
+                onClose={() => setIsModalOpen(false)}
+              />
+            )}
           </Modal>
         </ModalWrapper>
         <ListItem $active={pathname?.includes("/archive")}>

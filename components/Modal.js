@@ -1,5 +1,7 @@
 import styled from "styled-components";
 import { createPortal } from "react-dom";
+import Button from "./Button";
+import { useState } from "react";
 
 const Overlay = styled.div`
   position: fixed;
@@ -48,8 +50,61 @@ const CloseIcon = styled.button`
 const ButtonContainer = styled.div`
   display: flex;
   justify-content: flex-end;
-  padding: 0 0 6px 0;
+  padding: 0 0 10px 0;
   margin: 0;
+`;
+
+const TabButtonContainer = styled.div`
+  display: flex;
+  justify-content: space-around;
+`;
+
+const TabButtonFlashcard = styled.button`
+  width: 100%;
+  background: ${({ $active, theme }) =>
+    $active ? theme.modalBackground : theme.buttonBackground};
+  color: ${({ $active, theme }) =>
+    $active ? theme.modalText : theme.buttonText};
+  border: 1px solid
+    ${({ $active, theme }) => ($active ? theme.modalBorder : theme.modalBorder)};
+  border-top: none;
+  border-left: none;
+  border-radius: 8px 0 0 0;
+  padding: 12px 24px;
+  margin: -6px -6px 0 -6px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+
+  ${({ $active }) =>
+    $active &&
+    `
+    border-top: 2px solid ${({ theme }) => theme.modalBorder};
+    border-bottom: none;
+  `}
+`;
+
+const TabButtonAi = styled.button`
+  width: 100%;
+  background: ${({ $active, theme }) =>
+    $active ? theme.modalBackground : theme.buttonBackground};
+  color: ${({ $active, theme }) =>
+    $active ? theme.modalText : theme.buttonText};
+  border: 1px solid
+    ${({ $active, theme }) => ($active ? theme.modalBorder : theme.modalBorder)};
+  border-top: none;
+  border-right: none;
+  border-radius: 0 8px 0 0;
+  padding: 12px 24px;
+  margin: -6px -6px 0 -6px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+
+  ${({ $active }) =>
+    $active &&
+    `
+    border-top: 2px solid ${({ theme }) => theme.modalBorder};
+    border-bottom: none;
+  `}
 `;
 
 export default function Modal({
@@ -58,6 +113,9 @@ export default function Modal({
   children,
   title,
   needsPortal,
+  switchForm,
+  activeTab,
+  setActiveTab,
 }) {
   if (!isOpen) return null;
 
@@ -69,6 +127,28 @@ export default function Modal({
         }}
       >
         <ModalContainer>
+          <TabButtonContainer>
+            <TabButtonFlashcard
+              type="button"
+              onClick={() => {
+                setActiveTab("flashcard");
+                switchForm("flashcard");
+              }}
+              $active={activeTab === "flashcard"}
+            >
+              Generate Flashcard
+            </TabButtonFlashcard>
+            <TabButtonAi
+              type="button"
+              onClick={() => {
+                setActiveTab("ai");
+                switchForm("ai");
+              }}
+              $active={activeTab === "ai"}
+            >
+              AI Flashcard
+            </TabButtonAi>
+          </TabButtonContainer>
           {title && (
             <Header>
               <ButtonContainer>
