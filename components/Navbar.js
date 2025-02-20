@@ -192,9 +192,30 @@ export default function Navbar({
   const [isModalOpen, setIsModalOpen] = useState(false);
   const archiveLink = id ? `/collections/${id}/archive` : "/archive";
 
-  function handleSubmit(data) {
-    handleCreateFlashcard(data);
-    setIsModalOpen(false);
+  async function handleSubmit(data) {
+    try {
+      if (!data.collectionId) {
+        const collectionData = await handleCreateCollection({
+          title: data.collectionTitle || data.title,
+        });
+
+        if (collectionData.data && collectionData.data._id) {
+          const flashcardData = {
+            question: data.question,
+            answer: data.answer,
+            isCorrect: false,
+            collectionId: collectionData.data._id,
+          };
+          await handleCreateFlashcard(flashcardData);
+          setIsModalOpen(false);
+        }
+      } else {
+        await handleCreateFlashcard(data);
+        setIsModalOpen(false);
+      }
+    } catch (error) {
+      console.error("Error creating collection and flashcard:", error);
+    }
   }
 
   return (

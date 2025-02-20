@@ -53,7 +53,6 @@ export default function FlashcardForm({
   onSubmit,
   initialValues,
   onClose,
-  handleCreateCollection,
   collections,
 }) {
   const [showCollectionInput, setShowCollectionInput] = useState(false);
@@ -63,18 +62,9 @@ export default function FlashcardForm({
     const formData = new FormData(event.target);
     const data = Object.fromEntries(formData);
 
-    let collectionId = data.collectionId;
-
-    if (showCollectionInput && data.title.trim() !== "") {
-      const newCollection = await response.json();
-      handleCreateCollection(newCollection);
-      collectionId = newCollection._id;
-    }
-
     const mergedData = {
       ...initialValues,
       ...data,
-      collectionId,
       isCorrect: initialValues ? initialValues.isCorrect : false,
     };
 
@@ -125,7 +115,7 @@ export default function FlashcardForm({
             {collections &&
               collections.length > 0 &&
               collections.map((collection) => (
-                <option key={collection.id} value={collection.id}>
+                <option key={collection._id} value={collection._id}>
                   {collection.title}
                 </option>
               ))}
