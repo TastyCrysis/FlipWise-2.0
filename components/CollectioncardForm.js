@@ -43,20 +43,13 @@ const ButtonContainer = styled.div`
   padding: 32px 0 8px 0;
 `;
 
-const AddCollectionContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  width: 70%;
-`;
-
-export default function FlashcardForm({
+export default function CollectioncardForm({
   onSubmit,
   initialValues,
   onClose,
   collections,
 }) {
   const [showCollectionInput, setShowCollectionInput] = useState(false);
-
   async function handleSubmit(event) {
     event.preventDefault();
     const formData = new FormData(event.target);
@@ -81,70 +74,15 @@ export default function FlashcardForm({
 
   return (
     <StyledForm onSubmit={handleSubmit}>
-      <Label htmlFor="question">Question:</Label>
+      <Label htmlFor="collectionUpdate">Coll:</Label>
       <Input
-        id="question"
+        id="title"
         type="text"
-        name="question"
-        placeholder={initialValues ? "" : "Question*"}
-        defaultValue={initialValues?.question || ""}
+        name="Title"
+        placeholder={initialValues ? "" : "*"}
+        defaultValue={initialValues?.title || ""}
         required
       />
-      <Label htmlFor="answer">Answer:</Label>
-      <Input
-        id="answer"
-        type="text"
-        name="answer"
-        placeholder={initialValues ? "" : "Answer*"}
-        defaultValue={initialValues?.answer || ""}
-        required
-      />
-      {!showCollectionInput && (
-        <>
-          <Label htmlFor="collections-select">Collection:</Label>
-          <Select
-            name="collectionId"
-            id="collections-select"
-            defaultValue={initialValues?.collectionId || ""}
-            required={!showCollectionInput}
-          >
-            <option value="" disabled>
-              --Please select a collection--
-            </option>
-            {collections &&
-              collections.length > 0 &&
-              collections.map((collection) => (
-                <option key={collection._id} value={collection._id}>
-                  {collection.title}
-                </option>
-              ))}
-          </Select>
-        </>
-      )}
-
-      {showCollectionInput && (
-        <>
-          <Label htmlFor="new-collection">New Collection:</Label>
-          <Input
-            id="title"
-            type="text"
-            name="title"
-            placeholder="Collection*"
-          />
-        </>
-      )}
-
-      <AddCollectionContainer>
-        <Button
-          type="button"
-          onClick={handleToggleCollection}
-          buttonLabel={
-            showCollectionInput
-              ? "Choose existing collection"
-              : "Add collection"
-          }
-        />
-      </AddCollectionContainer>
       <ButtonContainer>
         <Button
           type="submit"
