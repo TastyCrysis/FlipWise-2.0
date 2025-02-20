@@ -8,6 +8,7 @@ import styled from "styled-components";
 import ThemeSwitch from "@/components/ThemeSwitch";
 import { theme } from "@/styles";
 import { SessionProvider } from "next-auth/react";
+import Login from "@/components/Login";
 
 const StyledTitle = styled.h1`
   display: flex;
@@ -120,7 +121,7 @@ export default function App({ Component, pageProps }) {
   }
 
   return (
-    <SessionProvider session={session}>
+    <SessionProvider session={pageProps.session}>
       <ThemeProvider theme={theme[themeMode]}>
         <GlobalStyle />
         <SWRConfig value={{ fetcher }}>
@@ -131,6 +132,7 @@ export default function App({ Component, pageProps }) {
               onHandleToggleThemeMode={handleToggleThemeMode}
             />
           </header>
+          <Login />
           <main>
             <Component
               {...pageProps}

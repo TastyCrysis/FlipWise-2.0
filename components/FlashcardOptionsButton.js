@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import MenuThreePoint from "@/components/Elements/Menu_threePoint";
 import FlashcardOptionMenu from "@/components/FlashcardOptionsMenu";
+import { useSession } from "next-auth/react";
 
 const StyledButton = styled.button`
   background-color: ${({ theme }) => theme.buttonBackground};
@@ -13,6 +14,13 @@ const StyledButton = styled.button`
   box-shadow: ${({ theme }) => theme.boxShadowButton};
   border: 1px solid ${({ theme }) => theme.buttonBorder};
   border-radius: 8px;
+  opacity: ${({ $grayout }) => ($grayout ? "0.5" : "1")};
+
+  &:disabled {
+    cursor: not-allowed;
+    color: var(--primary);
+    background-color: var(--secondary);
+  }
 `;
 
 export default function FlashcardOptionButton({
@@ -23,9 +31,15 @@ export default function FlashcardOptionButton({
   toggleOptionMenu,
   setIsModalOpen,
 }) {
+  const { data: session } = useSession();
   return (
     <>
-      <StyledButton type={type} onClick={onClick}>
+      <StyledButton
+        type={type}
+        onClick={onClick}
+        disabled={!session}
+        $grayout={!session}
+      >
         <MenuThreePoint />
       </StyledButton>
       {isMenuOpen && (

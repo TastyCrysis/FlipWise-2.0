@@ -5,6 +5,7 @@ import { useRouter } from "next/router";
 import { useState } from "react";
 import Modal from "@/components/Modal";
 import FlashcardForm from "@/components/FlashcardForm";
+import { useSession } from "next-auth/react";
 
 const Navigation = styled.nav`
   width: min(650px, 95%);
@@ -178,6 +179,13 @@ const OpenButton = styled.button`
   justify-content: center;
   box-shadow: ${({ theme }) => theme.boxShadowButton};
   border: 1px solid ${({ theme }) => theme.buttonBorder};
+  opacity: ${({ $grayout }) => ($grayout ? "0.5" : "1")};
+
+  &:disabled {
+    cursor: not-allowed;
+    color: var(--primary);
+    background-color: var(--secondary);
+  }
 `;
 
 export default function Navbar({ handleCreateFlashcard, collections }) {
@@ -187,6 +195,7 @@ export default function Navbar({ handleCreateFlashcard, collections }) {
   const navPath = pathname === "/" || pathname?.includes("/archive");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const archiveLink = id ? `/collections/${id}/archive` : "/archive";
+  const { data: session } = useSession();
 
   function handleSubmit(data) {
     handleCreateFlashcard(data);
@@ -210,7 +219,13 @@ export default function Navbar({ handleCreateFlashcard, collections }) {
           </StyledLink>
         </ListItem>
         <ModalWrapper>
-          <OpenButton onClick={() => setIsModalOpen(true)}>+</OpenButton>
+          <OpenButton
+            onClick={() => setIsModalOpen(true)}
+            disabled={!session}
+            $grayout={!session}
+          >
+            +
+          </OpenButton>
           <Modal
             isOpen={isModalOpen}
             onClose={() => setIsModalOpen(false)}
