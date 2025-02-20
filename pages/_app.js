@@ -1,4 +1,4 @@
-import GlobalStyle from "../styles";
+import GlobalStyle, { theme } from "../styles";
 import Navbar from "@/components/Navbar";
 import { useState } from "react";
 import { SWRConfig } from "swr";
@@ -6,7 +6,6 @@ import useSWR from "swr";
 import { ThemeProvider } from "styled-components";
 import styled from "styled-components";
 import ThemeSwitch from "@/components/ThemeSwitch";
-import { theme } from "@/styles";
 
 const StyledTitle = styled.h1`
   display: flex;
@@ -26,13 +25,16 @@ export default function App({ Component, pageProps }) {
     data: flashcards,
     isLoading: flashcardsLoading,
     error: flashcardError,
-    mutate,
+    mutate: flashcardsMutate,
   } = useSWR("/api/flashcards", fetcher);
+
   const {
     data: collections,
     isLoading: collectionsLoading,
     error: collectionsError,
+    mutate: collectionsMutate,
   } = useSWR("/api/collections", fetcher);
+
   if (flashcardsLoading || collectionsLoading) {
     return <h1>Loading...</h1>;
   }
@@ -40,7 +42,7 @@ export default function App({ Component, pageProps }) {
     return <h1>database is not connected.</h1>;
   }
   if (!flashcards || !collections) {
-    return;
+    return null;
   }
 
   async function handleToggleCorrect(id) {
@@ -56,7 +58,7 @@ export default function App({ Component, pageProps }) {
       console.error("Failed to update flashcard");
       return;
     }
-    mutate();
+    flashcardsMutate();
   }
 
   async function handleDeleteFlashcard(id) {
@@ -67,25 +69,29 @@ export default function App({ Component, pageProps }) {
       if (!response.ok) {
         throw new Error("Failed to delete flashcard");
       }
-      mutate();
+      flashcardsMutate();
     } catch (error) {
       console.error(error);
     }
   }
 
   async function handleCreateFlashcard(data) {
-    const response = await fetch("/api/flashcards", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    });
-    if (!response.ok) {
-      console.error("Failed to create flashcard");
-      return;
+    try {
+      const response = await fetch("/api/flashcards", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+      if (!response.ok) {
+        console.error("Failed to create flashcard");
+        return;
+      }
+      flashcardsMutate();
+    } catch (error) {
+      console.error(error);
     }
-    mutate();
   }
 
   async function handleUpdateFlashcard(_id, data) {
@@ -100,7 +106,27 @@ export default function App({ Component, pageProps }) {
       console.error("Failed to update flashcard");
       return;
     }
-    mutate();
+    flashcardsMutate();
+  }
+
+  async function handleCreateCollection(data) {
+    try {
+      const response = await fetch("/api/collections", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+      if (!response.ok) {
+        console.error("Failed to create collection");
+        return;
+      }
+      collectionsMutate();
+      return response.json();
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   function handleToggleThemeMode(selectedThemeMode) {
@@ -115,7 +141,7 @@ export default function App({ Component, pageProps }) {
       console.error("Failed to delete collection");
       return;
     }
-    mutate();
+    collectionsMutate();
   }
 
   return (
@@ -144,6 +170,7 @@ export default function App({ Component, pageProps }) {
           <Navbar
             handleCreateFlashcard={handleCreateFlashcard}
             collections={collections}
+            handleCreateCollection={handleCreateCollection}
           />
         </footer>
       </SWRConfig>
