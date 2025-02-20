@@ -14,7 +14,11 @@ export default async function handler(request, response) {
     switch (request.method) {
       case "GET": {
         if (session) {
-          const flashcards = await Flashcard.find({ userID: userId });
+          const flashcardsUser = await Flashcard.find({ userId: userId });
+          const flashcardsDefault = await Flashcard.find({
+            userID: { $exists: false },
+          });
+          const flashcards = [...flashcardsUser, ...flashcardsDefault];
           return response.status(200).json(flashcards);
         } else {
           const flashcards = await Flashcard.find({

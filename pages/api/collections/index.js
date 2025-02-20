@@ -14,7 +14,11 @@ export default async function handler(request, response) {
     switch (request.method) {
       case "GET": {
         if (session) {
-          const collections = await Collection.find({ userID: userID });
+          const collectionsUser = await Collection.find({ userId: userId });
+          const collectionsDefault = await Collection.find({
+            userID: { $exists: false },
+          });
+          const collections = [...collectionsUser, ...collectionsDefault];
           return response.status(200).json(collections);
         } else {
           const collections = await Collection.find({
