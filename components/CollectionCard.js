@@ -228,9 +228,7 @@ export default function CollectionCard({
           toggleOptionMenu={toggleOptionMenu}
           setIsModalOpen={setIsModalOpen}
         />
-        <DeleteButton onClick={toggleConfirmation} type="button">
-          delete
-        </DeleteButton>
+
         <StyledDialog open={showConfirmation}>
           <h3>Do you really want to delete this collection?</h3>
           <p>
