@@ -122,6 +122,7 @@ export default function App({ Component, pageProps }) {
       return;
     }
     collectionsMutate();
+    console.log("APP.js:", data);
   }
 
   async function handleCreateCollection(data) {

@@ -1,5 +1,3 @@
-import { useState } from "react";
-import { nanoid } from "nanoid";
 import styled from "styled-components";
 import Button from "./Button";
 
@@ -28,14 +26,6 @@ const Input = styled.input`
   margin-bottom: 16px;
 `;
 
-const Select = styled.select`
-  width: 100%;
-  padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  margin-bottom: 16px;
-`;
-
 const ButtonContainer = styled.div`
   display: flex;
   justify-content: space-between;
@@ -47,9 +37,7 @@ export default function CollectioncardForm({
   onSubmit,
   initialValues,
   onClose,
-  collections,
 }) {
-  const [showCollectionInput, setShowCollectionInput] = useState(false);
   async function handleSubmit(event) {
     event.preventDefault();
     const formData = new FormData(event.target);
@@ -68,17 +56,13 @@ export default function CollectioncardForm({
     }
   }
 
-  function handleToggleCollection() {
-    setShowCollectionInput((prev) => !prev);
-  }
-
   return (
     <StyledForm onSubmit={handleSubmit}>
-      <Label htmlFor="collectionUpdate">Coll:</Label>
+      <Label htmlFor="collectionUpdate">Collection:</Label>
       <Input
         id="title"
         type="text"
-        name="Title"
+        name="title"
         placeholder={initialValues ? "" : "*"}
         defaultValue={initialValues?.title || ""}
         required

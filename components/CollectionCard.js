@@ -6,7 +6,6 @@ import Modal from "@/components/Modal";
 import CollectioncardForm from "@/components/CollectioncardForm";
 import CardOptionButton from "@/components/CardOptionsButton";
 import Button from "@/components/Button";
-import ArrowRedoDot from "@/components/Elements/Arrow_redo-dot";
 
 const CardItem = styled.li`
   width: 100%;
@@ -147,9 +146,6 @@ export default function CollectionCard({
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  console.log("Collection in CollectionCard:", collection.title);
-  console.log("Flascard in CollectionCard:", collection);
-
   const collectionFlashcards = flashcards.filter(
     (flashcard) => flashcard.collectionId === collection._id
   );
@@ -165,6 +161,7 @@ export default function CollectionCard({
     handleUpdateCollection(id, data);
     setIsModalOpen(false);
   }
+  console.log(handleSubmit);
 
   function toggleOptionMenu() {
     setIsMenuOpen(!isMenuOpen);
