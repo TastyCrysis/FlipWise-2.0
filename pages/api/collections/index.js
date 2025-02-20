@@ -2,9 +2,12 @@ import dbConnect from "@/db/connect";
 import Collection from "@/db/models/Collection";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "../auth/[...nextauth]";
+import { getToken } from "next-auth/jwt";
 
 export default async function handler(request, response) {
   const session = await getServerSession(request, response, authOptions);
+  const token = await getToken({ req: request });
+  const userId = token?.sub;
   await dbConnect();
 
   try {
@@ -16,7 +19,10 @@ export default async function handler(request, response) {
 
       case "POST": {
         if (session) {
-          const collection = await Collection.create(request.body);
+          const collection = await Collection.create({
+            ...request.body,
+            userId: userId,
+          });
           return response
             .status(201)
             .json({ status: "Collection created", data: collection });

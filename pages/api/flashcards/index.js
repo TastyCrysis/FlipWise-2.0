@@ -2,10 +2,12 @@ import dbConnect from "@/db/connect";
 import Flashcard from "@/db/models/Flashcard";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "../auth/[...nextauth]";
+import { getToken } from "next-auth/jwt";
 
 export default async function handler(request, response) {
   const session = await getServerSession(request, response, authOptions);
-
+  const token = await getToken({ req: request });
+  const userId = token?.sub;
   await dbConnect();
 
   try {
@@ -17,7 +19,10 @@ export default async function handler(request, response) {
 
       case "POST": {
         if (session) {
-          const flashcard = await Flashcard.create(request.body);
+          const flashcard = await Flashcard.create({
+            ...request.body,
+            userId: userId,
+          });
           return response
             .status(201)
             .json({ status: "Flashcard created", data: flashcard });
