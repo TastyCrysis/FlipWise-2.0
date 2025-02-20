@@ -9,6 +9,8 @@ import ThemeSwitch from "@/components/ThemeSwitch";
 import { theme } from "@/styles";
 import { SessionProvider } from "next-auth/react";
 import Login from "@/components/Login";
+import { getServerSession } from "next-auth/next";
+import { authOptions } from "@/pages/api/auth/[...nextauth]";
 
 const StyledTitle = styled.h1`
   display: flex;
@@ -76,6 +78,12 @@ export default function App({ Component, pageProps }) {
   }
 
   async function handleCreateFlashcard(data) {
+    const session = await getServerSession(request, response, authOptions);
+    if (!session) {
+      response.status(401).json({ status: "Not authorized" });
+      return;
+    }
+
     const response = await fetch("/api/flashcards", {
       method: "POST",
       headers: {
