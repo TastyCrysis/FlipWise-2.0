@@ -2,7 +2,12 @@ import { useState } from "react";
 import styled from "styled-components";
 import Link from "next/link";
 import ArrowChevronRight from "./Elements/Arrow_chevron-right";
+import Modal from "@/components/Modal";
+import FlashcardForm from "@/components/FlashcardForm";
+import CardOptionButton from "@/components/CardOptionsButton";
 import Button from "@/components/Button";
+import ArrowRedoDot from "@/components/Elements/Arrow_redo-dot";
+
 const CardItem = styled.li`
   width: 100%;
   height: 250px;
@@ -144,9 +149,12 @@ const ConfirmButtonContainer = styled.div`
 export default function CollectionCard({
   flashcards,
   collection,
+  collections,
   handleDeleteCollection,
 }) {
   const [showConfirmation, setShowConfirmation] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const collectionFlashcards = flashcards.filter(
     (flashcard) => flashcard.collectionId === collection._id
@@ -157,6 +165,15 @@ export default function CollectionCard({
 
   function toggleConfirmation() {
     setShowConfirmation(!showConfirmation);
+  }
+
+  function handleSubmit(id, data) {
+    handleUpdateFlashcard(id, data);
+    setIsModalOpen(false);
+  }
+
+  function toggleOptionMenu() {
+    setIsMenuOpen(!isMenuOpen);
   }
 
   return (
@@ -179,6 +196,38 @@ export default function CollectionCard({
         <StyledLink href={`/collections/${collection._id}/archive`}>
           Archive
         </StyledLink>
+
+        <Modal
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+          title="Update Flashcard"
+          needsPortal={true}
+        >
+          <FlashcardForm
+            onSubmit={handleSubmit}
+            collections={collections}
+            // initialValues={{
+            //   _id: flashcard._id,
+            //   collectionId: flashcard?.collectionId || "",
+            //   question: flashcard?.question || "",
+            //   answer: flashcard?.answer || "",
+            //   isCorrect: flashcard?.isCorrect || false,
+            // }}
+            onClose={() => setIsModalOpen(false)}
+          />
+        </Modal>
+
+        <CardOptionButton
+          type="button"
+          onClick={(event) => {
+            event.stopPropagation();
+            toggleOptionMenu();
+          }}
+          isMenuOpen={isMenuOpen}
+          toggleConfirmation={toggleConfirmation}
+          toggleOptionMenu={toggleOptionMenu}
+          setIsModalOpen={setIsModalOpen}
+        />
         <DeleteButton onClick={toggleConfirmation} type="button">
           delete
         </DeleteButton>
