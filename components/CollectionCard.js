@@ -131,16 +131,6 @@ const StyledDialog = styled.dialog`
   z-index: 10;
 `;
 
-const DeleteButton = styled.button`
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  border: none;
-  padding: 5px 10px;
-  border-radius: 4px;
-  cursor: pointer;
-`;
-
 const ConfirmButtonContainer = styled.div`
   display: flex;
   gap: 12px;
@@ -151,10 +141,14 @@ export default function CollectionCard({
   collection,
   collections,
   handleDeleteCollection,
+  handleUpdateCollection,
 }) {
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  console.log("Collection in CollectionCard:", collection.title);
+  console.log("Flascard in CollectionCard:", collection);
 
   const collectionFlashcards = flashcards.filter(
     (flashcard) => flashcard.collectionId === collection._id
@@ -168,7 +162,7 @@ export default function CollectionCard({
   }
 
   function handleSubmit(id, data) {
-    handleUpdateFlashcard(id, data);
+    handleUpdateCollection(id, data);
     setIsModalOpen(false);
   }
 
@@ -200,19 +194,17 @@ export default function CollectionCard({
         <Modal
           isOpen={isModalOpen}
           onClose={() => setIsModalOpen(false)}
-          title="Update Flashcard"
+          title="Update Colelction"
           needsPortal={true}
         >
           <FlashcardForm
             onSubmit={handleSubmit}
             collections={collections}
-            // initialValues={{
-            //   _id: flashcard._id,
-            //   collectionId: flashcard?.collectionId || "",
-            //   question: flashcard?.question || "",
-            //   answer: flashcard?.answer || "",
-            //   isCorrect: flashcard?.isCorrect || false,
-            // }}
+            initialValues={{
+              _id: collection._id,
+              collectionId: collection?.collectionId || "",
+              title: collection?.title,
+            }}
             onClose={() => setIsModalOpen(false)}
           />
         </Modal>
