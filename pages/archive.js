@@ -32,14 +32,26 @@ export default function Archive({
   handleDeleteFlashcard,
   handleUpdateFlashcard,
 }) {
-  const [selectedCollection, setSelectedCollection] = useState("");
+  const [selectedCollections, setSelectedCollections] = useState([]);
   const router = useRouter();
 
   const handleCollectionChange = (event) => {
-    const selectedId = event.target.value;
-    setSelectedCollection(selectedId);
+    const selectedValues = Array.from(
+      event.target.selectedOptions,
+      (option) => option.value
+    );
+    setSelectedCollections(selectedValues);
+  };
 
-    router.push(`/collections/${selectedId}/archive`);
+  const handleNavigate = () => {
+    if (selectedCollections.length === 1) {
+      // Wenn nur eine Collection gewählt wurde, leiten wir direkt zu ihrer Archivseite
+      router.push(`/collections/${selectedCollections[0]}/archive`);
+    } else if (selectedCollections.length > 1) {
+      // Mehrere Collections => Neue Seite mit Query-Parametern
+      const queryString = selectedCollections.join(",");
+      router.push(`/collections/selected-archives?ids=${queryString}`);
+    }
   };
 
   return (
@@ -47,19 +59,28 @@ export default function Archive({
       <Container>
         <StyledPageTitle>Archive</StyledPageTitle>
 
-        {/* Dropdown-Menü */}
+        {/* Mehrfachauswahl Dropdown */}
         <select
           name="collection-list"
-          value={selectedCollection}
+          multiple
+          value={selectedCollections}
           onChange={handleCollectionChange}
+          style={{ minHeight: "100px", width: "200px" }} // Styling für bessere Usability
         >
-          <option value="">Wähle eine Kollektion</option>
           {collections.map((collection) => (
             <option value={collection._id} key={collection._id}>
               {collection.title}
             </option>
           ))}
         </select>
+
+        {/* Button zum Bestätigen der Auswahl */}
+        <button
+          onClick={handleNavigate}
+          disabled={selectedCollections.length === 0}
+        >
+          Anzeigen
+        </button>
       </Container>
 
       <StyledCollectionTitle>All Cards</StyledCollectionTitle>
