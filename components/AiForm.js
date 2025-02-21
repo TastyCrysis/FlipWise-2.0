@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import Button from "./Button";
 import { useState } from "react";
+import AiFlashcardSelect from "./AiFlashcardSelect";
 
 const StyledForm = styled.form`
   position: relative;
@@ -59,21 +60,57 @@ const ButtonContainer = styled.div`
   padding: 32px 0 8px 0;
 `;
 
-export default function AiForm({ initialValues, onClose, collections }) {
+export default function AiForm({
+  initialValues,
+  onClose,
+  collections,
+  onSubmit,
+}) {
   const [showCollectionInput, setShowCollectionInput] = useState(false);
+  const [aiFlashcardSelect, setAiFlashcardSelect] = useState(false);
 
   function handleToggleCollection() {
     setShowCollectionInput((prev) => !prev);
   }
 
+  async function handleSubmit(event) {
+    event.preventDefault();
+    const formData = new FormData(event.target);
+    const data = Object.fromEntries(formData);
+
+    const mergedData = {
+      ...initialValues,
+      ...data,
+      isCorrect: initialValues ? initialValues.isCorrect : false,
+    };
+
+    if (initialValues?._id) {
+      await onSubmit(initialValues._id, mergedData);
+    } else {
+      await onSubmit(mergedData);
+    }
+  }
+
+  function handleAiFlashcardSelect() {
+    setAiFlashcardSelect((prev) => !prev);
+  }
+
   return (
-    <StyledForm>
-      <Label htmlFor="question">Question:</Label>
+    <StyledForm onSubmit={handleSubmit}>
+      <Label htmlFor="textInput">Question:</Label>
       <Textarea
-        id="question"
+        id="textInput"
         type="text"
-        name="question"
+        name="textInput"
         placeholder="Test Question"
+        required
+      />
+      <Label htmlFor="numberOfFlashcards">Number of flashcards:</Label>
+      <Input
+        id="numberOfFlashcards"
+        type="number"
+        name="numberOfFlashcards"
+        max="30"
         required
       />
       {!showCollectionInput && (
@@ -112,6 +149,8 @@ export default function AiForm({ initialValues, onClose, collections }) {
         </>
       )}
 
+      {aiFlashcardSelect && <AiFlashcardSelect />}
+
       <AddCollectionContainer>
         <Button
           type="button"
@@ -125,8 +164,9 @@ export default function AiForm({ initialValues, onClose, collections }) {
       </AddCollectionContainer>
       <ButtonContainer>
         <Button
-          type="submit"
-          buttonLabel={initialValues ? "update" : "create"}
+          type="button"
+          onClick={handleAiFlashcardSelect}
+          buttonLabel={"create"}
         />
         <Button type="button" onClick={onClose} buttonLabel={"cancel"} />
       </ButtonContainer>

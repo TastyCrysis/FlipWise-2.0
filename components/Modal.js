@@ -116,6 +116,7 @@ export default function Modal({
   switchForm,
   activeTab,
   setActiveTab,
+  isUpdateFormOpen,
 }) {
   if (!isOpen) return null;
 
@@ -127,28 +128,30 @@ export default function Modal({
         }}
       >
         <ModalContainer>
-          <TabButtonContainer>
-            <TabButtonFlashcard
-              type="button"
-              onClick={() => {
-                setActiveTab("flashcard");
-                switchForm("flashcard");
-              }}
-              $active={activeTab === "flashcard"}
-            >
-              Generate Flashcard
-            </TabButtonFlashcard>
-            <TabButtonAi
-              type="button"
-              onClick={() => {
-                setActiveTab("ai");
-                switchForm("ai");
-              }}
-              $active={activeTab === "ai"}
-            >
-              AI Flashcard
-            </TabButtonAi>
-          </TabButtonContainer>
+          {!isUpdateFormOpen && (
+            <TabButtonContainer>
+              <TabButtonFlashcard
+                type="button"
+                onClick={() => {
+                  setActiveTab("flashcard");
+                  switchForm("flashcard");
+                }}
+                $active={activeTab === "flashcard"}
+              >
+                Generate Flashcard
+              </TabButtonFlashcard>
+              <TabButtonAi
+                type="button"
+                onClick={() => {
+                  setActiveTab("ai");
+                  switchForm("ai");
+                }}
+                $active={activeTab === "ai"}
+              >
+                AI Flashcard
+              </TabButtonAi>
+            </TabButtonContainer>
+          )}
           {title && (
             <Header>
               <ButtonContainer>

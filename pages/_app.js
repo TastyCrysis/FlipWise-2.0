@@ -144,6 +144,45 @@ export default function App({ Component, pageProps }) {
     collectionsMutate();
   }
 
+  async function handleCreateAiFlashcards(promptData) {
+    try {
+      const response = await fetch("/api/generate", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(promptData),
+      });
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(`API Error: ${errorData.message}`);
+      }
+      const result = await response.json();
+      if (!result.flashcards || !Array.isArray(result.flashcards)) {
+        throw new Error("Invalid response format from API");
+      }
+      for (const flashcard of result.flashcards) {
+        await fetch("/api/flashcards", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            question: flashcard.question,
+            answer: flashcard.answer,
+            isCorrect: false,
+            collectionId: result.collectionId,
+          }),
+        });
+      }
+      flashcardsMutate();
+      return result;
+    } catch (error) {
+      console.error("Error generating flashcards:", error);
+      throw error;
+    }
+  }
+
   return (
     <ThemeProvider theme={theme[themeMode]}>
       <GlobalStyle />
@@ -171,6 +210,7 @@ export default function App({ Component, pageProps }) {
             handleCreateFlashcard={handleCreateFlashcard}
             collections={collections}
             handleCreateCollection={handleCreateCollection}
+            handleCreateAiFlashcards={handleCreateAiFlashcards}
           />
         </footer>
       </SWRConfig>

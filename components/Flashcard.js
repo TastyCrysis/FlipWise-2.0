@@ -182,6 +182,7 @@ export default function Flashcard({
           onClose={() => setIsModalOpen(false)}
           title="Update Flashcard"
           needsPortal={true}
+          isUpdateFormOpen={true}
         >
           <FlashcardForm
             onSubmit={handleSubmit}
