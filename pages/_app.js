@@ -131,7 +131,6 @@ export default function App({ Component, pageProps }) {
               onHandleToggleThemeMode={handleToggleThemeMode}
             />
           </header>
-          <Login />
           <main>
             <Component
               {...pageProps}
@@ -144,6 +143,7 @@ export default function App({ Component, pageProps }) {
             />
           </main>
           <footer>
+            <Login />
             <Navbar
               handleCreateFlashcard={handleCreateFlashcard}
               collections={collections}

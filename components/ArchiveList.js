@@ -36,7 +36,7 @@ export default function ArchiveList({
           );
           return (
             <Flashcard
-              key={flashcard.id}
+              key={flashcard._id}
               flashcard={flashcard}
               collection={collection}
               handleToggleCorrect={handleToggleCorrect}
