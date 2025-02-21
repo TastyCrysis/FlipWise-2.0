@@ -10,6 +10,7 @@ export const authOptions = {
       }),
   ],
 
+  //extension of the session object with the token / userId
   callbacks: {
     async session({ session, token }) {
       session.user.id = token.sub;

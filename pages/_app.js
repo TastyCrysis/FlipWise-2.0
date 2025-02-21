@@ -89,7 +89,7 @@ export default function App({ Component, pageProps }) {
     mutate();
   }
 
-  async function handleUpdateFlashcard(_id, data) {
+  async function handleUpdateFlashcard(data, _id) {
     const response = await fetch(`/api/flashcards/${_id}`, {
       method: "PUT",
       headers: {

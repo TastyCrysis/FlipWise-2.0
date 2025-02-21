@@ -49,13 +49,7 @@ export default function FlashcardForm({
   collections,
 }) {
   const { data: session } = useSession();
-  console.log("session_", session);
-
-  async function getUserID() {
-    const token = await getToken();
-    const userId = token?.sub;
-    return userId;
-  }
+  const userId = session.user.id;
 
   async function handleSubmit(event) {
     event.preventDefault();
@@ -67,17 +61,14 @@ export default function FlashcardForm({
       ...data,
       isCorrect: initialValues ? initialValues.isCorrect : false,
     };
-    const userId = 1;
-    console.log("userId_", userId);
-    console.log("initialValues._id_", initialValues._id);
-    console.log("mergedData_", mergedData);
 
     if (initialValues?._id) {
-      //create Flashcard
-      await onSubmit(initialValues._id, mergedData, userId);
-    } else {
       //update Flashcard
-      await onSubmit(mergedData);
+      await onSubmit(mergedData, initialValues._id);
+    } else {
+      //create Flashcard
+      const userData = { ...mergedData, userId: userId };
+      await onSubmit(userData);
     }
   }
 
