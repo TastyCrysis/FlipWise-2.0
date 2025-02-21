@@ -1,5 +1,7 @@
-import FlashcardList from "@/components/FlashcardList";
+import ArchiveList from "@/components/FlashcardList";
 import styled from "styled-components";
+import { useState } from "react";
+import { useRouter } from "next/router";
 
 const Container = styled.div`
   display: flex;
@@ -30,21 +32,43 @@ export default function Archive({
   handleDeleteFlashcard,
   handleUpdateFlashcard,
 }) {
-  const listMode = "archive";
+  const [selectedCollection, setSelectedCollection] = useState("");
+  const router = useRouter();
+
+  const handleCollectionChange = (event) => {
+    const selectedId = event.target.value;
+    setSelectedCollection(selectedId);
+
+    router.push(`/collections/${selectedId}/archive`);
+  };
 
   return (
     <>
       <Container>
         <StyledPageTitle>Archive</StyledPageTitle>
+
+        {/* Dropdown-Menü */}
+        <select
+          name="collection-list"
+          value={selectedCollection}
+          onChange={handleCollectionChange}
+        >
+          <option value="">Wähle eine Kollektion</option>
+          {collections.map((collection) => (
+            <option value={collection._id} key={collection._id}>
+              {collection.title}
+            </option>
+          ))}
+        </select>
       </Container>
+
       <StyledCollectionTitle>All Cards</StyledCollectionTitle>
-      <FlashcardList
+      <ArchiveList
         flashcards={flashcards}
         collections={collections}
         handleToggleCorrect={handleToggleCorrect}
         handleDeleteFlashcard={handleDeleteFlashcard}
         handleUpdateFlashcard={handleUpdateFlashcard}
-        listMode={listMode}
       />
     </>
   );
