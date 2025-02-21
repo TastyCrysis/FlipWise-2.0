@@ -14,7 +14,9 @@ export default async function handler(request, response) {
     switch (request.method) {
       case "GET": {
         if (session) {
-          const flashcardsUser = await Flashcard.find({ userId: userId });
+          const flashcardsUser = await Flashcard.find({
+            userId: userId,
+          }).populate("collectionId");
           const flashcardsDefault = await Flashcard.find({
             userID: { $exists: false },
           });
@@ -30,10 +32,7 @@ export default async function handler(request, response) {
 
       case "POST": {
         if (session) {
-          const flashcard = await Flashcard.create({
-            ...request.body,
-            userId: userId,
-          });
+          const flashcard = await Flashcard.create({ ...request.body });
           return response
             .status(201)
             .json({ status: "Flashcard created", data: flashcard });

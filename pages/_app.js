@@ -6,7 +6,6 @@ import useSWR from "swr";
 import { ThemeProvider } from "styled-components";
 import styled from "styled-components";
 import ThemeSwitch from "@/components/ThemeSwitch";
-import { theme } from "@/styles";
 import { SessionProvider } from "next-auth/react";
 import Login from "@/components/Login";
 
@@ -30,12 +29,16 @@ export default function App({ Component, pageProps }) {
     mutate: flashcardsMutate,
   } = useSWR("/api/flashcards", fetcher);
 
+  console.log("flashcards_", flashcards);
+
   const {
     data: collections,
     isLoading: collectionsLoading,
     error: collectionsError,
     mutate: collectionsMutate,
   } = useSWR("/api/collections", fetcher);
+
+  console.log("collections", collections);
 
   if (flashcardsLoading || collectionsLoading) {
     return <h1>Loading...</h1>;

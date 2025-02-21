@@ -2,11 +2,17 @@ import { useSession, signIn, signOut } from "next-auth/react";
 
 export default function Login() {
   const { data: session } = useSession();
+  //const providers = await getProviders()
+
+  function handleSignIn() {
+    signIn();
+    console.log("session_", session);
+  }
 
   if (session) {
     return (
       <>
-        Signed in as {session.user.email} <br />
+        Signed in <br />
         <button onClick={() => signOut()}>Sign out</button>
       </>
     );
@@ -14,7 +20,7 @@ export default function Login() {
   return (
     <>
       Not signed in <br />
-      <button onClick={() => signIn()}>Sign in</button>
+      <button onClick={() => handleSignIn()}>Sign in</button>
     </>
   );
 }
