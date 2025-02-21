@@ -1,4 +1,4 @@
-import ArchiveList from "@/components/ArchiveList";
+import FlashcardList from "@/components/FlashcardList";
 import styled from "styled-components";
 
 const Container = styled.div`
@@ -30,18 +30,21 @@ export default function Archive({
   handleDeleteFlashcard,
   handleUpdateFlashcard,
 }) {
+  const listMode = "archive";
+
   return (
     <>
       <Container>
         <StyledPageTitle>Archive</StyledPageTitle>
       </Container>
       <StyledCollectionTitle>All Cards</StyledCollectionTitle>
-      <ArchiveList
+      <FlashcardList
         flashcards={flashcards}
         collections={collections}
         handleToggleCorrect={handleToggleCorrect}
         handleDeleteFlashcard={handleDeleteFlashcard}
         handleUpdateFlashcard={handleUpdateFlashcard}
+        listMode={listMode}
       />
     </>
   );

@@ -16,19 +16,33 @@ export default function FlashcardList({
   handleToggleCorrect,
   handleDeleteFlashcard,
   handleUpdateFlashcard,
+  listMode,
 }) {
-  const unansweredFlashcards = flashcards.filter(
-    (flashcard) => flashcard.isCorrect === false
-  );
+  let FlashcardsForList;
+  let TextForZeroFlashcards;
+
+  switch (listMode) {
+    case "archive":
+      FlashcardsForList = flashcards.filter((flashcard) => flashcard.isCorrect);
+      TextForZeroFlashcards =
+        "You have not yet answered any questions in this collection correctly.";
+      break;
+    default:
+      FlashcardsForList = flashcards.filter(
+        (flashcard) => flashcard.isCorrect === false
+      );
+      TextForZeroFlashcards = "There are no flashcards in this collection.";
+      break;
+  }
 
   return (
     <CardList>
       {flashcards.length === 0 ? (
         <p>All cards have been deleted.</p>
-      ) : unansweredFlashcards.length === 0 ? (
-        <p>There are no flashcards in this collection.</p>
+      ) : FlashcardsForList.length === 0 ? (
+        <p>{TextForZeroFlashcards}</p>
       ) : (
-        unansweredFlashcards.map((flashcard) => {
+        FlashcardsForList.map((flashcard) => {
           const collection = collections.find(
             (collection) => collection._id === flashcard.collectionId
           );

@@ -1,4 +1,4 @@
-import ArchiveList from "@/components/ArchiveList";
+import FlashcardList from "@/components/FlashcardList";
 import styled from "styled-components";
 import { useRouter } from "next/router";
 
@@ -39,6 +39,7 @@ export default function Archive({
   const currentCollection = collections.find(
     (collection) => collection._id === (id ? String(id) : null)
   );
+  const listMode = "archive";
 
   // Filtere die Flashcards
   const filteredFlashcards = currentCollection
@@ -55,12 +56,13 @@ export default function Archive({
       <StyledCollectionTitle>
         {currentCollection ? currentCollection.title : "All Cards"}
       </StyledCollectionTitle>
-      <ArchiveList
+      <FlashcardList
         flashcards={filteredFlashcards}
         collections={collections}
         handleToggleCorrect={handleToggleCorrect}
         handleDeleteFlashcard={handleDeleteFlashcard}
         handleUpdateFlashcard={handleUpdateFlashcard}
+        listMode={listMode}
       />
     </>
   );
