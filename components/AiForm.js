@@ -60,14 +60,65 @@ const ButtonContainer = styled.div`
   padding: 32px 0 8px 0;
 `;
 
+const Tooltip = styled.div`
+  position: relative;
+  cursor: help;
+  line-height: 1.2em;
+
+  .tooltip-text {
+    visibility: hidden;
+    position: absolute;
+    background-color: #013d78;
+    color: #fff;
+    min-width: 300px;
+    text-align: center;
+    padding: 12px;
+    border-radius: 8px;
+    top: 125%;
+    left: 50%;
+    transform: translateX(-50%);
+    margin-top: 8px;
+    z-index: 1;
+
+    &:before {
+      content: "";
+      position: absolute;
+      top: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      border-width: 0 10px 10px 10px;
+      border-style: solid;
+      border-color: transparent transparent #013d78 transparent;
+    }
+  }
+
+  &:hover .tooltip-text {
+    visibility: visible;
+  }
+
+  .tooltip-text {
+    opacity: 0;
+    transition: opacity 0.5s, visibility 0.5s;
+  }
+
+  &:hover .tooltip-text {
+    visibility: visible;
+    opacity: 1;
+  }
+`;
+
 export default function AiForm({
-  initialValues,
   onClose,
   collections,
-  onSubmit,
+  handleCreateCollection,
+  handleCreateFlashcard,
+  handleCreateAiFlashcards,
 }) {
   const [showCollectionInput, setShowCollectionInput] = useState(false);
   const [aiFlashcardSelect, setAiFlashcardSelect] = useState(false);
+  const [generatedFlashcards, setGeneratedFlashcards] = useState([]);
+  const [formData, setFormData] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   function handleToggleCollection() {
     setShowCollectionInput((prev) => !prev);
@@ -75,32 +126,81 @@ export default function AiForm({
 
   async function handleSubmit(event) {
     event.preventDefault();
+    setIsLoading(true);
     const formData = new FormData(event.target);
     const data = Object.fromEntries(formData);
+    setFormData(data);
 
-    const mergedData = {
-      ...initialValues,
-      ...data,
-      isCorrect: initialValues ? initialValues.isCorrect : false,
-    };
+    try {
+      const result = await handleCreateAiFlashcards({
+        textInput: data.textInput,
+        numberOfFlashcards: data.numberOfFlashcards,
+        collectionId: showCollectionInput ? null : data.collectionId,
+      });
 
-    if (initialValues?._id) {
-      await onSubmit(initialValues._id, mergedData);
-    } else {
-      await onSubmit(mergedData);
+      if (result && result.flashcards) {
+        setGeneratedFlashcards(result.flashcards);
+        setAiFlashcardSelect(true);
+      }
+    } catch (error) {
+      console.error("Error generating flashcards:", error);
+    } finally {
+      setIsLoading(false);
     }
   }
 
   function handleAiFlashcardSelect() {
     setAiFlashcardSelect((prev) => !prev);
+    if (aiFlashcardSelect) {
+      setGeneratedFlashcards([]);
+      setFormData(null);
+      setIsLoading(false);
+    }
+  }
+
+  async function handleSaveFlashcards(selectedCards) {
+    try {
+      let collectionId = formData.collectionId;
+
+      if (!collectionId) {
+        const collectionResponse = await handleCreateCollection({
+          title: formData.title,
+        });
+        if (!collectionResponse?.data?._id) {
+          throw new Error("Failed to create collection");
+        }
+        collectionId = collectionResponse.data._id;
+      }
+
+      const formattedCards = selectedCards.map((card) => ({
+        ...card,
+        isCorrect: false,
+        collectionId,
+      }));
+
+      await Promise.all(
+        formattedCards.map((card) => handleCreateFlashcard(card))
+      );
+
+      setGeneratedFlashcards([]);
+      setFormData(null);
+      setIsLoading(false);
+      setAiFlashcardSelect(false);
+      onClose();
+    } catch (error) {
+      console.error("Error saving flashcards:", error);
+    }
   }
 
   return (
     <StyledForm onSubmit={handleSubmit}>
+      <Tooltip>
+        {" "}
+        ##<span class="tooltip-text">#</span>
+      </Tooltip>
       <Label htmlFor="textInput">Question:</Label>
       <Textarea
         id="textInput"
-        type="text"
         name="textInput"
         placeholder="Test Question"
         required
@@ -119,20 +219,17 @@ export default function AiForm({
           <Select
             name="collectionId"
             id="collections-select"
-            defaultValue={initialValues?.collectionId || ""}
             required={!showCollectionInput}
             disabled={showCollectionInput}
           >
             <option value="" disabled>
               --Please select a collection--
             </option>
-            {collections &&
-              collections.length > 0 &&
-              collections.map((collection) => (
-                <option key={collection._id} value={collection._id}>
-                  {collection.title}
-                </option>
-              ))}
+            {collections?.map((collection) => (
+              <option key={collection._id} value={collection._id}>
+                {collection.title}
+              </option>
+            ))}
           </Select>
         </>
       )}
@@ -140,16 +237,17 @@ export default function AiForm({
       {showCollectionInput && (
         <>
           <Label htmlFor="new-collection">New Collection:</Label>
-          <Input
-            id="title"
-            type="text"
-            name="title"
-            placeholder="Collection*"
-          />
+          <Input id="title" name="title" placeholder="Collection*" />
         </>
       )}
 
-      {aiFlashcardSelect && <AiFlashcardSelect />}
+      {aiFlashcardSelect && (
+        <AiFlashcardSelect
+          handleAiFlashcardSelect={handleAiFlashcardSelect}
+          generatedFlashcards={generatedFlashcards}
+          onSaveSelected={handleSaveFlashcards}
+        />
+      )}
 
       <AddCollectionContainer>
         <Button
@@ -164,11 +262,11 @@ export default function AiForm({
       </AddCollectionContainer>
       <ButtonContainer>
         <Button
-          type="button"
-          onClick={handleAiFlashcardSelect}
-          buttonLabel={"create"}
+          type="submit"
+          disabled={isLoading}
+          buttonLabel={isLoading ? "generating..." : "generate"}
         />
-        <Button type="button" onClick={onClose} buttonLabel={"cancel"} />
+        <Button type="button" onClick={onClose} buttonLabel="cancel" />
       </ButtonContainer>
     </StyledForm>
   );

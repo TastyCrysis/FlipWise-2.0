@@ -193,9 +193,8 @@ export default function Navbar({
   const navPath = pathname === "/" || pathname?.includes("/archive");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [form, setForm] = useState("flashcard");
-  const [error, setError] = useState(null);
-  const archiveLink = id ? `/collections/${id}/archive` : "/archive";
   const [activeTab, setActiveTab] = useState("flashcard");
+  const archiveLink = id ? `/collections/${id}/archive` : "/archive";
 
   async function handleSubmit(data) {
     try {
@@ -230,41 +229,6 @@ export default function Navbar({
     } else if (tab === "ai") {
       setActiveTab("ai");
       setForm("ai");
-    }
-  }
-
-  async function handleAiSubmit(data) {
-    setError(null);
-    try {
-      if (!data.collectionId) {
-        const collectionData = await handleCreateCollection({
-          title: data.title,
-        });
-        if (
-          !collectionData ||
-          !collectionData.data ||
-          !collectionData.data._id
-        ) {
-          throw new Error("Failed to create collection");
-        }
-        const aiData = {
-          textInput: data.textInput,
-          numberOfFlashcards: parseInt(data.numberOfFlashcards),
-          collectionId: collectionData.data._id,
-        };
-        await handleCreateAiFlashcards(aiData);
-        setIsModalOpen(false);
-      } else {
-        const aiData = {
-          ...data,
-          numberOfFlashcards: parseInt(data.numberOfFlashcards),
-        };
-        await handleCreateAiFlashcards(aiData);
-        setIsModalOpen(false);
-      }
-    } catch (error) {
-      console.error("Error creating collection and flashcard:", error);
-      setError(error.message);
     }
   }
 
@@ -306,7 +270,9 @@ export default function Navbar({
               <AiForm
                 collections={collections}
                 onClose={() => setIsModalOpen(false)}
-                onSubmit={handleAiSubmit}
+                handleCreateCollection={handleCreateCollection}
+                handleCreateFlashcard={handleCreateFlashcard}
+                handleCreateAiFlashcards={handleCreateAiFlashcards}
               />
             )}
           </Modal>

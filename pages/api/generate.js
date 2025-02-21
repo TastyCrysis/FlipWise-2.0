@@ -28,7 +28,6 @@ export default async function handler(request, response) {
       - Each object must have "question" and "answer" fields
       - Question max length: 100 chars
       - Answer max length: 50 chars
-      - It can be more than one answer in the answer field for each question
       - Return only the JSON array, no other text
       Example format: [{"question": "What is...?", "answer": "This is..."}]
     `;
@@ -63,10 +62,17 @@ export default async function handler(request, response) {
         throw new Error("OpenAI response is not an array");
       }
 
-      flashcards.forEach((card) => {
+      // Format and validate each flashcard
+      flashcards = flashcards.map((card) => {
         if (!card.question || !card.answer) {
           throw new Error("Invalid flashcard format");
         }
+        return {
+          question: card.question.trim(),
+          answer: Array.isArray(card.answer)
+            ? card.answer.join(", ")
+            : card.answer.trim(),
+        };
       });
     } catch (error) {
       console.error("Error parsing OpenAI response:", error);
@@ -77,12 +83,10 @@ export default async function handler(request, response) {
       });
     }
 
-    const flashcardsAndCollection = {
+    return response.status(200).json({
       flashcards,
       collectionId,
-    };
-
-    return response.status(200).json(flashcardsAndCollection);
+    });
   } catch (error) {
     return response.status(500).json({
       message: "Internal server error",
