@@ -109,8 +109,8 @@ export default function App({ Component, pageProps }) {
     flashcardsMutate();
   }
 
-  async function handleUpdateCollection(_id, data) {
-    const response = await fetch(`/api/collections/${_id}`, {
+  async function handleUpdateCollection(data) {
+    const response = await fetch(`/api/collections/${data._id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -122,7 +122,6 @@ export default function App({ Component, pageProps }) {
       return;
     }
     collectionsMutate();
-    console.log("APP.js:", data);
   }
 
   async function handleCreateCollection(data) {

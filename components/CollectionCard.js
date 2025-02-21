@@ -157,11 +157,10 @@ export default function CollectionCard({
     setShowConfirmation(!showConfirmation);
   }
 
-  function handleSubmit(id, data) {
-    handleUpdateCollection(id, data);
+  function handleSubmit(data) {
+    handleUpdateCollection(data);
     setIsModalOpen(false);
   }
-  console.log(handleSubmit);
 
   function toggleOptionMenu() {
     setIsMenuOpen(!isMenuOpen);
@@ -191,7 +190,7 @@ export default function CollectionCard({
         <Modal
           isOpen={isModalOpen}
           onClose={() => setIsModalOpen(false)}
-          title="Update Colelction"
+          title="Update Collection"
           needsPortal={true}
         >
           <CollectioncardForm
@@ -199,8 +198,6 @@ export default function CollectionCard({
             collections={collections}
             initialValues={{
               _id: collection._id,
-
-              collectionId: collection?.collectionId || "",
               title: collection?.title,
             }}
             onClose={() => setIsModalOpen(false)}

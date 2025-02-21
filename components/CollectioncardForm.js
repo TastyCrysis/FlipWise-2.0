@@ -46,14 +46,8 @@ export default function CollectioncardForm({
     const mergedData = {
       ...initialValues,
       ...data,
-      isCorrect: initialValues ? initialValues.isCorrect : false,
     };
-
-    if (initialValues?._id) {
-      await onSubmit(initialValues._id, mergedData);
-    } else {
-      await onSubmit(mergedData);
-    }
+    await onSubmit(mergedData);
   }
 
   return (
