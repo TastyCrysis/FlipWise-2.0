@@ -188,7 +188,11 @@ const OpenButton = styled.button`
   }
 `;
 
-export default function Navbar({ handleCreateFlashcard, collections }) {
+export default function Navbar({
+  handleCreateFlashcard,
+  handleCreateCollection,
+  collections,
+}) {
   const router = useRouter();
   const { id } = router.query;
   const pathname = router.pathname;
@@ -197,9 +201,30 @@ export default function Navbar({ handleCreateFlashcard, collections }) {
   const archiveLink = id ? `/collections/${id}/archive` : "/archive";
   const { data: session } = useSession();
 
-  function handleSubmit(data) {
-    handleCreateFlashcard(data);
-    setIsModalOpen(false);
+  async function handleSubmit(data) {
+    try {
+      if (!data.collectionId) {
+        const collectionData = await handleCreateCollection({
+          title: data.collectionTitle || data.title,
+        });
+
+        if (collectionData.data && collectionData.data._id) {
+          const flashcardData = {
+            question: data.question,
+            answer: data.answer,
+            isCorrect: false,
+            collectionId: collectionData.data._id,
+          };
+          await handleCreateFlashcard(flashcardData);
+          setIsModalOpen(false);
+        }
+      } else {
+        await handleCreateFlashcard(data);
+        setIsModalOpen(false);
+      }
+    } catch (error) {
+      console.error("Error creating collection and flashcard:", error);
+    }
   }
 
   return (
@@ -236,6 +261,7 @@ export default function Navbar({ handleCreateFlashcard, collections }) {
               onSubmit={handleSubmit}
               collections={collections}
               onClose={() => setIsModalOpen(false)}
+              handleCreateCollection={handleCreateCollection}
             />
           </Modal>
         </ModalWrapper>
