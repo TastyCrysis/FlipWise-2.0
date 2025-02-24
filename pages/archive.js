@@ -59,13 +59,12 @@ export default function Archive({
       <Container>
         <StyledPageTitle>Archive</StyledPageTitle>
 
-        {/* Mehrfachauswahl Dropdown */}
         <select
           name="collection-list"
           multiple
           value={selectedCollections}
           onChange={handleCollectionChange}
-          style={{ minHeight: "100px", width: "200px" }} // Styling für bessere Usability
+          style={{ minHeight: "100px", width: "400px" }}
         >
           {collections.map((collection) => (
             <option value={collection._id} key={collection._id}>
@@ -74,12 +73,11 @@ export default function Archive({
           ))}
         </select>
 
-        {/* Button zum Bestätigen der Auswahl */}
         <button
           onClick={handleNavigate}
           disabled={selectedCollections.length === 0}
         >
-          Anzeigen
+          Show cards
         </button>
       </Container>
 
