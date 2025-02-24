@@ -5,8 +5,7 @@ export default function Login() {
   //const providers = await getProviders()
 
   function handleSignIn() {
-    signIn();
-    console.log("session_", session);
+    console.log("session_");
   }
 
   if (session) {
@@ -17,10 +16,18 @@ export default function Login() {
       </>
     );
   }
+
   return (
     <>
       Not signed in <br />
-      <button onClick={() => handleSignIn()}>Sign in</button>
+      <button
+        onClick={async () => {
+          await signIn();
+          handleSignIn();
+        }}
+      >
+        Sign in
+      </button>
     </>
   );
 }

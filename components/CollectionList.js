@@ -15,7 +15,7 @@ export default function CollectionList({
   collections,
   handleDeleteCollection,
 }) {
-  console.log("collections_", collections);
+  //console.log("collections_", collections);
   return collections.length === 0 ? (
     <p>All collections have been deleted.</p>
   ) : (

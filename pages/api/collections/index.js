@@ -16,14 +16,14 @@ export default async function handler(request, response) {
         if (session) {
           const collectionsUser = await Collection.find({ userId: userId });
           const collectionsDefault = await Collection.find({
-            userID: { $exists: false },
+            userId: { $exists: false },
           });
           const collections = [...collectionsUser, ...collectionsDefault];
 
           return response.status(200).json(collections);
         } else {
           const collections = await Collection.find({
-            userID: { $exists: false },
+            userId: { $exists: false },
           });
           return response.status(200).json(collections);
         }

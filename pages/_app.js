@@ -22,14 +22,6 @@ const fetcher = (url) => fetch(url).then((response) => response.json());
 
 export default function App({ Component, pageProps }) {
   const [themeMode, setThemeMode] = useState("dark");
-  const {
-    data: flashcards,
-    isLoading: flashcardsLoading,
-    error: flashcardError,
-    mutate: flashcardsMutate,
-  } = useSWR("/api/flashcards", fetcher);
-
-  console.log("flashcards_", flashcards);
 
   const {
     data: collections,
@@ -37,8 +29,15 @@ export default function App({ Component, pageProps }) {
     error: collectionsError,
     mutate: collectionsMutate,
   } = useSWR("/api/collections", fetcher);
+  const {
+    data: flashcards,
+    isLoading: flashcardsLoading,
+    error: flashcardError,
+    mutate: flashcardsMutate,
+  } = useSWR("/api/flashcards", fetcher);
 
-  console.log("collections", collections);
+  //console.log("flashcards_", flashcards);
+  //console.log("collections", collections);
 
   if (flashcardsLoading || collectionsLoading) {
     return <h1>Loading...</h1>;
