@@ -2,6 +2,7 @@ import styled from "styled-components";
 import Button from "./Button";
 import { useState } from "react";
 import AiFlashcardSelect from "./AiFlashcardSelect";
+import Image from "next/image";
 
 const StyledForm = styled.form`
   position: relative;
@@ -9,7 +10,7 @@ const StyledForm = styled.form`
   flex-direction: column;
   align-items: center;
   gap: 8px;
-  margin: 4px 24px 4px 24px;
+  margin: 4px 4px 4px 4px;
   padding: 0 0 16px 0;
 `;
 
@@ -26,7 +27,7 @@ const Textarea = styled.textarea`
   padding: 8px;
   border: 1px solid #ccc;
   border-radius: 4px;
-  margin-bottom: 16px;
+  margin-bottom: 8px;
   vertical-align: top;
   line-height: 1;
 `;
@@ -36,7 +37,7 @@ const Input = styled.input`
   padding: 8px;
   border: 1px solid #ccc;
   border-radius: 4px;
-  margin-bottom: 16px;
+  margin-bottom: 8px;
 `;
 
 const AddCollectionContainer = styled.div`
@@ -57,53 +58,84 @@ const ButtonContainer = styled.div`
   display: flex;
   justify-content: space-between;
   width: 70%;
-  padding: 32px 0 8px 0;
+  padding: 16px 0 2px 0;
+  gap: 16px;
 `;
 
-const Tooltip = styled.div`
+const TooltipText = styled.ol`
+  visibility: hidden;
+  position: absolute;
+  background-color: ${({ theme }) => theme.tooltipBackground};
+  color: ${({ theme }) => theme.tooltipText};
+  border: 1px solid ${({ theme }) => theme.tooltipBorder};
+  min-width: 300px;
+  max-width: 90vw;
+  text-align: left;
+  padding: 8px 8px 8px 24px;
+  border-radius: 8px;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-top: 8px;
+  z-index: 1;
+  opacity: 0;
+  transition: opacity 0.5s, visibility 0.5s;
+
+  &:before {
+    content: "";
+    position: absolute;
+    top: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 0 10px 10px 10px;
+    border-style: solid;
+    border-color: transparent transparent
+      ${({ theme }) => theme.tooltipBackground} transparent;
+    filter: drop-shadow(0 -1px 0 ${({ theme }) => theme.tooltipBorder});
+  }
+`;
+
+const Icon = styled.span`
+  position: relative;
+  display: block;
+  line-height: 1;
+  font-size: 1.5em;
+  text-align: center;
+  transition: 0.5s;
+  color: ${({ theme }) => theme.navbarText};
+
+  & img {
+    filter: ${({ theme }) =>
+      theme.navbarText === "#a3a8c8"
+        ? "invert(0.6) brightness(1) sepia(0.5) hue-rotate(210deg) saturate(1) contrast(1)"
+        : "invert(1)"};
+  }
+`;
+
+const TooltipContainer = styled.div`
   position: relative;
   cursor: help;
   line-height: 1.2em;
+  margin: 0;
 
-  .tooltip-text {
-    visibility: hidden;
-    position: absolute;
-    background-color: #013d78;
-    color: #fff;
-    min-width: 300px;
-    text-align: center;
-    padding: 12px;
-    border-radius: 8px;
-    top: 125%;
-    left: 50%;
-    transform: translateX(-50%);
-    margin-top: 8px;
-    z-index: 1;
-
-    &:before {
-      content: "";
-      position: absolute;
-      top: -10px;
-      left: 50%;
-      transform: translateX(-50%);
-      border-width: 0 10px 10px 10px;
-      border-style: solid;
-      border-color: transparent transparent #013d78 transparent;
-    }
-  }
-
-  &:hover .tooltip-text {
-    visibility: visible;
-  }
-
-  .tooltip-text {
-    opacity: 0;
-    transition: opacity 0.5s, visibility 0.5s;
-  }
-
-  &:hover .tooltip-text {
+  &:hover ${TooltipText} {
     visibility: visible;
     opacity: 1;
+  }
+`;
+
+const List = styled.ol`
+  padding-left: 2px;
+  padding-right: 2px;
+  margin: 0;
+`;
+
+const ListItem = styled.li`
+  margin-bottom: 4px;
+  line-height: 1.2;
+
+  &:last-child {
+    margin-bottom: 0;
   }
 `;
 
@@ -194,10 +226,41 @@ export default function AiForm({
 
   return (
     <StyledForm onSubmit={handleSubmit}>
-      <Tooltip>
-        {" "}
-        ##<span class="tooltip-text">#</span>
-      </Tooltip>
+      <TooltipContainer>
+        <Icon>
+          <Image src="/asset/info.png" alt="info-logo" width={24} height={24} />
+        </Icon>
+        <TooltipText>
+          <List>
+            <ListItem>
+              Write a text in the text field and describe the flashcards you
+              want to create.
+            </ListItem>
+            <hr />
+            <ListItem>
+              Select a number of flashcards you want to create.
+            </ListItem>
+            <hr />
+            <ListItem>
+              Select a collection to save the flashcards or create a new one.
+            </ListItem>
+            <hr />
+            <ListItem>
+              Click on the generate button to create the flashcards.
+            </ListItem>
+            <hr />
+            <ListItem>A selection of flashcards will be generated.</ListItem>
+            <hr />
+            <ListItem>
+              Unmark the flashcards you don&apos;t want to save.
+            </ListItem>
+            <hr />
+            <ListItem>
+              Click on the save button to save the flashcards.
+            </ListItem>
+          </List>
+        </TooltipText>
+      </TooltipContainer>
       <Label htmlFor="textInput">Question:</Label>
       <Textarea
         id="textInput"

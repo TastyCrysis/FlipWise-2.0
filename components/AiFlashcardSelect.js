@@ -54,13 +54,13 @@ const ButtonContainer = styled.div`
   margin: 0;
 `;
 
-const FlashcardList = styled.div`
+const FlashcardList = styled.ul`
   max-height: 400px;
   overflow-y: auto;
   padding: 0 16px;
 `;
 
-const FlashcardItem = styled.div`
+const FlashcardItem = styled.li`
   display: flex;
   align-items: flex-start;
   gap: 12px;

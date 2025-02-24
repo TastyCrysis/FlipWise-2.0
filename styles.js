@@ -30,6 +30,9 @@ export const theme = {
     modalBackground: "#3f5576",
     modalText: "#a3a8c8",
     modalBorder: "#8689ac",
+    tooltipBackground: "#2f3148",
+    tooltipText: "#8689AC",
+    tooltipBorder: "#8689ac",
   },
   light: {
     //Color Palette #4544 from colorpalettes.net
@@ -60,6 +63,9 @@ export const theme = {
     modalBackground: "#015366",
     modalText: "#E0F4F5",
     modalBorder: "#E0F4F5",
+    tooltipBackground: "#E0F4F5",
+    tooltipText: "#015366",
+    tooltipBorder: "#015366",
   },
   flower: {
     //Color Palette #4557 from colorpalettes.net
@@ -90,6 +96,9 @@ export const theme = {
     modalBackground: "#882380",
     modalText: "#e0e0e0",
     modalBorder: "#D5FB00",
+    tooltipBackground: "#223C20",
+    tooltipText: "#e0e0e0",
+    tooltipBorder: "#D5FB00",
   },
 };
 
