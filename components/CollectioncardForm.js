@@ -26,6 +26,14 @@ const Input = styled.input`
   margin-bottom: 16px;
 `;
 
+const Select = styled.select`
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-bottom: 16px;
+`;
+
 const ButtonContainer = styled.div`
   display: flex;
   justify-content: space-between;

@@ -107,7 +107,6 @@ export default function FlashcardForm({
             id="collections-select"
             defaultValue={initialValues?.collectionId || ""}
             required={!showCollectionInput}
-            disabled={showCollectionInput}
           >
             <option value="" disabled>
               --Please select a collection--
