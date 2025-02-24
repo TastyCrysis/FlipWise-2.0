@@ -2,6 +2,8 @@ import ArchiveList from "@/components/FlashcardList";
 import styled from "styled-components";
 import { useState } from "react";
 import { useRouter } from "next/router";
+import React from "react";
+import Select from "react-select";
 
 const Container = styled.div`
   display: flex;
@@ -35,20 +37,21 @@ export default function Archive({
   const [selectedCollections, setSelectedCollections] = useState([]);
   const router = useRouter();
 
-  const handleCollectionChange = (event) => {
-    const selectedValues = Array.from(
-      event.target.selectedOptions,
-      (option) => option.value
+  const options = collections.map((collection) => ({
+    value: collection._id,
+    label: collection.title,
+  }));
+
+  const handleCollectionChange = (selectedOptions) => {
+    setSelectedCollections(
+      selectedOptions ? selectedOptions.map((option) => option.value) : []
     );
-    setSelectedCollections(selectedValues);
   };
 
   const handleNavigate = () => {
     if (selectedCollections.length === 1) {
-      // Wenn nur eine Collection gewählt wurde, leiten wir direkt zu ihrer Archivseite
       router.push(`/collections/${selectedCollections[0]}/archive`);
     } else if (selectedCollections.length > 1) {
-      // Mehrere Collections => Neue Seite mit Query-Parametern
       const queryString = selectedCollections.join(",");
       router.push(`/collections/selected-archives?ids=${queryString}`);
     }
@@ -59,19 +62,17 @@ export default function Archive({
       <Container>
         <StyledPageTitle>Archive</StyledPageTitle>
 
-        <select
-          name="collection-list"
-          multiple
-          value={selectedCollections}
+        <Select
+          isMulti
+          name="collections"
+          value={options.filter((option) =>
+            selectedCollections.includes(option.value)
+          )}
           onChange={handleCollectionChange}
-          style={{ minHeight: "100px", width: "400px" }}
-        >
-          {collections.map((collection) => (
-            <option value={collection._id} key={collection._id}>
-              {collection.title}
-            </option>
-          ))}
-        </select>
+          className="basic-multi-select"
+          classNamePrefix="select"
+          options={options}
+        />
 
         <button
           onClick={handleNavigate}
