@@ -1,5 +1,3 @@
-import { useState } from "react";
-import { nanoid } from "nanoid";
 import styled from "styled-components";
 import Button from "./Button";
 
@@ -47,9 +45,7 @@ export default function CollectioncardForm({
   onSubmit,
   initialValues,
   onClose,
-  collections,
 }) {
-  const [showCollectionInput, setShowCollectionInput] = useState(false);
   async function handleSubmit(event) {
     event.preventDefault();
     const formData = new FormData(event.target);
@@ -58,27 +54,17 @@ export default function CollectioncardForm({
     const mergedData = {
       ...initialValues,
       ...data,
-      isCorrect: initialValues ? initialValues.isCorrect : false,
     };
-
-    if (initialValues?._id) {
-      await onSubmit(initialValues._id, mergedData);
-    } else {
-      await onSubmit(mergedData);
-    }
-  }
-
-  function handleToggleCollection() {
-    setShowCollectionInput((prev) => !prev);
+    await onSubmit(mergedData);
   }
 
   return (
     <StyledForm onSubmit={handleSubmit}>
-      <Label htmlFor="collectionUpdate">Coll:</Label>
+      <Label htmlFor="collectionUpdate">Collection:</Label>
       <Input
         id="title"
         type="text"
-        name="Title"
+        name="title"
         placeholder={initialValues ? "" : "*"}
         defaultValue={initialValues?.title || ""}
         required

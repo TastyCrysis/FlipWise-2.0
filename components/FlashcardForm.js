@@ -56,7 +56,6 @@ export default function FlashcardForm({
   collections,
 }) {
   const [showCollectionInput, setShowCollectionInput] = useState(false);
-
   async function handleSubmit(event) {
     event.preventDefault();
     const formData = new FormData(event.target);
@@ -99,6 +98,7 @@ export default function FlashcardForm({
         defaultValue={initialValues?.answer || ""}
         required
       />
+
       {!showCollectionInput && (
         <>
           <Label htmlFor="collections-select">Collection:</Label>
@@ -121,7 +121,6 @@ export default function FlashcardForm({
           </Select>
         </>
       )}
-
       {showCollectionInput && (
         <>
           <Label htmlFor="new-collection">New Collection:</Label>
@@ -133,7 +132,6 @@ export default function FlashcardForm({
           />
         </>
       )}
-
       <AddCollectionContainer>
         <Button
           type="button"

@@ -2,7 +2,7 @@ import { useState } from "react";
 import styled from "styled-components";
 import Modal from "@/components/Modal";
 import FlashcardForm from "@/components/FlashcardForm";
-import FlashcardOptionButton from "@/components/FlashcardOptionsButton";
+import CardOptionButton from "@/components/CardOptionsButton";
 import Button from "@/components/Button";
 import ArrowRedoDot from "@/components/Elements/Arrow_redo-dot";
 
@@ -99,7 +99,7 @@ const CollectionTitle = styled.p`
   transform: rotateY(0deg);
 `;
 
-const FlashcardMenu = styled.div`
+const CardMenu = styled.div`
   text-align: right;
   font-style: italic;
   color: ${({ theme }) => theme.cardPrimaryText};
@@ -197,7 +197,7 @@ export default function Flashcard({
           />
         </Modal>
 
-        <FlashcardOptionButton
+        <CardOptionButton
           type="button"
           onClick={(event) => {
             event.stopPropagation();
@@ -209,9 +209,9 @@ export default function Flashcard({
           setIsModalOpen={setIsModalOpen}
         />
       </FlashcardFront>
-      <FlashcardMenu>
+      <CardMenu>
         <ArrowRedoDot />
-      </FlashcardMenu>
+      </CardMenu>
       <FlashcardBack>
         <FlashcardBackContent>
           <FlashcardAnswer>
