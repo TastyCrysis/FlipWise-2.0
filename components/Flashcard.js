@@ -183,6 +183,7 @@ export default function Flashcard({
           title="Update Flashcard"
           needsPortal={true}
           isUpdateFormOpen={true}
+          isCollectionForm={false}
         >
           <FlashcardForm
             onSubmit={handleSubmit}

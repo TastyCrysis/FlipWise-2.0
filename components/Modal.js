@@ -117,6 +117,7 @@ export default function Modal({
   activeTab,
   setActiveTab,
   isUpdateFormOpen,
+  isCollectionForm,
 }) {
   if (!isOpen) return null;
 
@@ -128,7 +129,7 @@ export default function Modal({
         }}
       >
         <ModalContainer>
-          {!isUpdateFormOpen && (
+          {!isUpdateFormOpen && !isCollectionForm && (
             <TabButtonContainer>
               <TabButtonFlashcard
                 type="button"

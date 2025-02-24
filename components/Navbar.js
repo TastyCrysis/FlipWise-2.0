@@ -258,6 +258,7 @@ export default function Navbar({
             switchForm={switchForm}
             activeTab={activeTab}
             setActiveTab={setActiveTab}
+            isCollectionForm={false}
           >
             {form === "flashcard" ? (
               <FlashcardForm
