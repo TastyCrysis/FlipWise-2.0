@@ -1,14 +1,14 @@
 import styled from "styled-components";
 import Link from "next/link";
 
-const CardList = styled.ul`
+const ModeList = styled.ul`
   display: flex;
   flex-direction: column;
   gap: 24px;
   margin-top: 72px;
 `;
 
-const CardItem = styled.li`
+const ModeItem = styled.li`
   width: 100%;
   height: 300px;
   max-width: 550px;
@@ -36,7 +36,7 @@ const StyledCardLink = styled(BaseLink)`
   position: relative;
 `;
 
-const CollectionCardArticle = styled.article`
+const ModeArticle = styled.article`
   height: 100%;
   background: ${({ theme }) => theme.collectionCard};
   padding: 0 24px;
@@ -78,10 +78,10 @@ const StyledStatsItemSpan = styled.span`
 export default function Homepage({}) {
   return (
     <>
-      <CardList>
-        <CardItem>
+      <ModeList>
+        <ModeItem>
           <StyledCardLink href="/collections">
-            <CollectionCardArticle>
+            <ModeArticle>
               <StyledTitle>Learning Mode</StyledTitle>
               <StyledStatsItem>
                 Description:
@@ -93,10 +93,10 @@ export default function Homepage({}) {
                   edit and delete existing ones.
                 </StyledStatsItemSpan>
               </StyledStatsItem>
-            </CollectionCardArticle>
+            </ModeArticle>
           </StyledCardLink>
-        </CardItem>
-      </CardList>
+        </ModeItem>
+      </ModeList>
     </>
   );
 }

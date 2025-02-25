@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import Flashcard from "@/components/Flashcard";
+import Flashcard from "@/components/Flashcards/Flashcard";
 
 const CardList = styled.ul`
   display: flex;
