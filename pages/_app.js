@@ -114,6 +114,21 @@ export default function App({ Component, pageProps }) {
     flashcardsMutate();
   }
 
+  async function handleUpdateCollection(data) {
+    const response = await fetch(`/api/collections/${data._id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+    if (!response.ok) {
+      console.error("Failed to update collection");
+      return;
+    }
+    collectionsMutate();
+  }
+
   async function handleCreateCollection(data) {
     try {
       const response = await fetch("/api/collections", {
@@ -189,6 +204,7 @@ export default function App({ Component, pageProps }) {
               handleDeleteFlashcard={handleDeleteFlashcard}
               handleUpdateFlashcard={handleUpdateFlashcard}
               handleDeleteCollection={handleDeleteCollection}
+              handleUpdateCollection={handleUpdateCollection}
             />
           </main>
           <footer>
@@ -199,6 +215,7 @@ export default function App({ Component, pageProps }) {
             <Navbar
               handleCreateFlashcard={handleCreateFlashcard}
               collections={collections}
+              handleCreateCollection={handleCreateCollection}
             />
           </footer>
         </SWRConfig>

@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import MenuThreePoint from "@/components/Elements/Menu_threePoint";
-import FlashcardOptionMenu from "@/components/FlashcardOptionsMenu";
+import CardOptionMenu from "@/components/CardOptionsMenu";
 import { useSession } from "next-auth/react";
 
 const StyledButton = styled.button`
@@ -23,7 +23,7 @@ const StyledButton = styled.button`
   }
 `;
 
-export default function FlashcardOptionButton({
+export default function CardOptionButton({
   type,
   onClick,
   isMenuOpen,
@@ -43,7 +43,7 @@ export default function FlashcardOptionButton({
         <MenuThreePoint />
       </StyledButton>
       {isMenuOpen && (
-        <FlashcardOptionMenu
+        <CardOptionMenu
           isMenuOpen={isMenuOpen}
           toggleConfirmation={toggleConfirmation}
           toggleOptionMenu={toggleOptionMenu}

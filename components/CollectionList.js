@@ -14,6 +14,7 @@ export default function CollectionList({
   flashcards,
   collections,
   handleDeleteCollection,
+  handleUpdateCollection,
 }) {
   //console.log("collections_", collections);
   return collections.length === 0 ? (
@@ -26,6 +27,7 @@ export default function CollectionList({
           collection={collection}
           flashcards={flashcards}
           handleDeleteCollection={handleDeleteCollection}
+          handleUpdateCollection={handleUpdateCollection}
         />
       ))}
     </CardList>
