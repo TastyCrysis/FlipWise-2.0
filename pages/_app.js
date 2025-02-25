@@ -161,16 +161,49 @@ export default function App({ Component, pageProps }) {
     collectionsMutate();
   }
 
+  async function handleCreateAiQuizFlashcards(collection, requiredCount) {
+    const cardsNeeded = requiredCount - collection.cards.length;
+
+    if (cardsNeeded <= 0) return [];
+
+    try {
+      const response = await fetch("/api/generate-cards", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          collectionTitle: collection.title,
+          collectionDescription: collection.description,
+          existingCards: collection.cards,
+          cardsNeeded: cardsNeeded,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to generate cards");
+      }
+
+      const generatedCards = await response.json();
+      return generatedCards;
+    } catch (error) {
+      console.error("Error generating cards:", error);
+      throw error;
+    }
+  }
+
   return (
     <ThemeProvider theme={theme[themeMode]}>
       <GlobalStyle />
       <SWRConfig value={{ fetcher }}>
         <header>
           <StyledTitle>Flipwise App</StyledTitle>
-          <ThemeSwitch
-            theme={themeMode}
-            onHandleToggleThemeMode={handleToggleThemeMode}
-          />
+          {router.pathname !== "/quiz" && (
+            <ThemeSwitch
+              theme={themeMode}
+              onHandleToggleThemeMode={handleToggleThemeMode}
+            />
+          )}
         </header>
         <main>
           <Component
@@ -182,6 +215,7 @@ export default function App({ Component, pageProps }) {
             handleUpdateFlashcard={handleUpdateFlashcard}
             handleDeleteCollection={handleDeleteCollection}
             handleUpdateCollection={handleUpdateCollection}
+            handleCreateAiQuizFlashcards={handleCreateAiQuizFlashcards}
           />
         </main>
         <footer>

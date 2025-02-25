@@ -4,7 +4,6 @@ import Link from "next/link";
 const ModeList = styled.ul`
   display: flex;
   flex-direction: column;
-  gap: 24px;
   margin-top: 72px;
 `;
 
@@ -86,11 +85,27 @@ export default function Homepage({}) {
               <StyledStatsItem>
                 Description:
                 <StyledStatsItemSpan>
-                  This is the learning Mode. Here you can find a list of
+                  This is the Learning Mode. Here you can find a list of
                   collections. In each collection you can find a list of
                   flashcards with questions and answers to the topic of the
                   collection. Also you can create new cards and collections,
                   edit and delete existing ones.
+                </StyledStatsItemSpan>
+              </StyledStatsItem>
+            </ModeArticle>
+          </StyledCardLink>
+        </ModeItem>
+        <ModeItem>
+          <StyledCardLink href="/quiz">
+            <ModeArticle>
+              <StyledTitle>Quiz Mode</StyledTitle>
+              <StyledStatsItem>
+                Description:
+                <StyledStatsItemSpan>
+                  Test your knowledge in Quiz Mode! Select a collection and
+                  difficulty level to start. Challenge yourself with different
+                  time limits and card quantities. If needed, AI will generate
+                  additional cards to ensure a complete quiz experience.
                 </StyledStatsItemSpan>
               </StyledStatsItem>
             </ModeArticle>
