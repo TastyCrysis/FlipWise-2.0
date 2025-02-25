@@ -2,7 +2,6 @@ import ArchiveList from "@/components/FlashcardList";
 import styled from "styled-components";
 import { useState } from "react";
 import { useRouter } from "next/router";
-import React from "react";
 import Select from "react-select";
 
 const Container = styled.div`
@@ -25,6 +24,19 @@ const StyledCollectionTitle = styled.h3`
   font-size: 1.6rem;
   font-weight: 400;
   margin-bottom: 6px;
+`;
+
+const StyledButton = styled.button`
+  border: none;
+  background-color: ${({ theme }) => theme.buttonBackground};
+  font-size: 13px;
+  color: ${({ theme }) => theme.buttonText};
+  padding: 5px 10px;
+  box-shadow: ${({ theme }) => theme.boxShadowButton};
+  border: 1px solid ${({ theme }) => theme.buttonBorder};
+  border-radius: 8px;
+  margin: 8px 0;
+  cursor: pointer;
 `;
 
 export default function Archive({
@@ -72,14 +84,24 @@ export default function Archive({
           className="basic-multi-select"
           classNamePrefix="select"
           options={options}
+          styles={{
+            control: (provided, state) => ({
+              ...provided,
+              boxShadow: "theme.boxShadowButton",
+              borderColor: "theme.border",
+              backgroundColor: "theme.background",
+              color: "theme.collectionCardText",
+              width: "100%",
+            }),
+          }}
         />
 
-        <button
+        <StyledButton
           onClick={handleNavigate}
           disabled={selectedCollections.length === 0}
         >
-          Show cards
-        </button>
+          Show collections
+        </StyledButton>
       </Container>
 
       <StyledCollectionTitle>All Cards</StyledCollectionTitle>
