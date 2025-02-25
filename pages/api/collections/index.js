@@ -3,6 +3,7 @@ import Collection from "@/db/models/Collection";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "../auth/[...nextauth]";
 import { getToken } from "next-auth/jwt";
+import handleCheckUserExistence from "@/utils/CheckUserExistence";
 
 export default async function handler(request, response) {
   const session = await getServerSession(request, response, authOptions);
@@ -10,15 +11,20 @@ export default async function handler(request, response) {
   const userId = token?.sub;
   await dbConnect();
 
+  const userData = handleCheckUserExistence({ userId });
+  console.log("userData:", userData);
+
   try {
     switch (request.method) {
       case "GET": {
         if (session) {
-          const collectionsUser = await Collection.find({ userId: userId });
+          const collectionsUser = await Collection.find({
+            userId: userData._id,
+          });
           const collectionsDefault = await Collection.find({
             userId: { $exists: false },
           });
-          const collections = [...collectionsUser, ...collectionsDefault];
+          const collections = [...collectionsUser];
 
           return response.status(200).json(collections);
         } else {

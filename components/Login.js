@@ -8,12 +8,10 @@ export default function Login({ handleCreateUser, handleCheckUserExistence }) {
     async function checkUserExistence() {
       if (session) {
         const userId = session.user.id;
-        let userIsAvailable = await handleCheckUserExistence({ userId });
-        const asd = userIsAvailable ? true : false;
-        console.log("userIsAvailable_asd", asd);
-        console.log("userIsAvailable_2", userIsAvailable);
+        let userIsAvailable = (await handleCheckUserExistence({ userId }))
+          ? true
+          : false;
         if (!userIsAvailable) {
-          console.log("userIsAvailable_3", userIsAvailable);
           const userId = session.user.id;
           handleCreateUser({ userId });
         }

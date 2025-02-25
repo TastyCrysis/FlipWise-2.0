@@ -8,6 +8,7 @@ import styled from "styled-components";
 import ThemeSwitch from "@/components/ThemeSwitch";
 import { SessionProvider } from "next-auth/react";
 import Login from "@/components/Login";
+import handleCheckUserExistence from "@/utils/CheckUserExistence";
 
 const StyledTitle = styled.h1`
   display: flex;
@@ -162,22 +163,6 @@ export default function App({ Component, pageProps }) {
         return;
       }
       return response.json();
-    } catch (error) {
-      console.error(error);
-    }
-  }
-
-  async function handleCheckUserExistence(data) {
-    try {
-      const response = await fetch("/api/users");
-      if (!response.ok) {
-        console.error("Failed to create user");
-        return;
-      }
-      const users = await response.json();
-      const userIsAvailable = users.find((user) => user.userId === data.userId);
-      console.log("userIsAvailable_1", userIsAvailable);
-      return userIsAvailable;
     } catch (error) {
       console.error(error);
     }
