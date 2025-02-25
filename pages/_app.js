@@ -133,10 +133,6 @@ export default function App({ Component, pageProps }) {
     }
   }
 
-  function handleToggleThemeMode(selectedThemeMode) {
-    setThemeMode(selectedThemeMode);
-  }
-
   async function handleDeleteCollection(_id) {
     const response = await fetch(`/api/collections/${_id}`, {
       method: "DELETE",
@@ -146,6 +142,45 @@ export default function App({ Component, pageProps }) {
       return;
     }
     collectionsMutate();
+  }
+
+  function handleToggleThemeMode(selectedThemeMode) {
+    setThemeMode(selectedThemeMode);
+  }
+
+  async function handleCreateUser(data) {
+    try {
+      const response = await fetch("/api/users", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+      if (!response.ok) {
+        console.error("Failed to create user");
+        return;
+      }
+      return response.json();
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  async function handleCheckUserExistence(data) {
+    try {
+      const response = await fetch("/api/users");
+      if (!response.ok) {
+        console.error("Failed to create user");
+        return;
+      }
+      const users = await response.json();
+      const userIsAvailable = users.find((user) => user.userId === data.userId);
+      console.log("userIsAvailable_1", userIsAvailable);
+      return userIsAvailable;
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   return (
@@ -172,7 +207,10 @@ export default function App({ Component, pageProps }) {
             />
           </main>
           <footer>
-            <Login />
+            <Login
+              handleCreateUser={handleCreateUser}
+              handleCheckUserExistence={handleCheckUserExistence}
+            />
             <Navbar
               handleCreateFlashcard={handleCreateFlashcard}
               collections={collections}
