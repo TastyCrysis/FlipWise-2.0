@@ -69,6 +69,8 @@ export default function Archive({
     }
   };
 
+  const archivedCards = flashcards.filter((card) => card.isCorrect);
+
   return (
     <>
       <Container>
@@ -106,7 +108,7 @@ export default function Archive({
 
       <StyledCollectionTitle>All Cards</StyledCollectionTitle>
       <ArchiveList
-        flashcards={flashcards}
+        flashcards={archivedCards}
         collections={collections}
         handleToggleCorrect={handleToggleCorrect}
         handleDeleteFlashcard={handleDeleteFlashcard}

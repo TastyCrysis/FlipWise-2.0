@@ -74,13 +74,17 @@ export default function Archive({
   const currentCollection = collections.find(
     (collection) => collection._id === (id ? String(id) : null)
   );
+
+  if (!currentCollection) {
+    return <p>Collection not found.</p>;
+  }
+
   const listMode = "archive";
 
-  const filteredFlashcards = currentCollection
-    ? flashcards.filter(
-        (flashcard) => flashcard.collectionId === currentCollection._id
-      )
-    : flashcards;
+  const filteredFlashcards = flashcards.filter(
+    (flashcard) =>
+      flashcard.collectionId === currentCollection._id && flashcard.isCorrect
+  );
 
   return (
     <>
