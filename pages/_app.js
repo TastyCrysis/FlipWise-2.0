@@ -6,6 +6,7 @@ import useSWR from "swr";
 import { ThemeProvider } from "styled-components";
 import styled from "styled-components";
 import ThemeSwitch from "@/components/ThemeSwitch";
+import { useRouter } from "next/router";
 
 const StyledTitle = styled.h1`
   display: flex;
@@ -20,6 +21,7 @@ const fetcher = (url) => fetch(url).then((response) => response.json());
 
 export default function App({ Component, pageProps }) {
   const [themeMode, setThemeMode] = useState("dark");
+  const router = useRouter();
 
   const {
     data: flashcards,
@@ -183,11 +185,13 @@ export default function App({ Component, pageProps }) {
           />
         </main>
         <footer>
-          <Navbar
-            handleCreateFlashcard={handleCreateFlashcard}
-            collections={collections}
-            handleCreateCollection={handleCreateCollection}
-          />
+          {router.pathname !== "/" && (
+            <Navbar
+              handleCreateFlashcard={handleCreateFlashcard}
+              collections={collections}
+              handleCreateCollection={handleCreateCollection}
+            />
+          )}
         </footer>
       </SWRConfig>
     </ThemeProvider>

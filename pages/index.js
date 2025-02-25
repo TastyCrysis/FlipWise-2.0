@@ -1,39 +1,102 @@
-import CollectionList from "@/components/CollectionList";
 import styled from "styled-components";
+import Link from "next/link";
 
-const Container = styled.div`
+const CardList = styled.ul`
   display: flex;
   flex-direction: column;
-  align-items: center;
-  margin-bottom: 14px;
+  gap: 24px;
+  margin-top: 72px;
 `;
 
-const StyledPageTitle = styled.h2`
-  font-size: 2.1rem;
-  font-weight: 400;
-  margin-bottom: 54px;
-  margin-top: 6px;
+const CardItem = styled.li`
+  width: 100%;
+  height: 300px;
+  max-width: 550px;
+  margin: 48px auto;
+  cursor: pointer;
+  border-radius: 12px;
+  overflow: hidden;
+  border: none;
+  list-style: none;
+  box-shadow: ${({ theme }) => theme.boxShadowCollectionCard};
+  transition: transform 0.2s;
+  &:hover {
+    transform: scale(1.02);
+    box-shadow: ${({ theme }) => theme.boxShadowCollectionCardHover};
+  }
 `;
 
-export default function Homepage({
-  flashcards,
-  collections,
-  handleCreateCollection,
-  handleDeleteCollection,
-  handleUpdateCollection,
-}) {
+const BaseLink = styled(Link)`
+  text-decoration: none;
+  color: ${({ theme }) => theme.collectionCardText};
+`;
+
+const StyledCardLink = styled(BaseLink)`
+  height: 100%;
+  position: relative;
+`;
+
+const CollectionCardArticle = styled.article`
+  height: 100%;
+  background: ${({ theme }) => theme.collectionCard};
+  padding: 0 24px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+`;
+
+const StyledTitle = styled.h3`
+  font-size: 2.2rem;
+  font-weight: 700;
+  margin-bottom: 16px;
+  margin-top: 16px;
+
+  @media (max-width: 768px) {
+    font-size: 1.8rem;
+  }
+`;
+
+const StyledStatsItem = styled.p`
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 1.3rem;
+  margin-top: 4px;
+  @media (max-width: 768px) {
+    font-size: 1.1rem;
+    margin-bottom: 54px;
+  }
+`;
+const StyledStatsItemSpan = styled.span`
+  font-weight: 700;
+  background: ${({ theme }) => theme.collectionCardText};
+  color: ${({ theme }) => theme.collectionCard};
+  padding: 4px 8px;
+  border-radius: 8px;
+`;
+
+export default function Homepage({}) {
   return (
     <>
-      <Container>
-        <StyledPageTitle>List of collections</StyledPageTitle>
-      </Container>
-      <CollectionList
-        flashcards={flashcards}
-        collections={collections}
-        handleCreateCollection={handleCreateCollection}
-        handleDeleteCollection={handleDeleteCollection}
-        handleUpdateCollection={handleUpdateCollection}
-      />
+      <CardList>
+        <CardItem>
+          <StyledCardLink href="/collections">
+            <CollectionCardArticle>
+              <StyledTitle>Learning Mode</StyledTitle>
+              <StyledStatsItem>
+                Description:
+                <StyledStatsItemSpan>
+                  This is the learning Mode. Here you can find a list of
+                  collections. In each collection you can find a list of
+                  flashcards with questions and answers to the topic of the
+                  collection. Also you can create new cards and collections,
+                  edit and delete existing ones.
+                </StyledStatsItemSpan>
+              </StyledStatsItem>
+            </CollectionCardArticle>
+          </StyledCardLink>
+        </CardItem>
+      </CardList>
     </>
   );
 }
