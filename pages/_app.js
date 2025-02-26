@@ -161,56 +161,20 @@ export default function App({ Component, pageProps }) {
     collectionsMutate();
   }
 
-  async function handleCreateAiQuizFlashcards(collection, requiredCount) {
-    if (requiredCount <= 0) return [];
-
-    try {
-      console.log("Requesting AI to generate cards:", {
-        collectionTitle: collection.title,
-        existingCardsCount: collection.cards.length,
-        cardsNeeded: requiredCount,
-      });
-
-      const response = await fetch("/api/generate/generate-quiz", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          collectionTitle: collection.title,
-          existingCards: collection.cards,
-          cardsNeeded: requiredCount,
-          collectionId: collection._id,
-        }),
-      });
-
-      if (!response.ok) {
-        const errorData = await response.json().catch(() => ({}));
-        console.error("Failed to generate cards:", errorData);
-        throw new Error("Failed to generate cards");
-      }
-
-      const generatedCards = await response.json();
-      console.log("Successfully generated cards:", generatedCards.length);
-      return generatedCards;
-    } catch (error) {
-      console.error("Error generating cards:", error);
-      return [];
-    }
-  }
-
   return (
     <ThemeProvider theme={theme[themeMode]}>
       <GlobalStyle />
       <SWRConfig value={{ fetcher }}>
         <header>
           <StyledTitle>Flipwise App</StyledTitle>
-          {router.pathname !== "/quiz" && (
-            <ThemeSwitch
-              theme={themeMode}
-              onHandleToggleThemeMode={handleToggleThemeMode}
-            />
-          )}
+          {router.pathname !== "/quiz" &&
+            router.pathname !== "/quiz/session" &&
+            router.pathname !== "/quiz/statistics" && (
+              <ThemeSwitch
+                theme={themeMode}
+                onHandleToggleThemeMode={handleToggleThemeMode}
+              />
+            )}
         </header>
         <main>
           <Component
@@ -222,7 +186,6 @@ export default function App({ Component, pageProps }) {
             handleUpdateFlashcard={handleUpdateFlashcard}
             handleDeleteCollection={handleDeleteCollection}
             handleUpdateCollection={handleUpdateCollection}
-            handleCreateAiQuizFlashcards={handleCreateAiQuizFlashcards}
           />
         </main>
         <footer>
