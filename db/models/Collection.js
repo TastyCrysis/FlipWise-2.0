@@ -5,7 +5,6 @@ const { Schema } = mongoose;
 
 const collectionSchema = new Schema({
   title: { type: String, required: true },
-
   owner: { type: String },
 });
 

@@ -32,7 +32,10 @@ export default async function handler(request, response) {
 
       case "POST": {
         if (session) {
-          const flashcard = await Flashcard.create({ ...request.body });
+          const flashcard = await Flashcard.create({
+            ...request.body,
+            owner: userId,
+          });
           return response
             .status(201)
             .json({ status: "Flashcard created", data: flashcard });
