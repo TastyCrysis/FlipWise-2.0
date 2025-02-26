@@ -83,9 +83,8 @@ export default function QuizSession({
       wrong: answer === "wrong",
     };
 
+    // Update quiz results
     const newResults = [...quizResults, newResult];
-    console.log("Updated quiz results:", newResults);
-    console.log(`Card ${currentCardIndex + 1} of ${parsedCards.length}`);
 
     // Always update results first
     setQuizResults(newResults);
@@ -93,10 +92,6 @@ export default function QuizSession({
     // Then handle navigation or next card
     if (currentCardIndex === parsedCards.length - 1) {
       // On last card, use the newResults directly
-      console.log("Quiz completed with final results:", newResults);
-      console.log(
-        `Total results: ${newResults.length} of ${parsedCards.length} cards`
-      );
       handleQuizEnd(newResults);
     } else {
       setCurrentCardIndex(currentCardIndex + 1);
@@ -109,7 +104,7 @@ export default function QuizSession({
       setTimeLeft((prev) => {
         if (prev <= 1) {
           clearInterval(timer);
-          handleQuizEnd(quizResults);
+          handleQuizEnd();
           return 0;
         }
         return prev - 1;
@@ -117,7 +112,7 @@ export default function QuizSession({
     }, 1000);
 
     return () => clearInterval(timer);
-  }, []); // Remove quizResults dependency as it's not needed here
+  }, []);
 
   // Check if cards are available
   if (!parsedCards || parsedCards.length === 0) {

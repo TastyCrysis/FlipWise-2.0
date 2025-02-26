@@ -162,10 +162,15 @@ export default function App({ Component, pageProps }) {
   }
 
   async function handleCreateAiQuizFlashcards(collection, requiredCount) {
-    const cardsNeeded = requiredCount - collection.cards.length;
-    if (cardsNeeded <= 0) return [];
+    if (requiredCount <= 0) return [];
 
     try {
+      console.log("Requesting AI to generate cards:", {
+        collectionTitle: collection.title,
+        existingCardsCount: collection.cards.length,
+        cardsNeeded: requiredCount,
+      });
+
       const response = await fetch("/api/generate/generate-quiz", {
         method: "POST",
         headers: {
@@ -174,16 +179,23 @@ export default function App({ Component, pageProps }) {
         body: JSON.stringify({
           collectionTitle: collection.title,
           existingCards: collection.cards,
-          cardsNeeded: cardsNeeded,
+          cardsNeeded: requiredCount,
           collectionId: collection._id,
         }),
       });
 
-      if (!response.ok) throw new Error("Failed to generate cards");
-      return response.json();
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        console.error("Failed to generate cards:", errorData);
+        throw new Error("Failed to generate cards");
+      }
+
+      const generatedCards = await response.json();
+      console.log("Successfully generated cards:", generatedCards.length);
+      return generatedCards;
     } catch (error) {
       console.error("Error generating cards:", error);
-      throw error;
+      return [];
     }
   }
 

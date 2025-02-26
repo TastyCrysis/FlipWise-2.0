@@ -31,7 +31,15 @@ export default async function handler(request, response) {
     Existing cards: ${JSON.stringify(simplifiedExistingCards)}
     Make sure the new cards don't duplicate existing content.
     Return ONLY a valid JSON array containing EXACTLY ${cardsNeeded} objects with 'question' and 'answer' properties.
-    The response MUST contain exactly ${cardsNeeded} cards, no more and no less.`;
+    The response MUST contain exactly ${cardsNeeded} cards, no more and no less.
+    
+    Rules:
+      - Each object must have "question" and "answer" fields
+      - Question max length: 100 chars
+      - Answer max length: 50 chars
+      - Return only the JSON array, no other text
+      Example format: [{"question": "What is...?", "answer": "This is..."}]
+    `;
 
     const completion = await openai.chat.completions.create({
       model: "gpt-3.5-turbo",

@@ -67,16 +67,14 @@ const difficultyLevels = [
   { id: "hard", name: "Hard", time: 5, cards: 20 },
 ];
 
-export default function QuizPage({
-  collections,
-  initialValues,
-  handleCreateAiQuizFlashcards,
-}) {
+export default function QuizPage({ collections, initialValues, flashcards }) {
   const [selectedDifficulty, setSelectedDifficulty] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
   async function handleSubmit(event) {
     event.preventDefault();
+    setIsLoading(true);
 
     const formData = new FormData(event.target);
     const collectionId = formData.get("collectionId");
@@ -86,52 +84,65 @@ export default function QuizPage({
     const selectedCollection = collections.find(
       (collection) => collection._id === collectionId
     );
+
+    if (!selectedCollection) return;
+
     // Find the required number of cards based on the selected difficulty
     const requiredCards = difficultyLevels.find(
       (difficultyLevel) => difficultyLevel.id === difficulty
     ).cards;
 
+    // Get all flashcards for this collection
+    const collectionFlashcards = flashcards.filter(
+      (card) => card.collectionId === collectionId
+    );
+
     // Use all existing cards regardless of isCorrect status
-    let selectedCards = [];
-    if (selectedCollection.flashcards) {
-      // Take all existing cards first
-      selectedCards = [...selectedCollection.flashcards];
+    let selectedCards = [...collectionFlashcards];
 
-      // If we need more cards, generate them with AI
-      if (selectedCards.length < requiredCards) {
-        try {
-          // Calculate how many additional cards we need
-          const additionalCardsNeeded = requiredCards - selectedCards.length;
+    // If we need more cards, generate them with AI
+    if (selectedCards.length < requiredCards) {
+      try {
+        const cardsNeeded = requiredCards - selectedCards.length;
 
-          // Format collection for AI generation
-          const collectionFormatted = {
-            _id: selectedCollection._id,
-            title: selectedCollection.title,
-            cards: selectedCollection.flashcards,
-          };
+        const response = await fetch("/api/generate/generate-quiz", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            collectionTitle: selectedCollection.title,
+            existingCards: collectionFlashcards,
+            cardsNeeded: cardsNeeded,
+            collectionId: selectedCollection._id,
+          }),
+        });
 
-          // Generate only the needed number of additional cards
-          const generatedCards = await handleCreateAiQuizFlashcards(
-            collectionFormatted,
-            additionalCardsNeeded
-          );
-
-          // Add generated cards to selected cards
-          selectedCards = [...selectedCards, ...(generatedCards || [])];
-
-          // Ensure we don't exceed required number of cards
-          selectedCards = selectedCards.slice(0, requiredCards);
-        } catch (error) {
-          console.error("Error generating cards:", error);
+        if (!response.ok) {
+          const errorData = await response.json().catch(() => ({}));
+          console.error("Failed to generate cards:", errorData);
+          throw new Error("Failed to generate cards");
         }
-      }
 
-      // Shuffle all cards
-      selectedCards = selectedCards.sort(() => Math.random() - 0.5);
-    } else {
-      console.error("No flashcards found in collection");
-      return;
+        const generatedCards = await response.json();
+        console.log("Successfully generated cards:", generatedCards.length);
+
+        // If generated cards are successful, add them to the selected cards
+        if (generatedCards && generatedCards.length > 0) {
+          selectedCards = [...selectedCards, ...generatedCards];
+        }
+      } catch (error) {
+        console.error("Error generating cards:", error);
+      }
     }
+
+    // Ensure we don't exceed required number of cards
+    if (selectedCards.length > requiredCards) {
+      selectedCards = selectedCards.slice(0, requiredCards);
+    }
+
+    // Shuffle all cards
+    selectedCards = selectedCards.sort(() => Math.random() - 0.5);
 
     // Navigate to session page with selected cards
     router.push({
@@ -142,6 +153,8 @@ export default function QuizPage({
         collectionId: collectionId,
       },
     });
+
+    setIsLoading(false);
   }
 
   return (
@@ -154,6 +167,7 @@ export default function QuizPage({
             name="collectionId"
             id="collections-select"
             defaultValue={initialValues?.collectionId || ""}
+            required
           >
             <option value="" disabled>
               --Please select a collection--
@@ -173,10 +187,10 @@ export default function QuizPage({
           <Select
             id="difficulty"
             value={selectedDifficulty}
-            onChange={(e) => setSelectedDifficulty(e.target.value)}
+            onChange={(event) => setSelectedDifficulty(event.target.value)}
             required
           >
-            <option value="">Choose difficulty...</option>
+            <option value="">--Please select a difficulty--</option>
             {difficultyLevels.map((level) => (
               <option key={level.id} value={level.id}>
                 {level.name} ({level.cards} cards, {level.time} minutes)
@@ -185,8 +199,8 @@ export default function QuizPage({
           </Select>
         </SelectGroup>
 
-        <StartButton type="submit" disabled={!selectedDifficulty}>
-          Start Quiz
+        <StartButton type="submit" disabled={isLoading}>
+          {isLoading ? "Loading..." : "Start Quiz"}
         </StartButton>
       </SelectionForm>
     </QuizContainer>

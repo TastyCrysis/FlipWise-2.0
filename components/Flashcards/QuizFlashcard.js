@@ -118,12 +118,7 @@ const ButtonContainer = styled.div`
   gap: 16px;
 `;
 
-export default function QuizFlashcard({
-  flashcard,
-  collection,
-  handleToggleCorrect,
-  onAnswer,
-}) {
+export default function QuizFlashcard({ flashcard, collection, onAnswer }) {
   const [flipped, setFlipped] = useState(false);
 
   function handleFlip() {
