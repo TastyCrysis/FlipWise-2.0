@@ -1,4 +1,4 @@
-import ArchiveList from "@/components/FlashcardList";
+import FlashcardList from "@/components/FlashcardList";
 import styled from "styled-components";
 import { useState } from "react";
 import { useRouter } from "next/router";
@@ -107,7 +107,7 @@ export default function Archive({
       </Container>
 
       <StyledCollectionTitle>All Cards</StyledCollectionTitle>
-      <ArchiveList
+      <FlashcardList
         flashcards={archivedCards}
         collections={collections}
         handleToggleCorrect={handleToggleCorrect}

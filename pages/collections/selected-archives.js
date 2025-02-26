@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import ArchiveList from "@/components/FlashcardList";
+import FlashcardList from "@/components/FlashcardList";
 import Select from "react-select";
 
 const Container = styled.div`
@@ -73,8 +73,8 @@ export default function SelectedArchives({ collections, flashcards }) {
       );
       setSelectedCollections(matchedCollections);
 
-      const matchedFlashcards = flashcards.filter((card) =>
-        collectionIds.includes(card.collectionId)
+      const matchedFlashcards = flashcards.filter(
+        (card) => collectionIds.includes(card.collectionId) && card.isCorrect
       );
       setFilteredFlashcards(matchedFlashcards);
     }
@@ -114,21 +114,22 @@ export default function SelectedArchives({ collections, flashcards }) {
         </StyledButton>
       </Container>
 
-      {selectedCollections.length > 0 ? (
-        selectedCollections.map((collection) => (
-          <div key={collection._id} style={{ marginBottom: "20px" }}>
-            <StyledCollectionTitle>{collection.title}</StyledCollectionTitle>
-
-            <ArchiveList
+      {selectedCollections.length === 0 ? (
+        <p>No flashcards found.</p>
+      ) : (
+        selectedCollections.map((selectedCollection) => (
+          <div key={selectedCollection._id} style={{ marginBottom: "20px" }}>
+            <StyledCollectionTitle>
+              {selectedCollection.title}
+            </StyledCollectionTitle>
+            <FlashcardList
               flashcards={filteredFlashcards.filter(
-                (card) => card.collectionId === collection._id
+                (card) => card.collectionId === selectedCollection._id
               )}
               collections={collections}
             />
           </div>
         ))
-      ) : (
-        <p>Keine Collections gefunden.</p>
       )}
     </>
   );
