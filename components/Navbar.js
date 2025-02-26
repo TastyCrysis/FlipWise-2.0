@@ -152,7 +152,7 @@ const Indicator = styled.div`
   }
 `;
 
-const ModalWrapper = styled.div`
+const ModalWrapper = styled.li`
   width: 100%;
   height: 70px;
   display: flex;
@@ -267,6 +267,7 @@ export default function Navbar({
             />
           </Modal>
         </ModalWrapper>
+
         <ListItem $active={pathname?.includes("/archive")}>
           <StyledLink href={archiveLink}>
             <Icon>

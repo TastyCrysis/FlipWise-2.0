@@ -16,7 +16,13 @@ const StyledTitle = styled.h1`
   align-items: center;
   font-size: 3.5rem;
   font-weight: 700;
+  margin-top: 0;
   margin-bottom: 0;
+`;
+
+const StyledLogIn = styled.div`
+  display: flex;
+  justify-content: flex-end;
 `;
 
 const fetcher = (url) => fetch(url).then((response) => response.json());
@@ -190,6 +196,12 @@ export default function App({ Component, pageProps }) {
         <GlobalStyle />
         <SWRConfig value={{ fetcher }}>
           <header>
+            <StyledLogIn>
+              <Login
+                handleCreateUser={handleCreateUser}
+                handleCheckUserExistence={handleCheckUserExistence}
+              />
+            </StyledLogIn>
             <StyledTitle>Flipwise App</StyledTitle>
             <ThemeSwitch
               theme={themeMode}
@@ -209,10 +221,6 @@ export default function App({ Component, pageProps }) {
             />
           </main>
           <footer>
-            <Login
-              handleCreateUser={handleCreateUser}
-              handleCheckUserExistence={handleCheckUserExistence}
-            />
             <Navbar
               handleCreateFlashcard={handleCreateFlashcard}
               collections={collections}

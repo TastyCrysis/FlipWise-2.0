@@ -12,7 +12,6 @@ export default async function handler(request, response) {
   await dbConnect();
 
   const userData = handleCheckUserExistence({ userId });
-  console.log("userData:", userData);
 
   try {
     switch (request.method) {

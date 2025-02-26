@@ -9,7 +9,7 @@ export default async function handleCheckUserExistence(data) {
     }
     const users = await response.json();
     const userData = users.find((user) => user.userId === data.userId);
-    console.log("userData_", userData);
+
     return userData;
   } catch (error) {
     console.error(error);
