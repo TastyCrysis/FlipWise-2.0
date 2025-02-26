@@ -1,5 +1,6 @@
 import { useRouter } from "next/router";
 import styled from "styled-components";
+import { useState, useEffect } from "react";
 
 const StatsContainer = styled.div`
   max-width: 800px;
@@ -69,17 +70,30 @@ const Button = styled.button`
 
 export default function QuizStatistics() {
   const router = useRouter();
-  const { results: resultsString, timeSpent } = router.query;
+  const { results: resultsString, timeSpent, totalQuizCards } = router.query;
 
   // Parse results from query string
   const results = resultsString ? JSON.parse(resultsString) : [];
+  console.log("Quiz results received:", results);
 
   // Calculate statistics
-  const totalCards = results.length;
-  const correctAnswers = results.filter((r) => r.isCorrect).length;
-  const incorrectAnswers = totalCards - correctAnswers;
+  const answeredCards = results.length;
+  const totalCards = totalQuizCards ? parseInt(totalQuizCards) : answeredCards;
+
+  // Count right and wrong answers
+  const correctAnswers = results.filter((result) => result.right).length;
+  const incorrectAnswers = results.filter((result) => result.wrong).length;
+
+  console.log("Statistics:", {
+    totalCards,
+    answeredCards,
+    correctAnswers,
+    incorrectAnswers,
+  });
+
+  // Calculate accuracy
   const accuracy =
-    totalCards > 0 ? ((correctAnswers / totalCards) * 100).toFixed(1) : 0;
+    answeredCards > 0 ? ((correctAnswers / answeredCards) * 100).toFixed(1) : 0;
 
   // Format time spent
   const formatTime = (seconds) => {
@@ -103,6 +117,11 @@ export default function QuizStatistics() {
         </StatCard>
 
         <StatCard>
+          <StatValue>{answeredCards}</StatValue>
+          <StatLabel>Questions Answered</StatLabel>
+        </StatCard>
+
+        <StatCard>
           <StatValue type="correct">{correctAnswers}</StatValue>
           <StatLabel>Correct Answers</StatLabel>
         </StatCard>
@@ -118,7 +137,7 @@ export default function QuizStatistics() {
         </StatCard>
 
         <StatCard>
-          <StatValue>{formatTime(timeSpent)}</StatValue>
+          <StatValue>{formatTime(Number(timeSpent) + 1)}</StatValue>
           <StatLabel>Time Spent</StatLabel>
         </StatCard>
       </StatsGrid>

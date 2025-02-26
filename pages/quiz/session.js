@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import styled from "styled-components";
+import QuizFlashcard from "@/components/Flashcards/QuizFlashcard";
 
 const SessionContainer = styled.div`
   max-width: 800px;
@@ -13,97 +14,102 @@ const Timer = styled.div`
   top: 24px;
   right: 24px;
   padding: 12px 24px;
-  background: ${({ theme, timeWarning }) =>
-    timeWarning ? theme.warning : theme.primary};
+  background: ${({ theme, $timeWarning }) =>
+    $timeWarning ? theme.warning : theme.primary};
   color: white;
   border-radius: 8px;
   font-size: 1.2rem;
   font-weight: 600;
 `;
 
-const Card = styled.div`
-  perspective: 1000px;
-  margin: 48px auto;
-  width: 100%;
-  height: 400px;
-`;
+// Define difficulty levels
+const difficultyLevels = [
+  { id: "easy", name: "Easy", time: 15, cards: 10 },
+  { id: "medium", name: "Medium", time: 10, cards: 15 },
+  { id: "hard", name: "Hard", time: 0.5, cards: 20 },
+];
 
-const CardInner = styled.div`
-  position: relative;
-  width: 100%;
-  height: 100%;
-  text-align: center;
-  transition: transform 0.6s;
-  transform-style: preserve-3d;
-  transform: ${({ isFlipped }) => (isFlipped ? "rotateY(180deg)" : "none")};
-`;
-
-const CardSide = styled.div`
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  backface-visibility: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 24px;
-  border-radius: 12px;
-  background: ${({ theme }) => theme.cardBackground};
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  font-size: 1.4rem;
-`;
-
-const CardBack = styled(CardSide)`
-  transform: rotateY(180deg);
-  flex-direction: column;
-  gap: 24px;
-`;
-
-const ButtonGroup = styled.div`
-  display: flex;
-  gap: 16px;
-  margin-top: 24px;
-`;
-
-const Button = styled.button`
-  padding: 12px 24px;
-  border: none;
-  border-radius: 8px;
-  font-size: 1.1rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background 0.2s;
-`;
-
-const CorrectButton = styled(Button)`
-  background: ${({ theme }) => theme.success};
-  color: white;
-  &:hover {
-    background: ${({ theme }) => theme.successHover};
-  }
-`;
-
-const IncorrectButton = styled(Button)`
-  background: ${({ theme }) => theme.error};
-  color: white;
-  &:hover {
-    background: ${({ theme }) => theme.errorHover};
-  }
-`;
-
-export default function QuizSession({ cards, difficulty }) {
+export default function QuizSession({
+  flashcards,
+  collection,
+  collections,
+  handleToggleCorrect,
+  handleDeleteFlashcard,
+  handleUpdateFlashcard,
+}) {
   const router = useRouter();
-  const [currentCardIndex, setCurrentCardIndex] = useState(0);
-  const [isFlipped, setIsFlipped] = useState(false);
-  const [timeLeft, setTimeLeft] = useState(difficulty.time * 60); // Convert minutes to seconds
-  const [results, setResults] = useState([]);
+  const { cards: cardsJson, difficulty: difficultyId } = router.query;
 
+  // Parse cardsJson properly
+  const parsedCards = cardsJson ? JSON.parse(cardsJson) : [];
+
+  // Find the corresponding difficulty object
+  const difficulty = difficultyLevels.find(
+    (difficultyLevel) => difficultyLevel.id === difficultyId
+  );
+
+  const [currentCardIndex, setCurrentCardIndex] = useState(0);
+  const [timeLeft, setTimeLeft] = useState(difficulty?.time * 60 || 0);
+  const [quizResults, setQuizResults] = useState([]);
+
+  // Format time helper function
+  const formatTime = (seconds) => {
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = seconds % 60;
+    return `${minutes}:${remainingSeconds.toString().padStart(2, "0")}`;
+  };
+
+  // Handle quiz end
+  const handleQuizEnd = (finalResults) => {
+    console.log("Quiz ended with results:", finalResults || quizResults);
+
+    router.push({
+      pathname: "/quiz/statistics",
+      query: {
+        results: JSON.stringify(finalResults || quizResults),
+        timeSpent: difficulty.time * 60 - timeLeft,
+        totalQuizCards: parsedCards.length,
+      },
+    });
+  };
+
+  // Handle card answer
+  const handleCardAnswer = (answer) => {
+    const newResult = {
+      cardId: currentCard._id || currentCard.id,
+      question: currentCard.question,
+      answer: currentCard.answer,
+      right: answer === "correct",
+      wrong: answer === "wrong",
+    };
+
+    const newResults = [...quizResults, newResult];
+    console.log("Updated quiz results:", newResults);
+    console.log(`Card ${currentCardIndex + 1} of ${parsedCards.length}`);
+
+    // Always update results first
+    setQuizResults(newResults);
+
+    // Then handle navigation or next card
+    if (currentCardIndex === parsedCards.length - 1) {
+      // On last card, use the newResults directly
+      console.log("Quiz completed with final results:", newResults);
+      console.log(
+        `Total results: ${newResults.length} of ${parsedCards.length} cards`
+      );
+      handleQuizEnd(newResults);
+    } else {
+      setCurrentCardIndex(currentCardIndex + 1);
+    }
+  };
+
+  // Timer effect
   useEffect(() => {
     const timer = setInterval(() => {
       setTimeLeft((prev) => {
         if (prev <= 1) {
           clearInterval(timer);
-          handleQuizEnd();
+          handleQuizEnd(quizResults);
           return 0;
         }
         return prev - 1;
@@ -111,70 +117,32 @@ export default function QuizSession({ cards, difficulty }) {
     }, 1000);
 
     return () => clearInterval(timer);
-  });
+  }, []); // Remove quizResults dependency as it's not needed here
 
-  const handleCardAnswer = (isCorrect) => {
-    setResults([
-      ...results,
-      {
-        cardId: cards[currentCardIndex].id,
-        isCorrect,
-      },
-    ]);
-
-    if (currentCardIndex + 1 >= cards.length) {
-      handleQuizEnd();
-    } else {
-      setCurrentCardIndex(currentCardIndex + 1);
-      setIsFlipped(false);
-    }
-  };
-
-  const handleQuizEnd = () => {
-    // Navigate to statistics page with results
-    router.push({
-      pathname: "/quiz/statistics",
-      query: {
-        results: JSON.stringify(results),
-        timeSpent: difficulty.time * 60 - timeLeft,
-      },
-    });
-  };
-
-  const formatTime = (seconds) => {
-    const minutes = Math.floor(seconds / 60);
-    const remainingSeconds = seconds % 60;
-    return `${minutes}:${remainingSeconds.toString().padStart(2, "0")}`;
-  };
-
-  if (!cards || cards.length === 0) {
+  // Check if cards are available
+  if (!parsedCards || parsedCards.length === 0) {
     return <div>No cards available</div>;
   }
 
-  const currentCard = cards[currentCardIndex];
+  // Get current card
+  const currentCard = parsedCards[currentCardIndex];
 
   return (
     <SessionContainer>
-      <Timer timeWarning={timeLeft < 60}>Time: {formatTime(timeLeft)}</Timer>
+      <Timer $timeWarning={timeLeft < 60}>Time: {formatTime(timeLeft)}</Timer>
 
-      <Card>
-        <CardInner isFlipped={isFlipped}>
-          <CardSide onClick={() => setIsFlipped(true)}>
-            {currentCard.question}
-          </CardSide>
-          <CardBack>
-            {currentCard.answer}
-            <ButtonGroup>
-              <CorrectButton onClick={() => handleCardAnswer(true)}>
-                Correct
-              </CorrectButton>
-              <IncorrectButton onClick={() => handleCardAnswer(false)}>
-                Incorrect
-              </IncorrectButton>
-            </ButtonGroup>
-          </CardBack>
-        </CardInner>
-      </Card>
+      {currentCard && (
+        <QuizFlashcard
+          flashcard={currentCard}
+          key={currentCard._id}
+          collection={collection}
+          collections={collections}
+          handleToggleCorrect={handleToggleCorrect}
+          handleDeleteFlashcard={handleDeleteFlashcard}
+          handleUpdateFlashcard={handleUpdateFlashcard}
+          onAnswer={handleCardAnswer}
+        />
+      )}
     </SessionContainer>
   );
 }
