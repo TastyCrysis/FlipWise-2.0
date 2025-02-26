@@ -125,11 +125,11 @@ export default function QuizFlashcard({ flashcard, collection, onAnswer }) {
     setFlipped(!flipped);
   }
 
-  const handleAnswerClick = (answer, event) => {
+  function handleAnswerClick(answer, event) {
     event.stopPropagation();
     onAnswer(answer);
     setFlipped(false);
-  };
+  }
 
   return (
     <StyledFlashcard

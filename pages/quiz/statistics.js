@@ -1,6 +1,5 @@
 import { useRouter } from "next/router";
 import styled from "styled-components";
-import { useState, useEffect } from "react";
 
 const StatsContainer = styled.div`
   max-width: 800px;
@@ -84,27 +83,20 @@ export default function QuizStatistics() {
   const correctAnswers = results.filter((result) => result.right).length;
   const incorrectAnswers = results.filter((result) => result.wrong).length;
 
-  console.log("Statistics:", {
-    totalCards,
-    answeredCards,
-    correctAnswers,
-    incorrectAnswers,
-  });
-
   // Calculate accuracy
   const accuracy =
     answeredCards > 0 ? ((correctAnswers / answeredCards) * 100).toFixed(1) : 0;
 
   // Format time spent
-  const formatTime = (seconds) => {
+  function formatTime(seconds) {
     const minutes = Math.floor(seconds / 60);
     const remainingSeconds = seconds % 60;
     return `${minutes}m ${remainingSeconds}s`;
-  };
+  }
 
-  const handleReturnToQuiz = () => {
+  function handleReturnToQuiz() {
     router.push("/quiz");
-  };
+  }
 
   return (
     <StatsContainer>
@@ -112,8 +104,8 @@ export default function QuizStatistics() {
 
       <StatsGrid>
         <StatCard>
-          <StatValue>{totalCards}</StatValue>
-          <StatLabel>Total Cards</StatLabel>
+          <StatValue type="correct">{correctAnswers}</StatValue>
+          <StatLabel>Correct Answers</StatLabel>
         </StatCard>
 
         <StatCard>
@@ -122,8 +114,8 @@ export default function QuizStatistics() {
         </StatCard>
 
         <StatCard>
-          <StatValue type="correct">{correctAnswers}</StatValue>
-          <StatLabel>Correct Answers</StatLabel>
+          <StatValue>{totalCards}</StatValue>
+          <StatLabel>Total Cards</StatLabel>
         </StatCard>
 
         <StatCard>

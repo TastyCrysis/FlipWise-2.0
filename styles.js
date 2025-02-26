@@ -30,6 +30,11 @@ export const theme = {
     modalBackground: "#3f5576",
     modalText: "#a3a8c8",
     modalBorder: "#8689ac",
+    success: "#388E3C",
+    error: "#D32F2F",
+    warning: "#FFA000",
+    cardBackground: "#3f5576",
+    textSecondary: "#a3a8c8",
   },
   light: {
     //Color Palette #4544 from colorpalettes.net

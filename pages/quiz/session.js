@@ -4,33 +4,39 @@ import styled from "styled-components";
 import QuizFlashcard from "@/components/Flashcards/QuizFlashcard";
 
 const SessionContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   max-width: 800px;
   margin: 24px auto;
   padding: 0 24px;
 `;
 
 const Timer = styled.div`
-  position: fixed;
-  top: 24px;
-  right: 24px;
-  padding: 12px 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 300px;
+  padding: 24px;
   background: ${({ theme, $timeWarning }) =>
     $timeWarning ? theme.warning : theme.primary};
   color: white;
   border-radius: 8px;
-  font-size: 1.2rem;
-  font-weight: 600;
+  font-size: 2.4rem;
+  font-weight: 700;
+  margin-bottom: 24px;
+  margin-top: 24px;
 `;
 
 // Define difficulty levels
 const difficultyLevels = [
-  { id: "easy", name: "Easy", time: 15, cards: 10 },
+  { id: "easy", name: "Easy", time: 1.2, cards: 10 },
   { id: "medium", name: "Medium", time: 10, cards: 15 },
   { id: "hard", name: "Hard", time: 0.5, cards: 20 },
 ];
 
 export default function QuizSession({
-  flashcards,
   collection,
   collections,
   handleToggleCorrect,
@@ -53,16 +59,13 @@ export default function QuizSession({
   const [quizResults, setQuizResults] = useState([]);
 
   // Format time helper function
-  const formatTime = (seconds) => {
+  function formatTime(seconds) {
     const minutes = Math.floor(seconds / 60);
     const remainingSeconds = seconds % 60;
     return `${minutes}:${remainingSeconds.toString().padStart(2, "0")}`;
-  };
+  }
 
-  // Handle quiz end
-  const handleQuizEnd = (finalResults) => {
-    console.log("Quiz ended with results:", finalResults || quizResults);
-
+  function handleQuizEnd(finalResults) {
     router.push({
       pathname: "/quiz/statistics",
       query: {
@@ -71,10 +74,9 @@ export default function QuizSession({
         totalQuizCards: parsedCards.length,
       },
     });
-  };
+  }
 
-  // Handle card answer
-  const handleCardAnswer = (answer) => {
+  function handleCardAnswer(answer) {
     const newResult = {
       cardId: currentCard._id || currentCard.id,
       question: currentCard.question,
@@ -96,7 +98,7 @@ export default function QuizSession({
     } else {
       setCurrentCardIndex(currentCardIndex + 1);
     }
-  };
+  }
 
   // Timer effect
   useEffect(() => {
@@ -124,8 +126,7 @@ export default function QuizSession({
 
   return (
     <SessionContainer>
-      <Timer $timeWarning={timeLeft < 60}>Time: {formatTime(timeLeft)}</Timer>
-
+      <Timer $timeWarning={timeLeft < 60}>{formatTime(timeLeft)}</Timer>
       {currentCard && (
         <QuizFlashcard
           flashcard={currentCard}

@@ -125,7 +125,6 @@ export default function QuizPage({ collections, initialValues, flashcards }) {
         }
 
         const generatedCards = await response.json();
-        console.log("Successfully generated cards:", generatedCards.length);
 
         // If generated cards are successful, add them to the selected cards
         if (generatedCards && generatedCards.length > 0) {
