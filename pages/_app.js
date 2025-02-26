@@ -130,6 +130,7 @@ export default function App({ Component, pageProps }) {
   }
 
   async function handleCreateCollection(data) {
+    console.log("data_2", data);
     try {
       const response = await fetch("/api/collections", {
         method: "POST",

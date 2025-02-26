@@ -10,10 +10,10 @@ export default async function handler(request, response) {
         return response.status(200).json(user);
       }
       case "POST": {
-        const userId = await User.create({ ...request.body });
+        const userIdProvider = await User.create({ ...request.body });
         return response
           .status(201)
-          .json({ status: "UserId saved", data: userId });
+          .json({ status: "userIdProvider saved", data: userIdProvider });
       }
     }
   } catch (error) {

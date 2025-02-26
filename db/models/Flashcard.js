@@ -13,7 +13,7 @@ const flashcardSchema = new Schema({
   question: { type: String, required: true },
   answer: { type: String, required: true },
   isCorrect: { type: Boolean, required: true },
-  userId: { type: String },
+  owner: { type: String },
   /* userId: {
     type: Schema.Types.ObjectId,
     ref: "User",

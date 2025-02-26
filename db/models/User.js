@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 const { Schema } = mongoose;
 
 const userSchema = new Schema({
-  userId: { type: String, required: true },
+  userIdProvider: { type: String, required: true },
 });
 
 const User = mongoose.models.User || mongoose.model("User", userSchema);

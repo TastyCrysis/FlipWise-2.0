@@ -74,7 +74,7 @@ export default function FlashcardForm({
       await onSubmit(mergedData, initialValues._id);
     } else {
       //create Flashcard
-      const userData = { ...mergedData, userId: userId };
+      const userData = { ...mergedData, owner: userId };
       await onSubmit(userData);
     }
   }

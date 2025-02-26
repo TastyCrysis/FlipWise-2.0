@@ -6,10 +6,7 @@ const { Schema } = mongoose;
 const collectionSchema = new Schema({
   title: { type: String, required: true },
 
-  userId: {
-    type: Schema.Types.ObjectId,
-    ref: "User",
-  },
+  owner: { type: String },
 });
 
 const Collection =
