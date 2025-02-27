@@ -5,7 +5,6 @@ import { SWRConfig } from "swr";
 import useSWR from "swr";
 import { ThemeProvider } from "styled-components";
 import styled from "styled-components";
-import ThemeSwitch from "@/components/ThemeSwitch";
 
 const StyledTitle = styled.h1`
   display: flex;
@@ -165,10 +164,6 @@ export default function App({ Component, pageProps }) {
       <SWRConfig value={{ fetcher }}>
         <header>
           <StyledTitle>Flipwise App</StyledTitle>
-          <ThemeSwitch
-            theme={themeMode}
-            onHandleToggleThemeMode={handleToggleThemeMode}
-          />
         </header>
         <main>
           <Component
@@ -180,6 +175,9 @@ export default function App({ Component, pageProps }) {
             handleUpdateFlashcard={handleUpdateFlashcard}
             handleDeleteCollection={handleDeleteCollection}
             handleUpdateCollection={handleUpdateCollection}
+            themeMode={themeMode}
+            setThemeMode={setThemeMode}
+            onHandleToggleThemeMode={handleToggleThemeMode}
           />
         </main>
         <footer>

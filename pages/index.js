@@ -1,5 +1,6 @@
 import CollectionList from "@/components/CollectionList";
 import styled from "styled-components";
+import Link from "next/link";
 
 const Container = styled.div`
   display: flex;
@@ -27,6 +28,7 @@ export default function Homepage({
       <Container>
         <StyledPageTitle>List of collections</StyledPageTitle>
       </Container>
+      <Link href={`/profile`}>proilfe page</Link>
       <CollectionList
         flashcards={flashcards}
         collections={collections}
