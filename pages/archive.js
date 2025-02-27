@@ -1,8 +1,10 @@
 import FlashcardList from "@/components/FlashcardList";
-import styled from "styled-components";
+import styled, { useTheme } from "styled-components";
 import { useState } from "react";
 import { useRouter } from "next/router";
+import { StyledButton } from "@/components/Button";
 import Select from "react-select";
+import NavigationHandler from "@/components/NavigationHandler";
 
 const Container = styled.div`
   display: flex;
@@ -26,17 +28,10 @@ const StyledCollectionTitle = styled.h3`
   margin-bottom: 6px;
 `;
 
-const StyledButton = styled.button`
-  border: none;
-  background-color: ${({ theme }) => theme.buttonBackground};
+const ArchiveButton = styled(StyledButton)`
   font-size: 13px;
-  color: ${({ theme }) => theme.buttonText};
   padding: 5px 10px;
-  box-shadow: ${({ theme }) => theme.boxShadowButton};
-  border: 1px solid ${({ theme }) => theme.buttonBorder};
-  border-radius: 8px;
   margin: 8px 0;
-  cursor: pointer;
 `;
 
 export default function Archive({
@@ -47,7 +42,8 @@ export default function Archive({
   handleUpdateFlashcard,
 }) {
   const [selectedCollections, setSelectedCollections] = useState([]);
-  const router = useRouter();
+  const theme = useTheme();
+  const { handleNavigate } = NavigationHandler({ selectedCollections });
 
   const options = collections.map((collection) => ({
     value: collection._id,
@@ -58,15 +54,6 @@ export default function Archive({
     setSelectedCollections(
       selectedOptions ? selectedOptions.map((option) => option.value) : []
     );
-  };
-
-  const handleNavigate = () => {
-    if (selectedCollections.length === 1) {
-      router.push(`/collections/${selectedCollections[0]}/archive`);
-    } else if (selectedCollections.length > 1) {
-      const queryString = selectedCollections.join(",");
-      router.push(`/collections/selected-archives?ids=${queryString}`);
-    }
   };
 
   const archivedCards = flashcards.filter((card) => card.isCorrect);
@@ -89,21 +76,20 @@ export default function Archive({
           styles={{
             control: (provided, state) => ({
               ...provided,
-              boxShadow: "theme.boxShadowButton",
-              borderColor: "theme.border",
-              backgroundColor: "theme.background",
-              color: "theme.collectionCardText",
-              width: "100%",
+              boxShadow: theme.boxShadowButton,
+              borderColor: theme.border,
+              backgroundColor: theme.background,
+              color: theme.collectionCardText,
             }),
           }}
         />
 
-        <StyledButton
+        <ArchiveButton
           onClick={handleNavigate}
           disabled={selectedCollections.length === 0}
         >
           Show collections
-        </StyledButton>
+        </ArchiveButton>
       </Container>
 
       <StyledCollectionTitle>All Cards</StyledCollectionTitle>

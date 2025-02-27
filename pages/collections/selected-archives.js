@@ -1,8 +1,10 @@
-import styled from "styled-components";
+import FlashcardList from "@/components/FlashcardList";
+import styled, { useTheme } from "styled-components";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import FlashcardList from "@/components/FlashcardList";
+import { StyledButton } from "@/components/Button";
 import Select from "react-select";
+import NavigationHandler from "@/components/NavigationHandler";
 
 const Container = styled.div`
   display: flex;
@@ -26,23 +28,18 @@ const StyledCollectionTitle = styled.h3`
   margin-bottom: 6px;
 `;
 
-const StyledButton = styled.button`
-  border: none;
-  background-color: ${({ theme }) => theme.buttonBackground};
+const ArchiveButton = styled(StyledButton)`
   font-size: 13px;
-  color: ${({ theme }) => theme.buttonText};
   padding: 5px 10px;
-  box-shadow: ${({ theme }) => theme.boxShadowButton};
-  border: 1px solid ${({ theme }) => theme.buttonBorder};
-  border-radius: 8px;
   margin: 8px 0;
-  cursor: pointer;
 `;
 
 export default function SelectedArchives({ collections, flashcards }) {
   const router = useRouter();
+  const theme = useTheme();
   const [selectedCollections, setSelectedCollections] = useState([]);
   const [filteredFlashcards, setFilteredFlashcards] = useState([]);
+  const { handleNavigate } = NavigationHandler({ selectedCollections });
 
   const options = collections.map((collection) => ({
     value: collection._id,
@@ -53,15 +50,6 @@ export default function SelectedArchives({ collections, flashcards }) {
     setSelectedCollections(
       selectedOptions ? selectedOptions.map((option) => option.value) : []
     );
-  };
-
-  const handleNavigate = () => {
-    if (selectedCollections.length === 1) {
-      router.push(`/collections/${selectedCollections[0]}/archive`);
-    } else if (selectedCollections.length > 1) {
-      const queryString = selectedCollections.join(",");
-      router.push(`/collections/selected-archives?ids=${queryString}`);
-    }
   };
 
   useEffect(() => {
@@ -97,21 +85,20 @@ export default function SelectedArchives({ collections, flashcards }) {
           styles={{
             control: (provided, state) => ({
               ...provided,
-              boxShadow: "theme.boxShadowButton",
-              borderColor: "theme.border",
-              backgroundColor: "theme.background",
-              color: "theme.collectionCardText",
-              width: "100%",
+              boxShadow: theme.boxShadowButton,
+              borderColor: theme.border,
+              backgroundColor: theme.background,
+              color: theme.collectionCardText,
             }),
           }}
         />
 
-        <StyledButton
+        <ArchiveButton
           onClick={handleNavigate}
           disabled={selectedCollections.length === 0}
         >
           Show collections
-        </StyledButton>
+        </ArchiveButton>
       </Container>
 
       {selectedCollections.length === 0 ? (

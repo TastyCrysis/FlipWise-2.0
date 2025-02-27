@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-const StyledButton = styled.button`
+export const StyledButton = styled.button`
   border-radius: 5px;
   border: none;
   background-color: ${({ theme }) => theme.buttonBackground};
