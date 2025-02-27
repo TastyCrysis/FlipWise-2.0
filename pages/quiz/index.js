@@ -1,6 +1,7 @@
 import { useState } from "react";
 import styled from "styled-components";
 import { useRouter } from "next/router";
+import QuizNavbar from "@/components/QuizNavbar";
 
 const QuizContainer = styled.div`
   max-width: 600px;
@@ -193,6 +194,7 @@ export default function QuizPage({ collections, initialValues, flashcards }) {
           {isLoading ? "Loading..." : "Start Quiz"}
         </StartButton>
       </SelectionForm>
+      <QuizNavbar />
     </QuizContainer>
   );
 }

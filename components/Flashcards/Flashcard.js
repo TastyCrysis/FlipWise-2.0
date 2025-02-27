@@ -115,6 +115,8 @@ const CardMenu = styled.div`
 
 const StyledDialog = styled.dialog`
   background-color: ${({ theme }) => theme.modalBackground};
+  color: ${({ theme }) => theme.modalText};
+  border: 1px solid ${({ theme }) => theme.modalBorder};
   width: 380px;
   margin: 16px 12px 0 10px;
   padding: 0 12px 12px 12px;

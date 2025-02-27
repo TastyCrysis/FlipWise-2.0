@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import styled from "styled-components";
+import Link from "next/link";
 import QuizFlashcard from "@/components/Flashcards/QuizFlashcard";
 
 const SessionContainer = styled.div`
@@ -29,9 +30,42 @@ const Timer = styled.div`
   margin-top: 24px;
 `;
 
+const Button = styled.button`
+  display: flex;
+  justify-content: center;
+  margin: 0 auto;
+  margin-top: 72px;
+  padding: 16px;
+  border: none;
+  border-radius: 8px;
+  background: ${({ theme }) => theme.buttonBackground};
+  color: ${({ theme }) => theme.buttonText};
+  font-size: 1.2rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+  text-decoration: none;
+  width: 60%;
+`;
+
+const StyledDialog = styled.dialog`
+  background-color: ${({ theme }) => theme.modalBackground};
+  color: ${({ theme }) => theme.modalText};
+  border: 1px solid ${({ theme }) => theme.modalBorder};
+  width: 380px;
+  margin: 120px 12px 0 536px;
+  padding: 0 12px 12px 12px;
+  z-index: 10;
+`;
+
+const ConfirmButtonContainer = styled.div`
+  display: flex;
+  gap: 12px;
+`;
+
 // Define difficulty levels
 const difficultyLevels = [
-  { id: "easy", name: "Easy", time: 60, cards: 10 },
+  { id: "easy", name: "Easy", time: 0.5, cards: 10 },
   { id: "medium", name: "Medium", time: 10, cards: 15 },
   { id: "hard", name: "Hard", time: 0.5, cards: 20 },
 ];
@@ -57,6 +91,7 @@ export default function QuizSession({
   const [currentCardIndex, setCurrentCardIndex] = useState(0);
   const [timeLeft, setTimeLeft] = useState(difficulty?.time * 60 || 0);
   const [quizResults, setQuizResults] = useState([]);
+  const [showConfirmation, setShowConfirmation] = useState(false);
 
   // Format time helper function
   function formatTime(seconds) {
@@ -124,9 +159,17 @@ export default function QuizSession({
   // Get current card
   const currentCard = parsedCards[currentCardIndex];
 
+  function toggleConfirmation() {
+    setShowConfirmation(!showConfirmation);
+  }
+
+  function handleCancelQuiz() {
+    router.push("/quiz");
+  }
+
   return (
     <SessionContainer>
-      <Timer $timeWarning={timeLeft < 60}>{formatTime(timeLeft)}</Timer>
+      <Timer $timeWarning={timeLeft < 20}>{formatTime(timeLeft)}</Timer>
       {currentCard && (
         <QuizFlashcard
           flashcard={currentCard}
@@ -139,6 +182,14 @@ export default function QuizSession({
           onAnswer={handleCardAnswer}
         />
       )}
+      <Button onClick={toggleConfirmation}>Cancel Quiz</Button>
+      <StyledDialog open={showConfirmation}>
+        <h3>Do you really want to cancel the quiz?</h3>
+        <ConfirmButtonContainer>
+          <Button onClick={handleCancelQuiz}>Confirm</Button>
+          <Button onClick={toggleConfirmation}>Cancel</Button>
+        </ConfirmButtonContainer>
+      </StyledDialog>
     </SessionContainer>
   );
 }

@@ -1,6 +1,7 @@
 import { useRouter } from "next/router";
 import Link from "next/link";
 import styled from "styled-components";
+import QuizNavbar from "@/components/QuizNavbar";
 
 const StatsContainer = styled.div`
   max-width: 800px;
@@ -131,6 +132,7 @@ export default function QuizStatistics() {
       </StatsGrid>
 
       <StyledLink href="/quiz">Start New Quiz</StyledLink>
+      <QuizNavbar />
     </StatsContainer>
   );
 }

@@ -191,13 +191,16 @@ export default function App({ Component, pageProps }) {
           />
         </main>
         <footer>
-          {router.pathname !== "/" && (
-            <Navbar
-              handleCreateFlashcard={handleCreateFlashcard}
-              collections={collections}
-              handleCreateCollection={handleCreateCollection}
-            />
-          )}
+          {router.pathname !== "/" &&
+            router.pathname !== "/quiz" &&
+            router.pathname !== "/quiz/session" &&
+            router.pathname !== "/quiz/statistics" && (
+              <Navbar
+                handleCreateFlashcard={handleCreateFlashcard}
+                collections={collections}
+                handleCreateCollection={handleCreateCollection}
+              />
+            )}
         </footer>
       </SWRConfig>
     </ThemeProvider>
