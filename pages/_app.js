@@ -176,7 +176,6 @@ export default function App({ Component, pageProps }) {
             handleDeleteCollection={handleDeleteCollection}
             handleUpdateCollection={handleUpdateCollection}
             themeMode={themeMode}
-            setThemeMode={setThemeMode}
             onHandleToggleThemeMode={handleToggleThemeMode}
           />
         </main>

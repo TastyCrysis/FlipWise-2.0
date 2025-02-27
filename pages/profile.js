@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import ThemeSwitch from "@/components/ThemeSwitch";
+import { useSession } from "next-auth/react";
 
 const Container = styled.div`
   display: flex;
@@ -19,9 +20,9 @@ export default function Profile({
   flashcards,
   collections,
   themeMode,
-  setThemeMode,
   onHandleToggleThemeMode,
 }) {
+  //const { data: session } = useSession();
   return (
     <>
       <Container>
@@ -31,6 +32,16 @@ export default function Profile({
         themeMode={themeMode}
         onHandleToggleThemeMode={onHandleToggleThemeMode}
       />
+      {/*       {session.user.image && (
+        <img
+          src={session.user.image}
+          alt="Profilbild"
+          width={40}
+          height={40}
+          style={{ borderRadius: "50%" }}
+        />
+      )} */}
+      <img src="/asset/user.png" alt="login/image" width={40} height={40} />
     </>
   );
 }
