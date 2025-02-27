@@ -4,7 +4,6 @@ import User from "@/db/models/User";
 export default async function handler(request, response) {
   await dbConnect();
   const { id } = request.query;
-  console.log("id_", id);
 
   try {
     switch (request.method) {

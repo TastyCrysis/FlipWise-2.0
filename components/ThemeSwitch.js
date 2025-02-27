@@ -1,7 +1,6 @@
 import styled from "styled-components";
 import { useSession } from "next-auth/react";
 import handleCheckUserExistence from "@/utils/CheckUserExistence";
-import useSWR from "swr";
 
 const Select = styled.select`
   background: ${({ theme }) => theme.background};
@@ -11,26 +10,16 @@ const Select = styled.select`
   border-radius: 5px;
 `;
 
-const fetcher = (url) => fetch(url).then((response) => response.json());
-
 export default function ThemeSwitch({ themeMode, onHandleToggleThemeMode }) {
-  const {
-    data: users,
-    isLoading: usersLoading,
-    error: usersError,
-    mutate: usersMutate,
-  } = useSWR("/api/users", fetcher);
-
   const { data: session } = useSession();
   async function handleThemeSwitch(value) {
     onHandleToggleThemeMode(value);
     if (session) {
       const userId = session.user.id;
-      console.log("userId_", userId);
       let userData = await handleCheckUserExistence({ userId });
+      //Id from database objects
       const user_Id = userData._id;
-      console.log("user_Id_", user_Id);
-      console.log("value_", value);
+
       try {
         const response = await fetch(`/api/users/${user_Id}`, {
           method: "PUT",
@@ -43,7 +32,7 @@ export default function ThemeSwitch({ themeMode, onHandleToggleThemeMode }) {
           console.error("Failed to save user data");
           return null;
         }
-        usersMutate();
+
         return response.json();
       } catch (error) {
         console.error(error);
