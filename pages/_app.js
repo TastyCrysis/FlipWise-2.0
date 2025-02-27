@@ -23,6 +23,9 @@ const StyledTitle = styled.h1`
 const StyledLogIn = styled.div`
   display: flex;
   justify-content: flex-end;
+  align-items: center;
+  margin: 4px 4px 0 0;
+  gap: 4px;
 `;
 
 const fetcher = (url) => fetch(url).then((response) => response.json());

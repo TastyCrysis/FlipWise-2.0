@@ -2,21 +2,29 @@ import { useSession, signIn, signOut } from "next-auth/react";
 import { useEffect } from "react";
 import styled from "styled-components";
 
-const Icon = styled.span`
-  position: relative;
-  display: block;
-  line-height: 75px;
-  font-size: 1.5em;
-  text-align: center;
-  transition: 0.5s;
-  color: ${({ theme }) => theme.navbarText};
+const IconLogIn = styled.span`
+  color: ${({ theme }) => theme.cardPrimary};
+  border: 1px solid ${({ theme }) => theme.text};
+  border-radius: 50%;
+`;
 
+const IconLogOut = styled.span`
+  color: ${({ theme }) => theme.cardPrimary};
+  border: 1px solid ${({ theme }) => theme.text};
+  border-radius: 50%;
   & img {
     filter: ${({ theme }) =>
       theme.navbarText === "#a3a8c8"
         ? "invert(0.6) brightness(1) sepia(0.5) hue-rotate(210deg) saturate(1) contrast(1)"
         : "brightness(0)"};
   }
+`;
+
+const StyledButton = styled.button`
+  height: 20px;
+  background-color: ${({ theme }) => theme.cardPrimary};
+  color: ${({ theme }) => theme.cardPrimaryText};
+  cursor: pointer;
 `;
 
 export default function Login({ handleCreateUser, handleCheckUserExistence }) {
@@ -41,7 +49,7 @@ export default function Login({ handleCreateUser, handleCheckUserExistence }) {
   if (session) {
     return (
       <>
-        <Icon>
+        <IconLogIn>
           {session.user.image && (
             <img
               src={session.user.image}
@@ -51,24 +59,18 @@ export default function Login({ handleCreateUser, handleCheckUserExistence }) {
               style={{ borderRadius: "50%" }}
             />
           )}
-        </Icon>
-        <button onClick={() => signOut()}>Sign out</button>
+        </IconLogIn>
+        <StyledButton onClick={() => signOut()}>Sign out</StyledButton>
       </>
     );
   }
 
   return (
     <>
-      <Icon>
-        <img
-          src="/asset/user.png"
-          alt="login/image"
-          width={40}
-          height={40}
-          style={{ borderRadius: "50%" }}
-        />
-      </Icon>
-      <button onClick={() => signIn()}>Sign in</button>
+      <IconLogOut>
+        <img src="/asset/user.png" alt="login/image" width={40} height={40} />
+      </IconLogOut>
+      <StyledButton onClick={() => signIn()}>Sign in</StyledButton>
     </>
   );
 }
