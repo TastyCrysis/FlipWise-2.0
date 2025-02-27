@@ -213,15 +213,12 @@ export default function QuizPage({ collections, initialValues, flashcards }) {
     // Shuffle all cards
     selectedCards = selectedCards.sort(() => Math.random() - 0.5);
 
-    // Navigate to session page with selected cards
-    router.push({
-      pathname: "/quiz/session",
-      query: {
-        cards: JSON.stringify(selectedCards),
-        difficulty: difficulty,
-        collectionId: collectionId,
-      },
-    });
+    // save data to localStorage
+    localStorage.setItem("quizCards", JSON.stringify(selectedCards));
+    localStorage.setItem("quizDifficulty", difficulty);
+    localStorage.setItem("quizCollectionId", collectionId);
+
+    router.push("/quiz/session");
 
     setIsLoading(false);
   }
@@ -256,7 +253,7 @@ export default function QuizPage({ collections, initialValues, flashcards }) {
           <Label htmlFor="collection">Select Collection</Label>
           <Select
             name="collectionId"
-            id="collections-select"
+            id="collection"
             defaultValue={initialValues?.collectionId || ""}
             required
           >
@@ -277,7 +274,7 @@ export default function QuizPage({ collections, initialValues, flashcards }) {
           <Label htmlFor="difficulty">Select Difficulty</Label>
           <Select
             id="difficulty"
-            value={selectedDifficulty}
+            defaultValue=""
             onChange={(event) => setSelectedDifficulty(event.target.value)}
             required
           >

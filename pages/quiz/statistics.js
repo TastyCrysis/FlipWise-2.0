@@ -1,3 +1,4 @@
+import { useEffect, useState, useRef } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import styled from "styled-components";
@@ -70,15 +71,63 @@ const StyledLink = styled(Link)`
 
 export default function QuizStatistics() {
   const router = useRouter();
-  const { results: resultsString, timeSpent, totalQuizCards } = router.query;
+  const { r, t, c } = router.query;
+  const [results, setResults] = useState([]);
+  const [timeSpent, setTimeSpent] = useState(0);
+  const [totalQuizCards, setTotalQuizCards] = useState(0);
+  const dataLoaded = useRef(false);
 
-  // Parse results from query string
-  const results = resultsString ? JSON.parse(resultsString) : [];
-  console.log("Quiz results received:", results);
+  useEffect(() => {
+    // avoid multiple executions
+    if (dataLoaded.current) {
+      return;
+    }
+
+    if (r && t && c) {
+      try {
+        // decode base64 encoded results
+        const decodedResults = JSON.parse(decodeURIComponent(atob(r)));
+        setResults(decodedResults);
+        setTimeSpent(parseInt(t));
+        setTotalQuizCards(parseInt(c));
+        dataLoaded.current = true;
+      } catch (error) {
+        checkLocalStorage();
+      }
+    } else {
+      checkLocalStorage();
+    }
+
+    function checkLocalStorage() {
+      // load data from localStorage
+      const storedResults = localStorage.getItem("quizResults");
+      const storedTimeSpent = localStorage.getItem("quizTimeSpent");
+      const storedTotalCards = localStorage.getItem("quizTotalCards");
+
+      // if data is available, set the state
+      if (storedResults && storedTimeSpent && storedTotalCards) {
+        setResults(JSON.parse(storedResults));
+        setTimeSpent(parseInt(storedTimeSpent));
+        setTotalQuizCards(parseInt(storedTotalCards));
+
+        // delete data from localStorage
+        localStorage.removeItem("quizCards");
+        localStorage.removeItem("quizDifficulty");
+        localStorage.removeItem("quizCollectionId");
+        localStorage.removeItem("quizResults");
+        localStorage.removeItem("quizTimeSpent");
+        localStorage.removeItem("quizTotalCards");
+
+        dataLoaded.current = true;
+      } else if (!dataLoaded.current) {
+        router.push("/quiz");
+      }
+    }
+  }, [r, t, c, router]);
 
   // Calculate statistics
   const answeredCards = results.length;
-  const totalCards = totalQuizCards ? parseInt(totalQuizCards) : answeredCards;
+  const totalCards = totalQuizCards || answeredCards;
 
   // Count right and wrong answers
   const correctAnswers = results.filter((result) => result.right).length;

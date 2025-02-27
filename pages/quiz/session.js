@@ -52,7 +52,9 @@ const StyledDialog = styled.dialog`
   color: ${({ theme }) => theme.modalText};
   border: 1px solid ${({ theme }) => theme.modalBorder};
   width: 380px;
-  margin: 120px 12px 0 536px;
+  margin: 120px 12px 0 0;
+  margin-left: 50%;
+  transform: translateX(-50%);
   padding: 0 12px 12px 12px;
   z-index: 10;
 `;
@@ -77,65 +79,43 @@ export default function QuizSession({
   handleUpdateFlashcard,
 }) {
   const router = useRouter();
-  const { cards: cardsJson, difficulty: difficultyId } = router.query;
 
-  // Parse cardsJson properly
-  const parsedCards = cardsJson ? JSON.parse(cardsJson) : [];
-
-  // Find the corresponding difficulty object
-  const difficulty = difficultyLevels.find(
-    (difficultyLevel) => difficultyLevel.id === difficultyId
-  );
-
-  const [currentCardIndex, setCurrentCardIndex] = useState(0);
-  const [timeLeft, setTimeLeft] = useState(difficulty?.time * 60 || 0);
+  // Zustandsvariablen
+  const [parsedCards, setParsedCards] = useState([]);
+  const [difficultyId, setDifficultyId] = useState("");
   const [quizResults, setQuizResults] = useState([]);
+  const [currentCardIndex, setCurrentCardIndex] = useState(0);
+  const [timeLeft, setTimeLeft] = useState(0);
   const [showConfirmation, setShowConfirmation] = useState(false);
 
-  // Format time helper function
-  function formatTime(seconds) {
-    const minutes = Math.floor(seconds / 60);
-    const remainingSeconds = seconds % 60;
-    return `${minutes}:${remainingSeconds.toString().padStart(2, "0")}`;
-  }
-
-  function handleQuizEnd(finalResults) {
-    router.push({
-      pathname: "/quiz/statistics",
-      query: {
-        results: JSON.stringify(finalResults || quizResults),
-        timeSpent: difficulty.time * 60 - timeLeft,
-        totalQuizCards: parsedCards.length,
-      },
-    });
-  }
-
-  function handleCardAnswer(answer) {
-    const newResult = {
-      cardId: currentCard._id || currentCard.id,
-      question: currentCard.question,
-      answer: currentCard.answer,
-      right: answer === "correct",
-      wrong: answer === "wrong",
-    };
-
-    // Update quiz results
-    const newResults = [...quizResults, newResult];
-
-    // Always update results first
-    setQuizResults(newResults);
-
-    // Then handle navigation or next card
-    if (currentCardIndex === parsedCards.length - 1) {
-      // On last card, use the newResults directly
-      handleQuizEnd(newResults);
-    } else {
-      setCurrentCardIndex(currentCardIndex + 1);
-    }
-  }
-
-  // Timer effect
+  // load data from localStorage
   useEffect(() => {
+    const storedCards = localStorage.getItem("quizCards");
+    const storedDifficulty = localStorage.getItem("quizDifficulty");
+
+    // if data is available, set the state
+    if (storedCards && storedDifficulty) {
+      const cards = JSON.parse(storedCards);
+      setParsedCards(cards);
+      setDifficultyId(storedDifficulty);
+
+      // set timer based on difficulty
+      const difficultyLevel = difficultyLevels.find(
+        (level) => level.id === storedDifficulty
+      );
+      if (difficultyLevel) {
+        setTimeLeft(difficultyLevel.time * 60);
+      }
+    } else {
+      // if no data is available, go back to quiz start page
+      router.push("/quiz");
+    }
+  }, [router]);
+
+  // timer effect
+  useEffect(() => {
+    if (timeLeft <= 0) return;
+
     const timer = setInterval(() => {
       setTimeLeft((prev) => {
         if (prev <= 1) {
@@ -150,21 +130,76 @@ export default function QuizSession({
     return () => clearInterval(timer);
   });
 
-  // Check if cards are available
-  if (!parsedCards || parsedCards.length === 0) {
-    return <div>No cards available</div>;
+  // format time helper function
+  function formatTime(seconds) {
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = seconds % 60;
+    return `${minutes}:${remainingSeconds.toString().padStart(2, "0")}`;
   }
 
-  // Get current card
-  const currentCard = parsedCards[currentCardIndex];
+  function handleCardAnswer(answer) {
+    if (
+      !parsedCards ||
+      parsedCards.length === 0 ||
+      currentCardIndex >= parsedCards.length
+    ) {
+      return;
+    }
+
+    // get current card
+    const currentCard = parsedCards[currentCardIndex];
+
+    // create new result
+    const newResult = {
+      cardId: currentCard._id || currentCard.id,
+      question: currentCard.question,
+      answer: currentCard.answer,
+      right: answer === "correct",
+      wrong: answer === "wrong",
+    };
+
+    // Update quiz results
+    const newResults = [...quizResults, newResult];
+
+    // then handle navigation or next card
+    if (currentCardIndex === parsedCards.length - 1) {
+      // save results to localStorage for statistics page
+      localStorage.setItem("quizResults", JSON.stringify(newResults));
+      localStorage.setItem(
+        "quizTimeSpent",
+        (
+          difficultyLevels.find((level) => level.id === difficultyId)?.time *
+            60 -
+          timeLeft
+        ).toString()
+      );
+      localStorage.setItem("quizTotalCards", parsedCards.length.toString());
+
+      // navigate to statistics page
+      router.push("/quiz/statistics");
+    } else {
+      // update state and go to next card
+      setQuizResults(newResults);
+      setCurrentCardIndex(currentCardIndex + 1);
+    }
+  }
 
   function toggleConfirmation() {
     setShowConfirmation(!showConfirmation);
   }
 
   function handleCancelQuiz() {
-    router.push("/quiz");
+    // delete quiz data from localStorage
+    localStorage.removeItem("quizCards");
+    localStorage.removeItem("quizDifficulty");
+    localStorage.removeItem("quizCollectionId");
+    localStorage.removeItem("quizResults");
+
+    router.push("/quiz/statistics");
   }
+
+  // get current card
+  const currentCard = parsedCards[currentCardIndex];
 
   return (
     <SessionContainer>
@@ -172,7 +207,7 @@ export default function QuizSession({
       {currentCard && (
         <QuizFlashcard
           flashcard={currentCard}
-          key={currentCard._id}
+          key={currentCard._id || currentCard.id}
           collection={collection}
           collections={collections}
           handleToggleCorrect={handleToggleCorrect}

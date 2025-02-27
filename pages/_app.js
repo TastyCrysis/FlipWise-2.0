@@ -169,14 +169,12 @@ export default function App({ Component, pageProps }) {
       <SWRConfig value={{ fetcher }}>
         <header>
           <StyledTitle>Flipwise App</StyledTitle>
-          {router.pathname !== "/quiz" &&
-            router.pathname !== "/quiz/session" &&
-            router.pathname !== "/quiz/statistics" && (
-              <ThemeSwitch
-                theme={themeMode}
-                onHandleToggleThemeMode={handleToggleThemeMode}
-              />
-            )}
+          {!router.pathname.startsWith("/quiz") && (
+            <ThemeSwitch
+              theme={themeMode}
+              onHandleToggleThemeMode={handleToggleThemeMode}
+            />
+          )}
         </header>
         <main>
           <Component
@@ -191,16 +189,13 @@ export default function App({ Component, pageProps }) {
           />
         </main>
         <footer>
-          {router.pathname !== "/" &&
-            router.pathname !== "/quiz" &&
-            router.pathname !== "/quiz/session" &&
-            router.pathname !== "/quiz/statistics" && (
-              <Navbar
-                handleCreateFlashcard={handleCreateFlashcard}
-                collections={collections}
-                handleCreateCollection={handleCreateCollection}
-              />
-            )}
+          {!router.pathname.startsWith("/quiz") && router.pathname !== "/" && (
+            <Navbar
+              handleCreateFlashcard={handleCreateFlashcard}
+              collections={collections}
+              handleCreateCollection={handleCreateCollection}
+            />
+          )}
         </footer>
       </SWRConfig>
     </ThemeProvider>
