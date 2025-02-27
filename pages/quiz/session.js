@@ -31,7 +31,7 @@ const Timer = styled.div`
 
 // Define difficulty levels
 const difficultyLevels = [
-  { id: "easy", name: "Easy", time: 1.2, cards: 10 },
+  { id: "easy", name: "Easy", time: 60, cards: 10 },
   { id: "medium", name: "Medium", time: 10, cards: 15 },
   { id: "hard", name: "Hard", time: 0.5, cards: 20 },
 ];
@@ -114,7 +114,7 @@ export default function QuizSession({
     }, 1000);
 
     return () => clearInterval(timer);
-  }, []);
+  });
 
   // Check if cards are available
   if (!parsedCards || parsedCards.length === 0) {

@@ -5,7 +5,7 @@ import ArrowRedoDot from "@/components/Elements/Arrow_redo-dot";
 
 const StyledFlashcard = styled.div`
   width: 100%;
-  height: 150px;
+  height: 200px;
   max-width: 550px;
   margin: 15px auto;
   cursor: pointer;
@@ -44,7 +44,7 @@ const FlashcardBack = styled.div`
   left: 0;
   display: flex;
   justify-content: start;
-  align-items: center;
+  align-items: start;
   border-radius: 8px;
   box-shadow: ${({ theme }) => theme.boxShadowSecondary};
 `;

@@ -1,4 +1,5 @@
 import { useRouter } from "next/router";
+import Link from "next/link";
 import styled from "styled-components";
 
 const StatsContainer = styled.div`
@@ -7,7 +8,7 @@ const StatsContainer = styled.div`
   padding: 0 24px;
 `;
 
-const Title = styled.h1`
+const Title = styled.h2`
   font-size: 2.4rem;
   margin-bottom: 32px;
   text-align: center;
@@ -34,11 +35,11 @@ const StatValue = styled.div`
   color: ${({ theme, type }) => {
     switch (type) {
       case "correct":
-        return theme.success;
+        return theme.right;
       case "incorrect":
-        return theme.error;
+        return theme.wrong;
       default:
-        return theme.primary;
+        return theme.modalText;
     }
   }};
 `;
@@ -49,22 +50,21 @@ const StatLabel = styled.div`
   margin-top: 8px;
 `;
 
-const Button = styled.button`
-  display: block;
+const StyledLink = styled(Link)`
+  display: flex;
+  justify-content: center;
   margin: 0 auto;
-  padding: 16px 32px;
+  padding: 16px;
   border: none;
   border-radius: 8px;
-  background: ${({ theme }) => theme.primary};
-  color: white;
+  background: ${({ theme }) => theme.buttonBackground};
+  color: ${({ theme }) => theme.buttonText};
   font-size: 1.2rem;
   font-weight: 600;
   cursor: pointer;
   transition: background 0.2s;
-
-  &:hover {
-    background: ${({ theme }) => theme.primaryHover};
-  }
+  text-decoration: none;
+  width: 60%;
 `;
 
 export default function QuizStatistics() {
@@ -94,10 +94,6 @@ export default function QuizStatistics() {
     return `${minutes}m ${remainingSeconds}s`;
   }
 
-  function handleReturnToQuiz() {
-    router.push("/quiz");
-  }
-
   return (
     <StatsContainer>
       <Title>Quiz Results</Title>
@@ -109,8 +105,8 @@ export default function QuizStatistics() {
         </StatCard>
 
         <StatCard>
-          <StatValue>{answeredCards}</StatValue>
-          <StatLabel>Questions Answered</StatLabel>
+          <StatValue type="incorrect">{incorrectAnswers}</StatValue>
+          <StatLabel>Incorrect Answers</StatLabel>
         </StatCard>
 
         <StatCard>
@@ -119,8 +115,8 @@ export default function QuizStatistics() {
         </StatCard>
 
         <StatCard>
-          <StatValue type="incorrect">{incorrectAnswers}</StatValue>
-          <StatLabel>Incorrect Answers</StatLabel>
+          <StatValue>{answeredCards}</StatValue>
+          <StatLabel>Questions Answered</StatLabel>
         </StatCard>
 
         <StatCard>
@@ -134,7 +130,7 @@ export default function QuizStatistics() {
         </StatCard>
       </StatsGrid>
 
-      <Button onClick={handleReturnToQuiz}>Start New Quiz</Button>
+      <StyledLink href="/quiz">Start New Quiz</StyledLink>
     </StatsContainer>
   );
 }

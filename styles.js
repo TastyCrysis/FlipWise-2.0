@@ -30,8 +30,8 @@ export const theme = {
     modalBackground: "#3f5576",
     modalText: "#a3a8c8",
     modalBorder: "#8689ac",
-    success: "#388E3C",
-    error: "#D32F2F",
+    right: "#388E3C",
+    wrong: "#D32F2F",
     warning: "#FFA000",
     cardBackground: "#3f5576",
     textSecondary: "#a3a8c8",
@@ -65,6 +65,11 @@ export const theme = {
     modalBackground: "#015366",
     modalText: "#E0F4F5",
     modalBorder: "#E0F4F5",
+    right: "#388E3C",
+    wrong: "#D32F2F",
+    warning: "#FFA000",
+    cardBackground: "#015366",
+    textSecondary: "#E0F4F5",
   },
   flower: {
     //Color Palette #4557 from colorpalettes.net
@@ -95,6 +100,11 @@ export const theme = {
     modalBackground: "#882380",
     modalText: "#e0e0e0",
     modalBorder: "#D5FB00",
+    right: "#388E3C",
+    wrong: "#D32F2F",
+    warning: "#FFA000",
+    cardBackground: "#882380",
+    textSecondary: "#e0e0e0",
   },
 };
 

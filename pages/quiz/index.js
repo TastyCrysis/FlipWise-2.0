@@ -44,21 +44,12 @@ const StartButton = styled.button`
   padding: 16px 32px;
   border-radius: 8px;
   border: none;
-  background: ${({ theme }) => theme.primary};
-  color: white;
+  background: ${({ theme }) => theme.buttonBackground};
+  color: ${({ theme }) => theme.buttonText};
   font-size: 1.2rem;
   font-weight: 600;
   cursor: pointer;
   transition: background 0.2s;
-
-  &:hover {
-    background: ${({ theme }) => theme.primaryHover};
-  }
-
-  &:disabled {
-    background: ${({ theme }) => theme.disabled};
-    cursor: not-allowed;
-  }
 `;
 
 const difficultyLevels = [
