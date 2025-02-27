@@ -35,6 +35,9 @@ export const theme = {
     warning: "#FFA000",
     cardBackground: "#3f5576",
     textSecondary: "#a3a8c8",
+    tooltipBackground: "#2f3148",
+    tooltipText: "#8689AC",
+    tooltipBorder: "#8689ac",
   },
   light: {
     //Color Palette #4544 from colorpalettes.net
@@ -70,6 +73,9 @@ export const theme = {
     warning: "#FFA000",
     cardBackground: "#015366",
     textSecondary: "#E0F4F5",
+    tooltipBackground: "#E0F4F5",
+    tooltipText: "#015366",
+    tooltipBorder: "#015366",
   },
   flower: {
     //Color Palette #4557 from colorpalettes.net
@@ -105,6 +111,9 @@ export const theme = {
     warning: "#FFA000",
     cardBackground: "#882380",
     textSecondary: "#e0e0e0",
+    tooltipBackground: "#223C20",
+    tooltipText: "#e0e0e0",
+    tooltipBorder: "#D5FB00",
   },
 };
 
