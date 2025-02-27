@@ -17,12 +17,12 @@ export const authOptions = {
           },
           async authorize(credentials) {
             if (
-              credentials.username === "fisch" &&
-              credentials.password === "fisch"
+              credentials.username === "Hanni" &&
+              credentials.password === "Nanni"
             ) {
               return {
-                name: "Neuer Fisch",
-                email: "test@example.com",
+                name: "Hanni und Nanni",
+                email: "hanni-nanni.sullivan@st-clare.uk",
                 id: "a1b2c3d4",
               };
             } else {
