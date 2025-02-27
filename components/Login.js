@@ -32,7 +32,12 @@ const StyledButton = styled.button`
   cursor: pointer;
 `;
 
-export default function Login({ handleCreateUser, handleCheckUserExistence }) {
+export default function Login({
+  handleCreateUser,
+  handleCheckUserExistence,
+  handleToggleThemeMode,
+  handlePickupUserThemeMode,
+}) {
   const { data: session } = useSession();
 
   useEffect(() => {
@@ -42,6 +47,8 @@ export default function Login({ handleCreateUser, handleCheckUserExistence }) {
         let userIsAvailable = (await handleCheckUserExistence({ userId }))
           ? true
           : false;
+        let currentUserThemeMode = await handlePickupUserThemeMode({ userId });
+        handleToggleThemeMode(currentUserThemeMode);
         if (!userIsAvailable) {
           const userId = session.user.id;
           handleCreateUser({ userId });

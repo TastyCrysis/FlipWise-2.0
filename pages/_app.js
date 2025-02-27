@@ -8,6 +8,7 @@ import styled from "styled-components";
 import { SessionProvider } from "next-auth/react";
 import Login from "@/components/Login";
 import handleCheckUserExistence from "@/utils/CheckUserExistence";
+//import { useSession } from "next-auth/react";
 
 const StyledTitle = styled.h1`
   display: flex;
@@ -140,7 +141,6 @@ export default function App({ Component, pageProps }) {
   }
 
   async function handleCreateCollection(data) {
-    console.log("data_2", data);
     try {
       const response = await fetch("/api/collections", {
         method: "POST",
@@ -171,7 +171,7 @@ export default function App({ Component, pageProps }) {
     collectionsMutate();
   }
 
-  function handleToggleThemeMode(selectedThemeMode) {
+  async function handleToggleThemeMode(selectedThemeMode) {
     setThemeMode(selectedThemeMode);
   }
 
@@ -194,6 +194,25 @@ export default function App({ Component, pageProps }) {
     }
   }
 
+  async function handlePickupUserThemeMode(data) {
+    try {
+      const response = await fetch("/api/users");
+      if (!response.ok) {
+        console.error("User not available");
+        return;
+      }
+      const users = await response.json();
+      const userData = users.find((user) => user.userId === data.userId);
+      const userThemeMode = userData.themeMode;
+      console.log("userData_", userData);
+      console.log("userThemeMode_", userThemeMode);
+
+      return userThemeMode;
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
   return (
     <SessionProvider session={pageProps.session}>
       <ThemeProvider theme={theme[themeMode]}>
@@ -204,6 +223,8 @@ export default function App({ Component, pageProps }) {
               <Login
                 handleCreateUser={handleCreateUser}
                 handleCheckUserExistence={handleCheckUserExistence}
+                handleToggleThemeMode={handleToggleThemeMode}
+                handlePickupUserThemeMode={handlePickupUserThemeMode}
               />
             </StyledLogIn>
             <StyledTitle>Flipwise App</StyledTitle>

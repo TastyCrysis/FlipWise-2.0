@@ -73,8 +73,7 @@ export default function Profile({
   const myCollections = collections.filter(
     (collection) => collection.owner === userId
   ).length;
-  console.log("myCollections_", myCollections);
-  console.log("Collections_", collections);
+
   const myFlashcards = flashcards.filter(
     (flashcard) => flashcard.owner === userId
   ).length;
