@@ -41,6 +41,7 @@ const ButtonContainer = styled.div`
   justify-content: space-between;
   width: 70%;
   padding: 32px 0 8px 0;
+  gap: 8px;
 `;
 
 const AddCollectionContainer = styled.div`

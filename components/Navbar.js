@@ -6,6 +6,7 @@ import { useState } from "react";
 import Modal from "@/components/Modal";
 import FlashcardForm from "@/components/FlashcardForm";
 import { useSession } from "next-auth/react";
+import AiForm from "@/components/AiForm";
 
 const Navigation = styled.nav`
   width: min(650px, 95%);
@@ -191,6 +192,7 @@ const OpenButton = styled.button`
 export default function Navbar({
   handleCreateFlashcard,
   handleCreateCollection,
+  handleCreateAiFlashcards,
   collections,
 }) {
   const router = useRouter();
@@ -198,6 +200,8 @@ export default function Navbar({
   const pathname = router.pathname;
   const navPath = pathname === "/" || pathname?.includes("/archive");
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [form, setForm] = useState("flashcard");
+  const [activeTab, setActiveTab] = useState("flashcard");
   const archiveLink = id ? `/collections/${id}/archive` : "/archive";
   const { data: session } = useSession();
 
@@ -226,6 +230,16 @@ export default function Navbar({
       }
     } catch (error) {
       console.error("Error creating collection and flashcard:", error);
+    }
+  }
+
+  function switchForm(tab) {
+    if (tab === "flashcard") {
+      setActiveTab("flashcard");
+      setForm("flashcard");
+    } else if (tab === "ai") {
+      setActiveTab("ai");
+      setForm("ai");
     }
   }
 
@@ -258,13 +272,27 @@ export default function Navbar({
             onClose={() => setIsModalOpen(false)}
             title="Create a new Flashcard"
             needsPortal={true}
+            switchForm={switchForm}
+            activeTab={activeTab}
+            setActiveTab={setActiveTab}
+            isCollectionForm={false}
           >
-            <FlashcardForm
-              onSubmit={handleSubmit}
-              collections={collections}
-              onClose={() => setIsModalOpen(false)}
-              handleCreateCollection={handleCreateCollection}
-            />
+            {form === "flashcard" ? (
+              <FlashcardForm
+                onSubmit={handleSubmit}
+                collections={collections}
+                onClose={() => setIsModalOpen(false)}
+                handleCreateCollection={handleCreateCollection}
+              />
+            ) : (
+              <AiForm
+                collections={collections}
+                onClose={() => setIsModalOpen(false)}
+                handleCreateCollection={handleCreateCollection}
+                handleCreateFlashcard={handleCreateFlashcard}
+                handleCreateAiFlashcards={handleCreateAiFlashcards}
+              />
+            )}
           </Modal>
         </ModalWrapper>
 

@@ -100,11 +100,13 @@ export default function App({ Component, pageProps }) {
       });
       if (!response.ok) {
         console.error("Failed to create flashcard");
-        return;
+        return null;
       }
       flashcardsMutate();
+      return response.json();
     } catch (error) {
       console.error(error);
+      return null;
     }
   }
 
