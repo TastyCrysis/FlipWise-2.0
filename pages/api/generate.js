@@ -46,7 +46,8 @@ export default async function handler(request, response) {
         },
       ],
       max_tokens: 2000,
-      temperature: 0.9,
+      temperature: 0.7,
+      timeout: 30000,
     });
 
     const content = completion.choices[0].message.content
@@ -61,6 +62,9 @@ export default async function handler(request, response) {
       if (!Array.isArray(flashcards)) {
         throw new Error("OpenAI response is not an array");
       }
+
+      // Limit the number of flashcards to the requested amount
+      flashcards = flashcards.slice(0, numberOfFlashcards);
 
       // Format and validate each flashcard
       flashcards = flashcards.map((card) => {
