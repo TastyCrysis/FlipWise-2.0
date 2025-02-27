@@ -30,8 +30,7 @@ export const authOptions = {
             }
           },
         })
-      : process.env.VERCEL_ENV !== "preview" &&
-        GithubProvider({
+      : GithubProvider({
           clientId: process.env.GITHUB_ID,
           clientSecret: process.env.GITHUB_SECRET,
         }),

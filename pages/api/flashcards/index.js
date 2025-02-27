@@ -21,6 +21,9 @@ export default async function handler(request, response) {
             userID: { $exists: false },
           });
           const flashcards = [...flashcardsUser, ...flashcardsDefault];
+          if (!flashcards) {
+            return response.status(404).json({ status: "Not Found" });
+          }
           return response.status(200).json(flashcards);
         } else {
           const flashcards = await Flashcard.find({

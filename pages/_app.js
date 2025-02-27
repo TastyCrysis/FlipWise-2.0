@@ -46,9 +46,6 @@ export default function App({ Component, pageProps }) {
     mutate: flashcardsMutate,
   } = useSWR("/api/flashcards", fetcher);
 
-  //console.log("flashcards_", flashcards);
-  //console.log("collections", collections);
-
   if (flashcardsLoading || collectionsLoading) {
     return <h1>Loading...</h1>;
   }
@@ -141,7 +138,6 @@ export default function App({ Component, pageProps }) {
   }
 
   async function handleCreateCollection(data) {
-    console.log("data_2", data);
     try {
       const response = await fetch("/api/collections", {
         method: "POST",

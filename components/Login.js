@@ -34,7 +34,7 @@ export default function Login({ handleCreateUser, handleCheckUserExistence }) {
     async function checkUserExistence() {
       if (session) {
         const userId = session.user.id;
-        let userIsAvailable = (await handleCheckUserExistence({ userId }))
+        const userIsAvailable = (await handleCheckUserExistence({ userId }))
           ? true
           : false;
         if (!userIsAvailable) {
