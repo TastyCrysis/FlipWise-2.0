@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { nanoid } from "nanoid";
 import styled from "styled-components";
 import Button from "./Button";
+import { useSession } from "next-auth/react";
 
 const StyledForm = styled.form`
   position: relative;
@@ -41,6 +41,7 @@ const ButtonContainer = styled.div`
   justify-content: space-between;
   width: 70%;
   padding: 32px 0 8px 0;
+  gap: 8px;
 `;
 
 const AddCollectionContainer = styled.div`
@@ -55,6 +56,8 @@ export default function FlashcardForm({
   onClose,
   collections,
 }) {
+  const { data: session } = useSession();
+  const userId = session.user.id;
   const [showCollectionInput, setShowCollectionInput] = useState(false);
   async function handleSubmit(event) {
     event.preventDefault();
@@ -68,9 +71,12 @@ export default function FlashcardForm({
     };
 
     if (initialValues?._id) {
-      await onSubmit(initialValues._id, mergedData);
+      //update Flashcard
+      await onSubmit(mergedData, initialValues._id);
     } else {
-      await onSubmit(mergedData);
+      //create Flashcard
+      const userData = { ...mergedData, owner: userId };
+      await onSubmit(userData);
     }
   }
 

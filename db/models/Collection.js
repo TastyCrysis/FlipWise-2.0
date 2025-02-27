@@ -1,10 +1,11 @@
 import mongoose from "mongoose";
+import "./User";
 
 const { Schema } = mongoose;
 
 const collectionSchema = new Schema({
   title: { type: String, required: true },
-  flashcards: [{ type: Schema.Types.ObjectId, ref: "Flashcard" }],
+  owner: { type: String },
 });
 
 const Collection =

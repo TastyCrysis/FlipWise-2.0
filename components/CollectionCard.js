@@ -192,6 +192,7 @@ export default function CollectionCard({
           onClose={() => setIsModalOpen(false)}
           title="Update Collection"
           needsPortal={true}
+          isCollectionForm={true}
         >
           <CollectioncardForm
             onSubmit={handleSubmit}
