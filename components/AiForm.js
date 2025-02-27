@@ -144,7 +144,6 @@ export default function AiForm({
   collections,
   handleCreateCollection,
   handleCreateFlashcard,
-  handleCreateAiFlashcards,
 }) {
   const [showCollectionInput, setShowCollectionInput] = useState(false);
   const [aiFlashcardSelect, setAiFlashcardSelect] = useState(false);
@@ -164,11 +163,29 @@ export default function AiForm({
     setFormData(data);
 
     try {
-      const result = await handleCreateAiFlashcards({
+      const promptData = {
         textInput: data.textInput,
         numberOfFlashcards: data.numberOfFlashcards,
         collectionId: showCollectionInput ? null : data.collectionId,
+      };
+
+      const response = await fetch("/api/generate", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(promptData),
       });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(`API Error: ${errorData.message}`);
+      }
+
+      const result = await response.json();
+      if (!result.flashcards || !Array.isArray(result.flashcards)) {
+        throw new Error("Invalid response format from API");
+      }
 
       if (result && result.flashcards) {
         setGeneratedFlashcards(result.flashcards);
