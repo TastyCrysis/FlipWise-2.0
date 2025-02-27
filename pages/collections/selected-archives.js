@@ -1,10 +1,10 @@
 import FlashcardList from "@/components/FlashcardList";
-import styled, { useTheme } from "styled-components";
+import styled from "styled-components";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { StyledButton } from "@/components/Button";
-import Select from "react-select";
-import NavigationHandler from "@/components/NavigationHandler";
+import Button from "@/components/Button";
+import useNavigationHandler from "@/components/NavigationHandler";
+import CustomSelect from "@/components/CustomSelect";
 
 const Container = styled.div`
   display: flex;
@@ -28,18 +28,11 @@ const StyledCollectionTitle = styled.h3`
   margin-bottom: 6px;
 `;
 
-const ArchiveButton = styled(StyledButton)`
-  font-size: 13px;
-  padding: 5px 10px;
-  margin: 8px 0;
-`;
-
 export default function SelectedArchives({ collections, flashcards }) {
   const router = useRouter();
-  const theme = useTheme();
   const [selectedCollections, setSelectedCollections] = useState([]);
   const [filteredFlashcards, setFilteredFlashcards] = useState([]);
-  const { handleNavigate } = NavigationHandler({ selectedCollections });
+  const { handleNavigate } = useNavigationHandler(selectedCollections);
 
   const options = collections.map((collection) => ({
     value: collection._id,
@@ -55,11 +48,7 @@ export default function SelectedArchives({ collections, flashcards }) {
   useEffect(() => {
     if (router.query.ids) {
       const collectionIds = router.query.ids.split(",");
-
-      const matchedCollections = collections.filter((c) =>
-        collectionIds.includes(c._id)
-      );
-      setSelectedCollections(matchedCollections);
+      setSelectedCollections(collectionIds);
 
       const matchedFlashcards = flashcards.filter(
         (card) => collectionIds.includes(card.collectionId) && card.isCorrect
@@ -72,51 +61,43 @@ export default function SelectedArchives({ collections, flashcards }) {
     <>
       <Container>
         <StyledPageTitle>Ausgewählte Archive</StyledPageTitle>
-        <Select
-          isMulti
-          name="collections"
-          value={options.filter((option) =>
-            selectedCollections.includes(option.value)
-          )}
-          onChange={handleCollectionChange}
-          className="basic-multi-select"
-          classNamePrefix="select"
+        <CustomSelect
           options={options}
-          styles={{
-            control: (provided, state) => ({
-              ...provided,
-              boxShadow: theme.boxShadowButton,
-              borderColor: theme.border,
-              backgroundColor: theme.background,
-              color: theme.collectionCardText,
-            }),
-          }}
+          selectedValues={selectedCollections}
+          onChange={handleCollectionChange}
         />
 
-        <ArchiveButton
+        <Button
           onClick={handleNavigate}
+          buttonLabel="Show collections"
+          fontSize="13px"
+          padding="5px 10px"
+          margin="8px 0"
           disabled={selectedCollections.length === 0}
-        >
-          Show collections
-        </ArchiveButton>
+        />
       </Container>
 
       {selectedCollections.length === 0 ? (
         <p>No flashcards found.</p>
       ) : (
-        selectedCollections.map((selectedCollection) => (
-          <div key={selectedCollection._id} style={{ marginBottom: "20px" }}>
-            <StyledCollectionTitle>
-              {selectedCollection.title}
-            </StyledCollectionTitle>
-            <FlashcardList
-              flashcards={filteredFlashcards.filter(
-                (card) => card.collectionId === selectedCollection._id
-              )}
-              collections={collections}
-            />
-          </div>
-        ))
+        selectedCollections.map((selectedCollectionId) => {
+          const collection = collections.find(
+            (c) => c._id === selectedCollectionId
+          );
+          if (!collection) return null;
+
+          return (
+            <li key={selectedCollectionId} style={{ marginBottom: "20px" }}>
+              <StyledCollectionTitle>{collection.title}</StyledCollectionTitle>
+              <FlashcardList
+                flashcards={filteredFlashcards.filter(
+                  (card) => card.collectionId === selectedCollectionId
+                )}
+                collections={collections}
+              />
+            </li>
+          );
+        })
       )}
     </>
   );

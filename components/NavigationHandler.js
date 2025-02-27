@@ -1,8 +1,7 @@
 import { useRouter } from "next/router";
 
-export default function NavigationHandler({ selectedCollections }) {
+export default function useNavigationHandler(selectedCollections) {
   const router = useRouter();
-
   const handleNavigate = () => {
     if (selectedCollections.length === 1) {
       router.push(`/collections/${selectedCollections[0]}/archive`);
@@ -11,6 +10,5 @@ export default function NavigationHandler({ selectedCollections }) {
       router.push(`/collections/selected-archives?ids=${queryString}`);
     }
   };
-
   return { handleNavigate };
 }

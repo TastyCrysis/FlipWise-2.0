@@ -1,10 +1,10 @@
 import FlashcardList from "@/components/FlashcardList";
-import styled, { useTheme } from "styled-components";
+import styled from "styled-components";
 import { useState } from "react";
 import { useRouter } from "next/router";
-import { StyledButton } from "@/components/Button";
-import Select from "react-select";
-import NavigationHandler from "@/components/NavigationHandler";
+import Button from "@/components/Button";
+import CustomSelect from "@/components/CustomSelect";
+import useNavigationHandler from "@/components/NavigationHandler";
 
 const Container = styled.div`
   display: flex;
@@ -28,12 +28,6 @@ const StyledCollectionTitle = styled.h3`
   margin-bottom: 6px;
 `;
 
-const ArchiveButton = styled(StyledButton)`
-  font-size: 13px;
-  padding: 5px 10px;
-  margin: 8px 0;
-`;
-
 export default function Archive({
   flashcards,
   collections,
@@ -42,9 +36,8 @@ export default function Archive({
   handleUpdateFlashcard,
 }) {
   const router = useRouter();
-  const theme = useTheme();
   const [selectedCollections, setSelectedCollections] = useState([]);
-  const { handleNavigate } = NavigationHandler({ selectedCollections });
+  const { handleNavigate } = useNavigationHandler(selectedCollections);
 
   const options = collections.map((collection) => ({
     value: collection._id,
@@ -76,33 +69,20 @@ export default function Archive({
     <>
       <Container>
         <StyledPageTitle>Archive</StyledPageTitle>
-        <Select
-          isMulti
-          name="collections"
-          value={options.filter((option) =>
-            selectedCollections.includes(option.value)
-          )}
-          onChange={handleCollectionChange}
-          className="basic-multi-select"
-          classNamePrefix="select"
+        <CustomSelect
           options={options}
-          styles={{
-            control: (provided, state) => ({
-              ...provided,
-              boxShadow: theme.boxShadowButton,
-              borderColor: theme.border,
-              backgroundColor: theme.background,
-              color: theme.collectionCardText,
-            }),
-          }}
+          selectedValues={selectedCollections}
+          onChange={handleCollectionChange}
         />
 
-        <ArchiveButton
+        <Button
           onClick={handleNavigate}
+          buttonLabel="Show collections"
+          fontSize="13px"
+          padding="5px 10px"
+          margin="8px 0"
           disabled={selectedCollections.length === 0}
-        >
-          Show collections
-        </ArchiveButton>
+        />
       </Container>
       <StyledCollectionTitle>
         {currentCollection ? currentCollection.title : "All Cards"}

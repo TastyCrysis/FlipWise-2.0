@@ -3,6 +3,7 @@ import styled from "styled-components";
 import Link from "next/link";
 import ArrowChevronRight from "./Elements/Arrow_chevron-right";
 import Button from "@/components/Button";
+
 const CardItem = styled.li`
   width: 100%;
   height: 250px;
