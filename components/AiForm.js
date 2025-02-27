@@ -242,6 +242,16 @@ export default function AiForm({
             </ListItem>
             <hr />
             <ListItem>
+              In case of serverless vercel timeout, the maximum number of
+              flashcards is 20.
+            </ListItem>
+            <hr />
+            <ListItem>
+              If the vercel serverless timeout is reached, the flashcards will
+              not be generated. Try again.
+            </ListItem>
+            <hr />
+            <ListItem>
               Select a collection to save the flashcards or create a new one.
             </ListItem>
             <hr />
@@ -257,11 +267,6 @@ export default function AiForm({
             <hr />
             <ListItem>
               Click on the save button to save the flashcards.
-            </ListItem>
-            <hr />
-            <ListItem>
-              In case of serverless vercel timeout, the maximum number of
-              flashcards is 20.
             </ListItem>
           </List>
         </TooltipText>
