@@ -29,11 +29,26 @@ const IconLogOut = styled.div`
   }
 `;
 
+const ButtonBar = styled.div`
+  display: flex;
+  gap: 8px;
+`;
+
+//const StyledButton1 = styled(StyledButton)`
 const StyledButton = styled.button`
-  height: 20px;
-  background-color: ${({ theme }) => theme.cardPrimary};
-  color: ${({ theme }) => theme.cardPrimaryText};
+  background-color: ${({ theme }) => theme.buttonBackground};
+  color: ${({ theme }) => theme.buttonText};
   cursor: pointer;
+  box-shadow: ${({ theme }) => theme.boxShadowButton};
+  border: 1px solid ${({ theme }) => theme.buttonBorder};
+  border-radius: 8px;
+  opacity: ${({ $grayout }) => ($grayout ? "0.5" : "1")};
+
+  &:disabled {
+    cursor: not-allowed;
+    color: var(--primary);
+    background-color: var(--secondary);
+  }
 `;
 
 export default function Profile({
@@ -42,14 +57,24 @@ export default function Profile({
   themeMode,
   onHandleToggleThemeMode,
 }) {
-  //const { data: session } = useSession();
-  //const userId = session.user.id;
-  const userId = 189611569;
+  const { data: session } = useSession();
+  let userId;
+  let userName;
+  let userImage;
+  if (session) {
+    userId = session.user.id;
+    userName = session.user.name;
+    userImage = session.user.image;
+  } else {
+    userId = 189611569;
+    userName = "Dominik Muster";
+    userImage = "/asset/user.png";
+  }
   const myCollections = collections.filter(
     (collection) => collection.owner === userId
   ).length;
-  //console.log("myCollections_", myCollections);
-  //console.log("Collections_", collections);
+  console.log("myCollections_", myCollections);
+  console.log("Collections_", collections);
   const myFlashcards = flashcards.filter(
     (flashcard) => flashcard.owner === userId
   ).length;
@@ -61,36 +86,40 @@ export default function Profile({
     <>
       <Container>
         <StyledPageTitle>my profile</StyledPageTitle>
-
-        {/*       {session.user.image && (
-        <img
-          src={session.user.image}
-          alt="Profilbild"
-          width={40}
-          height={40}
-          style={{ borderRadius: "50%" }}
-        />
-      )} 
-       <StyledButton onClick={() => signOut()}>Sign out</StyledButton>*/}
-        <IconLogOut>
+        {session && session.user.image && (
           <img
-            src="/asset/user.png"
-            alt="login/image"
+            src={session.user.image}
+            alt="profile-image"
             width={100}
             height={100}
+            style={{ borderRadius: "50%" }}
           />
-        </IconLogOut>
+        )}
+        {!session && (
+          <IconLogOut>
+            <img src={userImage} alt="login-image" width={100} height={100} />
+          </IconLogOut>
+        )}
         <article>
           <h4>statistics</h4>
-          <p>Name: session.user.name</p>
+          <p>Name: {userName}</p>
           <p>number of my collections: {myCollections}</p>
           <p>number of my flashcards: {myFlashcards}</p>
           <p>number of correct flashcards: {myCorrectFlashcards}</p>
         </article>
-        <ThemeSwitch
-          themeMode={themeMode}
-          onHandleToggleThemeMode={onHandleToggleThemeMode}
-        />
+        <ButtonBar>
+          <ThemeSwitch
+            themeMode={themeMode}
+            onHandleToggleThemeMode={onHandleToggleThemeMode}
+          />
+          <StyledButton
+            onClick={() => signOut()}
+            disabled={!session}
+            $grayout={!session}
+          >
+            Sign out
+          </StyledButton>
+        </ButtonBar>
       </Container>
     </>
   );

@@ -5,7 +5,6 @@ import { SWRConfig } from "swr";
 import useSWR from "swr";
 import { ThemeProvider } from "styled-components";
 import styled from "styled-components";
-import ThemeSwitch from "@/components/ThemeSwitch";
 import { SessionProvider } from "next-auth/react";
 import Login from "@/components/Login";
 import handleCheckUserExistence from "@/utils/CheckUserExistence";
@@ -208,10 +207,6 @@ export default function App({ Component, pageProps }) {
               />
             </StyledLogIn>
             <StyledTitle>Flipwise App</StyledTitle>
-            <ThemeSwitch
-              theme={themeMode}
-              onHandleToggleThemeMode={handleToggleThemeMode}
-            />
           </header>
           <main>
             <Component
@@ -223,6 +218,7 @@ export default function App({ Component, pageProps }) {
               handleUpdateFlashcard={handleUpdateFlashcard}
               handleDeleteCollection={handleDeleteCollection}
               handleUpdateCollection={handleUpdateCollection}
+              onHandleToggleThemeMode={handleToggleThemeMode}
             />
           </main>
           <footer>

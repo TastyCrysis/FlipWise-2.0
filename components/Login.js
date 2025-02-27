@@ -1,17 +1,22 @@
 import { useSession, signIn, signOut } from "next-auth/react";
 import { useEffect } from "react";
 import styled from "styled-components";
+import Link from "next/link";
 
 const IconLogIn = styled.span`
   color: ${({ theme }) => theme.cardPrimary};
   border: 1px solid ${({ theme }) => theme.text};
   border-radius: 50%;
+  width: 40px;
+  height: 40px;
 `;
 
 const IconLogOut = styled.span`
   color: ${({ theme }) => theme.cardPrimary};
   border: 1px solid ${({ theme }) => theme.text};
   border-radius: 50%;
+  width: 40px;
+  height: 40px;
   & img {
     filter: ${({ theme }) =>
       theme.navbarText === "#a3a8c8"
@@ -49,17 +54,19 @@ export default function Login({ handleCreateUser, handleCheckUserExistence }) {
   if (session) {
     return (
       <>
-        <IconLogIn>
-          {session.user.image && (
-            <img
-              src={session.user.image}
-              alt="Profilbild"
-              width={40}
-              height={40}
-              style={{ borderRadius: "50%" }}
-            />
-          )}
-        </IconLogIn>
+        <Link href={`/profile`}>
+          <IconLogIn>
+            {session.user.image && (
+              <img
+                src={session.user.image}
+                alt="Profilbild"
+                width={40}
+                height={40}
+                style={{ borderRadius: "50%" }}
+              />
+            )}
+          </IconLogIn>
+        </Link>
         <StyledButton onClick={() => signOut()}>Sign out</StyledButton>
       </>
     );
@@ -67,10 +74,12 @@ export default function Login({ handleCreateUser, handleCheckUserExistence }) {
 
   return (
     <>
-      <IconLogOut>
-        <img src="/asset/user.png" alt="login/image" width={40} height={40} />
-      </IconLogOut>
-      <StyledButton onClick={() => signIn()}>Sign in</StyledButton>
+      <Link href={`/profile`}>
+        <IconLogOut>
+          <img src="/asset/user.png" alt="login/image" width={40} height={40} />
+        </IconLogOut>
+        <StyledButton onClick={() => signIn()}>Sign in</StyledButton>
+      </Link>
     </>
   );
 }
