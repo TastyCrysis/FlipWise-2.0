@@ -2,6 +2,7 @@ import { useState } from "react";
 import styled from "styled-components";
 import { useRouter } from "next/router";
 import QuizNavbar from "@/components/QuizNavbar";
+import Image from "next/image";
 
 const QuizContainer = styled.div`
   max-width: 600px;
@@ -51,6 +52,83 @@ const StartButton = styled.button`
   font-weight: 600;
   cursor: pointer;
   transition: background 0.2s;
+`;
+
+const TooltipText = styled.ol`
+  visibility: hidden;
+  position: absolute;
+  background-color: ${({ theme }) => theme.tooltipBackground};
+  color: ${({ theme }) => theme.tooltipText};
+  border: 1px solid ${({ theme }) => theme.tooltipBorder};
+  min-width: 300px;
+  max-width: 90vw;
+  text-align: left;
+  padding: 8px 8px 8px 24px;
+  border-radius: 8px;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-top: 8px;
+  z-index: 1;
+  opacity: 0;
+  transition: opacity 0.5s, visibility 0.5s;
+
+  &:before {
+    content: "";
+    position: absolute;
+    top: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 0 10px 10px 10px;
+    border-style: solid;
+    border-color: transparent transparent
+      ${({ theme }) => theme.tooltipBackground} transparent;
+    filter: drop-shadow(0 -1px 0 ${({ theme }) => theme.tooltipBorder});
+  }
+`;
+
+const Icon = styled.span`
+  position: relative;
+  display: block;
+  line-height: 1;
+  font-size: 1.5em;
+  text-align: center;
+  transition: 0.5s;
+  color: ${({ theme }) => theme.navbarText};
+
+  & img {
+    filter: ${({ theme }) =>
+      theme.navbarText === "#a3a8c8"
+        ? "invert(0.6) brightness(1) sepia(0.5) hue-rotate(210deg) saturate(1) contrast(1)"
+        : "invert(1)"};
+  }
+`;
+
+const TooltipContainer = styled.div`
+  position: relative;
+  cursor: help;
+  line-height: 1.2em;
+  margin: 0;
+
+  &:hover ${TooltipText} {
+    visibility: visible;
+    opacity: 1;
+  }
+`;
+
+const List = styled.ol`
+  padding-left: 2px;
+  padding-right: 2px;
+  margin: 0;
+`;
+
+const ListItem = styled.li`
+  margin-bottom: 4px;
+  line-height: 1.2;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
 `;
 
 const difficultyLevels = [
@@ -151,6 +229,28 @@ export default function QuizPage({ collections, initialValues, flashcards }) {
   return (
     <QuizContainer>
       <Title>Start a New Quiz</Title>
+      <TooltipContainer>
+        <Icon>
+          <Image src="/asset/info.png" alt="info-logo" width={24} height={24} />
+        </Icon>
+        <TooltipText>
+          <List>
+            <ListItem>
+              Select a collection and a difficulty to start a new quiz.
+            </ListItem>
+            <hr />
+            <ListItem>
+              If selected collection has less flashcards than the required
+              number of cards, AI will generate the missing cards.
+            </ListItem>
+            <hr />
+            <ListItem>
+              If the vercel serverless timeout is reached, the flashcards will
+              not be generated. Try again.
+            </ListItem>
+          </List>
+        </TooltipText>
+      </TooltipContainer>
       <SelectionForm onSubmit={handleSubmit}>
         <SelectGroup>
           <Label htmlFor="collection">Select Collection</Label>
