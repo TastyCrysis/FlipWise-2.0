@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import styled from "styled-components";
-import Link from "next/link";
 import QuizFlashcard from "@/components/Flashcards/QuizFlashcard";
 
 const SessionContainer = styled.div`
@@ -65,9 +64,9 @@ const ConfirmButtonContainer = styled.div`
 
 // Define difficulty levels
 const difficultyLevels = [
-  { id: "easy", name: "Easy", time: 0.5, cards: 10 },
+  { id: "easy", name: "Easy", time: 15, cards: 10 },
   { id: "medium", name: "Medium", time: 10, cards: 15 },
-  { id: "hard", name: "Hard", time: 0.5, cards: 20 },
+  { id: "hard", name: "Hard", time: 7, cards: 20 },
 ];
 
 export default function QuizSession({

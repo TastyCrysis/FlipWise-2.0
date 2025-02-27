@@ -56,7 +56,7 @@ const StartButton = styled.button`
 const difficultyLevels = [
   { id: "easy", name: "Easy", time: 15, cards: 10 },
   { id: "medium", name: "Medium", time: 10, cards: 15 },
-  { id: "hard", name: "Hard", time: 5, cards: 20 },
+  { id: "hard", name: "Hard", time: 7, cards: 20 },
 ];
 
 export default function QuizPage({ collections, initialValues, flashcards }) {
