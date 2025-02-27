@@ -258,6 +258,11 @@ export default function AiForm({
             <ListItem>
               Click on the save button to save the flashcards.
             </ListItem>
+            <hr />
+            <ListItem>
+              In case of serverless vercel timeout, the maximum number of
+              flashcards is 20.
+            </ListItem>
           </List>
         </TooltipText>
       </TooltipContainer>
@@ -273,7 +278,7 @@ export default function AiForm({
         id="numberOfFlashcards"
         type="number"
         name="numberOfFlashcards"
-        max="30"
+        max="20"
         required
       />
       {!showCollectionInput && (
