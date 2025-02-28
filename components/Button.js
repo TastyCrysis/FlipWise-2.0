@@ -1,13 +1,13 @@
 import styled from "styled-components";
 
 export const StyledButton = styled.button`
-  border-radius: 8px;
   background-color: ${({ theme }) => theme.buttonBackground};
   font-size: ${({ fontSize }) => fontSize || "16px"};
   color: ${({ theme }) => theme.buttonText};
   padding: ${({ padding }) => padding || "10px 20px"};
   box-shadow: ${({ theme }) => theme.boxShadowButton};
   border: 1px solid ${({ theme }) => theme.buttonBorder};
+  border-radius: 8px;
   cursor: pointer;
   margin: ${({ margin }) => margin || "0"};
 

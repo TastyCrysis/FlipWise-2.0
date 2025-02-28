@@ -180,7 +180,7 @@ const OpenButton = styled.button`
   justify-content: center;
   box-shadow: ${({ theme }) => theme.boxShadowButton};
   border: 1px solid ${({ theme }) => theme.buttonBorder};
-  opacity: ${({ $grayout }) => ($grayout ? "0.5" : "1")};
+  opacity: ${({ disabled }) => (disabled ? "0.5" : "1")};
 
   &:disabled {
     cursor: not-allowed;
@@ -259,11 +259,7 @@ export default function Navbar({
           </StyledLink>
         </ListItem>
         <ModalWrapper>
-          <OpenButton
-            onClick={() => setIsModalOpen(true)}
-            disabled={!session}
-            $grayout={!session}
-          >
+          <OpenButton onClick={() => setIsModalOpen(true)} disabled={!session}>
             +
           </OpenButton>
           <Modal

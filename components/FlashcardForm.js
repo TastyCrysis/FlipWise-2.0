@@ -57,7 +57,7 @@ export default function FlashcardForm({
   collections,
 }) {
   const { data: session } = useSession();
-  const userId = session.user.id;
+  const userId = session?.user.id;
   const [showCollectionInput, setShowCollectionInput] = useState(false);
   async function handleSubmit(event) {
     event.preventDefault();

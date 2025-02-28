@@ -1,5 +1,7 @@
 import styled from "styled-components";
 import Link from "next/link";
+//import ImageUpload from "@/components/ImageUpload";
+import Image from "next/image";
 
 const ModeList = styled.ul`
   display: flex;
@@ -87,9 +89,23 @@ const StyledStatsItemSpan = styled.span`
   border-radius: 8px;
 `;
 
+const StyledImage = styled(Image)`
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+`;
+
 export default function Homepage({}) {
   return (
     <>
+      {/* <ImageUpload></ImageUpload>
+            <StyledImage
+        alt={`image of ${image.title}`}
+        src={image.url}
+        fill
+        style={{ objectFit: "contain" }}
+      ></StyledImage> */}
+
       <ModeList>
         <ModeItem>
           <StyledCardLink href="/collections">

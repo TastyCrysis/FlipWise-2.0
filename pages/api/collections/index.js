@@ -17,7 +17,6 @@ export default async function handler(request, response) {
           const collectionsUser = await Collection.find({
             owner: userId,
           });
-
           const collectionsDefault = await Collection.find({
             owner: { $exists: false },
           });
