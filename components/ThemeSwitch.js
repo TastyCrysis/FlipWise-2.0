@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { useSession } from "next-auth/react";
-import handleCheckUserExistence from "@/utils/CheckUserExistence";
+import CheckUserExistence from "@/utils/CheckUserExistence";
 
 const Select = styled.select`
   background: ${({ theme }) => theme.background};
@@ -19,7 +19,7 @@ export default function ThemeSwitch({ themeMode, onHandleToggleThemeMode }) {
     }
 
     const userId = session.user.id;
-    let userData = await handleCheckUserExistence({ userId });
+    let userData = await CheckUserExistence({ userId });
     //Id from database objects
     const user_Id = userData._id;
     try {

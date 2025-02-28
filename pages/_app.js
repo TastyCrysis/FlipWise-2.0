@@ -7,7 +7,7 @@ import { ThemeProvider } from "styled-components";
 import styled from "styled-components";
 import { SessionProvider } from "next-auth/react";
 import Login from "@/components/Login";
-import handleCheckUserExistence from "@/utils/CheckUserExistence";
+import CheckUserExistence from "@/utils/CheckUserExistence";
 
 const StyledTitle = styled.h1`
   display: flex;
@@ -179,7 +179,7 @@ export default function App({ Component, pageProps }) {
           <header>
             <StyledLogIn>
               <Login
-                handleCheckUserExistence={handleCheckUserExistence}
+                CheckUserExistence={CheckUserExistence}
                 handleToggleThemeMode={handleToggleThemeMode}
               />
             </StyledLogIn>

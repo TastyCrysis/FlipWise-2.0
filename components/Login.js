@@ -67,26 +67,23 @@ async function handlePickupUserThemeMode(data) {
   }
 }
 
-export default function Login({
-  handleCheckUserExistence,
-  handleToggleThemeMode,
-}) {
+export default function Login({ CheckUserExistence, handleToggleThemeMode }) {
   const { data: session } = useSession();
 
   useEffect(() => {
-    async function checkUserExistence() {
+    async function controlUserExistence() {
       if (!session) {
         return;
       }
       const userId = session.user.id;
-      const userIsAvailable = await handleCheckUserExistence({ userId });
+      const userIsAvailable = await CheckUserExistence({ userId });
       if (!userIsAvailable) {
         handleCreateUser({ userId });
       }
       const currentUserThemeMode = await handlePickupUserThemeMode({ userId });
       handleToggleThemeMode(currentUserThemeMode);
     }
-    checkUserExistence();
+    controlUserExistence();
   }, [session]);
 
   if (session) {
