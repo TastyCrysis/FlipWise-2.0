@@ -180,23 +180,14 @@ export default function App({ Component, pageProps }) {
         <GlobalStyle />
         <SWRConfig value={{ fetcher }}>
           <header>
-<<<<<<< HEAD
-            {!router.pathname.startsWith("/quiz") && (
+            {router.pathname !== "/quiz/session" && (
               <StyledLogIn>
                 <Login
-                  handleCreateUser={handleCreateUser}
                   CheckUserExistence={CheckUserExistence}
+                  handleToggleThemeMode={handleToggleThemeMode}
                 />
               </StyledLogIn>
             )}
-=======
-            <StyledLogIn>
-              <Login
-                CheckUserExistence={CheckUserExistence}
-                handleToggleThemeMode={handleToggleThemeMode}
-              />
-            </StyledLogIn>
->>>>>>> main
             <StyledTitle>Flipwise App</StyledTitle>
             {!router.pathname.startsWith("/quiz") && (
               <ThemeSwitch
