@@ -29,14 +29,14 @@ const StyledButton = styled.button`
   cursor: pointer;
 `;
 
-export default function Login({ handleCreateUser, handleCheckUserExistence }) {
+export default function Login({ handleCreateUser, CheckUserExistence }) {
   const { data: session } = useSession();
   const [isModalOpen, setIsModalOpen] = useState(false);
   useEffect(() => {
-    async function checkUserExistence() {
+    async function controlUserExistence() {
       if (session) {
         const userId = session.user.id;
-        const userIsAvailable = (await handleCheckUserExistence({ userId }))
+        const userIsAvailable = (await CheckUserExistence({ userId }))
           ? true
           : false;
         if (!userIsAvailable) {
@@ -45,7 +45,7 @@ export default function Login({ handleCreateUser, handleCheckUserExistence }) {
         }
       }
     }
-    checkUserExistence();
+    controlUserExistence();
   }, [session]);
 
   useEffect(() => {

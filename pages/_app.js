@@ -8,7 +8,7 @@ import styled from "styled-components";
 import ThemeSwitch from "@/components/ThemeSwitch";
 import { SessionProvider } from "next-auth/react";
 import Login from "@/components/Login";
-import handleCheckUserExistence from "@/utils/CheckUserExistence";
+import CheckUserExistence from "@/utils/CheckUserExistence";
 
 const StyledTitle = styled.h1`
   display: flex;
@@ -200,7 +200,7 @@ export default function App({ Component, pageProps }) {
             <StyledLogIn>
               <Login
                 handleCreateUser={handleCreateUser}
-                handleCheckUserExistence={handleCheckUserExistence}
+                CheckUserExistence={CheckUserExistence}
               />
             </StyledLogIn>
             <StyledTitle>Flipwise App</StyledTitle>
