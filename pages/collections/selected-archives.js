@@ -1,10 +1,10 @@
 import FlashcardList from "@/components/FlashcardList";
 import styled from "styled-components";
-import { useState } from "react";
 import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 import Button from "@/components/Button";
-import CustomSelect from "@/components/CustomSelect";
 import useNavigationHandler from "@/components/NavigationHandler";
+import CustomSelect from "@/components/CustomSelect";
 
 const Container = styled.div`
   display: flex;
@@ -28,15 +28,10 @@ const StyledCollectionTitle = styled.h3`
   margin-bottom: 6px;
 `;
 
-export default function Archive({
-  flashcards,
-  collections,
-  handleToggleCorrect,
-  handleDeleteFlashcard,
-  handleUpdateFlashcard,
-}) {
+export default function SelectedArchives({ collections, flashcards }) {
   const router = useRouter();
   const [selectedCollections, setSelectedCollections] = useState([]);
+  const [filteredFlashcards, setFilteredFlashcards] = useState([]);
   const { handleNavigate } = useNavigationHandler(selectedCollections);
 
   const options = collections.map((collection) => ({
@@ -50,25 +45,22 @@ export default function Archive({
     );
   };
 
-  const { id } = router.query;
+  useEffect(() => {
+    if (router.query.ids) {
+      const collectionIds = router.query.ids.split(",");
+      setSelectedCollections(collectionIds);
 
-  const currentCollection = collections.find(
-    (collection) => collection._id === (id ? String(id) : null)
-  );
-
-  if (!currentCollection) {
-    return <p>Collection not found.</p>;
-  }
-
-  const filteredFlashcards = flashcards.filter(
-    (flashcard) =>
-      flashcard.collectionId === currentCollection._id && flashcard.isCorrect
-  );
+      const matchedFlashcards = flashcards.filter(
+        (card) => collectionIds.includes(card.collectionId) && card.isCorrect
+      );
+      setFilteredFlashcards(matchedFlashcards);
+    }
+  }, [router.query.ids, collections, flashcards]);
 
   return (
     <>
       <Container>
-        <StyledPageTitle>Archive</StyledPageTitle>
+        <StyledPageTitle>Ausgewählte Archive</StyledPageTitle>
         <CustomSelect
           options={options}
           selectedValues={selectedCollections}
@@ -84,16 +76,29 @@ export default function Archive({
           disabled={selectedCollections.length === 0}
         />
       </Container>
-      <StyledCollectionTitle>
-        {currentCollection ? currentCollection.title : "All Cards"}
-      </StyledCollectionTitle>
-      <FlashcardList
-        flashcards={filteredFlashcards}
-        collections={collections}
-        handleToggleCorrect={handleToggleCorrect}
-        handleDeleteFlashcard={handleDeleteFlashcard}
-        handleUpdateFlashcard={handleUpdateFlashcard}
-      />
+
+      {selectedCollections.length === 0 ? (
+        <p>No flashcards found.</p>
+      ) : (
+        selectedCollections.map((selectedCollectionId) => {
+          const collection = collections.find(
+            (c) => c._id === selectedCollectionId
+          );
+          if (!collection) return null;
+
+          return (
+            <li key={selectedCollectionId} style={{ marginBottom: "20px" }}>
+              <StyledCollectionTitle>{collection.title}</StyledCollectionTitle>
+              <FlashcardList
+                flashcards={filteredFlashcards.filter(
+                  (card) => card.collectionId === selectedCollectionId
+                )}
+                collections={collections}
+              />
+            </li>
+          );
+        })
+      )}
     </>
   );
 }

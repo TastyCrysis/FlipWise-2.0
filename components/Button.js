@@ -1,22 +1,41 @@
 import styled from "styled-components";
 
-const StyledButton = styled.button`
-  border-radius: 5px;
+export const StyledButton = styled.button`
+  border-radius: 8px;
   width: 100%;
-  border: none;
   background-color: ${({ theme }) => theme.buttonBackground};
-  font-size: 16px;
+  font-size: ${({ fontSize }) => fontSize || "16px"};
   color: ${({ theme }) => theme.buttonText};
-  padding: 10px 20px;
+  padding: ${({ padding }) => padding || "10px 20px"};
   box-shadow: ${({ theme }) => theme.boxShadowButton};
   border: 1px solid ${({ theme }) => theme.buttonBorder};
-  border-radius: 8px;
   cursor: pointer;
+  margin: ${({ margin }) => margin || "0"};
+
+  &:disabled {
+    background-color: ${({ theme }) => theme.disabledButtonBackground};
+    cursor: not-allowed;
+  }
 `;
 
-export default function Button({ onClick, buttonLabel, type }) {
+export default function Button({
+  onClick,
+  buttonLabel,
+  type,
+  fontSize,
+  padding,
+  margin,
+  disabled,
+}) {
   return (
-    <StyledButton type={type} onClick={onClick}>
+    <StyledButton
+      type={type}
+      onClick={onClick}
+      fontSize={fontSize}
+      padding={padding}
+      margin={margin}
+      disabled={disabled}
+    >
       {buttonLabel}
     </StyledButton>
   );
