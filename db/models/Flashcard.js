@@ -1,5 +1,7 @@
 import mongoose from "mongoose";
 import "./Collection";
+import "./User";
+
 const { Schema } = mongoose;
 
 const flashcardSchema = new Schema({
@@ -11,6 +13,7 @@ const flashcardSchema = new Schema({
   question: { type: String, required: true },
   answer: { type: String, required: true },
   isCorrect: { type: Boolean, required: true },
+  owner: { type: String },
 });
 
 const Flashcard =
