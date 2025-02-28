@@ -57,6 +57,12 @@ const StyledDialog = styled.dialog`
   transform: translateX(-50%);
   padding: 0 12px 12px 12px;
   z-index: 10;
+
+  @media (max-width: 768px) {
+    width: 90%;
+    margin-left: 50%;
+    transform: translateX(-50%);
+  }
 `;
 
 const ConfirmButtonContainer = styled.div`

@@ -67,6 +67,10 @@ const FlashcardQuestion = styled.p`
   font-weight: bold;
   margin: 0 0 24px 0;
   text-align: center;
+
+  @media (max-width: 768px) {
+    font-size: 1.3rem;
+  }
 `;
 
 const FlashcardAnswer = styled.p`
@@ -77,10 +81,14 @@ const FlashcardAnswer = styled.p`
 `;
 
 const FlashcardAnswerText = styled.p`
-  margin: 5px 0;
+  margin: 0 5px 0 5px;
   font-size: 1.5rem;
   font-weight: bold;
   font-style: italic;
+
+  @media (max-width: 768px) {
+    font-size: 1.3rem;
+  }
 `;
 
 const CollectionTitle = styled.p`

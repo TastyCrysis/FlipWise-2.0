@@ -36,7 +36,7 @@ const StyledCardLink = styled(BaseLink)`
 const CollectionCardArticle = styled.article`
   height: 100%;
   background: ${({ theme }) => theme.collectionCard};
-  padding: 0 24px;
+  padding: 0 12px;
   display: flex;
   flex-direction: column;
   position: relative;
@@ -48,7 +48,7 @@ const StyledTitle = styled.h3`
   margin-bottom: 42px;
 
   @media (max-width: 768px) {
-    font-size: 1.8rem;
+    font-size: 1.3rem;
   }
 `;
 
@@ -79,8 +79,9 @@ const StyledIconContainer = styled.div`
   transform: translateY(-50%);
 
   @media (max-width: 768px) {
-    left: 70%;
+    left: 75%;
     transform: translate(-50%, -50%);
+    z-index: 1;
   }
 `;
 

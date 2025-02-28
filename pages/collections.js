@@ -5,13 +5,24 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-bottom: 14px;
+  margin-top: 12px;
+  width: 100%;
+  max-width: 550px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 0;
+
+  @media (max-width: 768px) {
+    width: 90%;
+    margin-left: 5%;
+    margin-right: 5%;
+  }
 `;
 
 const StyledPageTitle = styled.h2`
   font-size: 2.1rem;
   font-weight: 400;
-  margin-bottom: 54px;
+  margin-bottom: 16px;
   margin-top: 6px;
 `;
 

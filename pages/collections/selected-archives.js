@@ -15,8 +15,8 @@ const Container = styled.div`
 const StyledPageTitle = styled.h2`
   font-size: 2.1rem;
   font-weight: 400;
-  margin-bottom: 54px;
-  margin-top: 6px;
+  margin-bottom: 16px;
+  margin-top: 12px;
 `;
 
 const StyledCollectionTitle = styled.h3`
@@ -26,6 +26,10 @@ const StyledCollectionTitle = styled.h3`
   font-size: 1.6rem;
   font-weight: 400;
   margin-bottom: 6px;
+`;
+
+const StyledListItems = styled.li`
+  list-style-type: none;
 `;
 
 export default function SelectedArchives({ collections, flashcards }) {
@@ -60,7 +64,7 @@ export default function SelectedArchives({ collections, flashcards }) {
   return (
     <>
       <Container>
-        <StyledPageTitle>Ausgewählte Archive</StyledPageTitle>
+        <StyledPageTitle>Selected Archives</StyledPageTitle>
         <CustomSelect
           options={options}
           selectedValues={selectedCollections}
@@ -87,7 +91,7 @@ export default function SelectedArchives({ collections, flashcards }) {
           if (!collection) return null;
 
           return (
-            <li key={selectedCollectionId} style={{ marginBottom: "20px" }}>
+            <StyledListItems key={selectedCollectionId}>
               <StyledCollectionTitle>{collection.title}</StyledCollectionTitle>
               <FlashcardList
                 flashcards={filteredFlashcards.filter(
@@ -95,7 +99,7 @@ export default function SelectedArchives({ collections, flashcards }) {
                 )}
                 collections={collections}
               />
-            </li>
+            </StyledListItems>
           );
         })
       )}

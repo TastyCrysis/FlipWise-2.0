@@ -36,7 +36,7 @@ export default async function handler(request, response) {
     Rules:
       - Each object must have "question" and "answer" fields
       - Question max length: 100 chars
-      - Answer max length: 50 chars
+      - Answer max length: 20 chars
       - Return only the JSON array, no other text
       Example format: [{"question": "What is...?", "answer": "This is..."}]
     `;
