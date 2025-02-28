@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import Flashcard from "@/components/Flashcard";
+import Flashcard from "@/components/Flashcards/Flashcard";
 
 const CardList = styled.ul`
   display: flex;
@@ -17,18 +17,12 @@ export default function FlashcardList({
   handleDeleteFlashcard,
   handleUpdateFlashcard,
 }) {
-  const unansweredFlashcards = flashcards.filter(
-    (flashcard) => flashcard.isCorrect === false
-  );
-
   return (
     <CardList>
       {flashcards.length === 0 ? (
-        <p>All cards have been deleted.</p>
-      ) : unansweredFlashcards.length === 0 ? (
-        <p>There are no flashcards in this collection.</p>
+        <p>No flashcards found.</p>
       ) : (
-        unansweredFlashcards.map((flashcard) => {
+        flashcards.map((flashcard) => {
           const collection = collections.find(
             (collection) => collection._id === flashcard.collectionId
           );

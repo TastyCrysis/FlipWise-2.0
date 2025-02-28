@@ -1,5 +1,9 @@
-import ArchiveList from "@/components/ArchiveList";
+import FlashcardList from "@/components/FlashcardList";
 import styled from "styled-components";
+import { useState } from "react";
+import Button from "@/components/Button";
+import CustomSelect from "@/components/CustomSelect";
+import useNavigationHandler from "@/components/NavigationHandler";
 
 const Container = styled.div`
   display: flex;
@@ -30,14 +34,46 @@ export default function Archive({
   handleDeleteFlashcard,
   handleUpdateFlashcard,
 }) {
+  const [selectedCollections, setSelectedCollections] = useState([]);
+  const { handleNavigate } = useNavigationHandler(selectedCollections);
+
+  const options = collections.map((collection) => ({
+    value: collection._id,
+    label: collection.title,
+  }));
+
+  const handleCollectionChange = (selectedOptions) => {
+    setSelectedCollections(
+      selectedOptions ? selectedOptions.map((option) => option.value) : []
+    );
+  };
+
+  const archivedCards = flashcards.filter((card) => card.isCorrect);
+
   return (
     <>
       <Container>
         <StyledPageTitle>Archive</StyledPageTitle>
+
+        <CustomSelect
+          options={options}
+          selectedValues={selectedCollections}
+          onChange={handleCollectionChange}
+        />
+
+        <Button
+          onClick={handleNavigate}
+          buttonLabel="Show collections"
+          fontSize="13px"
+          padding="5px 10px"
+          margin="8px 0"
+          disabled={selectedCollections.length === 0}
+        />
       </Container>
+
       <StyledCollectionTitle>All Cards</StyledCollectionTitle>
-      <ArchiveList
-        flashcards={flashcards}
+      <FlashcardList
+        flashcards={archivedCards}
         collections={collections}
         handleToggleCorrect={handleToggleCorrect}
         handleDeleteFlashcard={handleDeleteFlashcard}
