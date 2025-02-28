@@ -91,13 +91,20 @@ export default function Login({ CheckUserExistence, handleToggleThemeMode }) {
       <>
         <Link href={`/profile`}>
           <IconLogIn>
-            {session.user.image && (
+            {session.user.image ? (
               <img
                 src={session.user.image}
                 alt="Profilbild"
                 width={40}
                 height={40}
                 style={{ borderRadius: "50%" }}
+              />
+            ) : (
+              <img
+                src="/asset/user.png"
+                alt="login/image"
+                width={40}
+                height={40}
               />
             )}
           </IconLogIn>
