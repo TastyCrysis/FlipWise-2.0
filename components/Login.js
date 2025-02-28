@@ -1,6 +1,8 @@
 import { useSession, signIn, signOut } from "next-auth/react";
 import { useEffect } from "react";
 import styled from "styled-components";
+import Modal from "./Modal";
+import { useState } from "react";
 
 const IconLogIn = styled.span`
   color: ${({ theme }) => theme.cardPrimary};
@@ -29,7 +31,7 @@ const StyledButton = styled.button`
 
 export default function Login({ handleCreateUser, handleCheckUserExistence }) {
   const { data: session } = useSession();
-
+  const [isModalOpen, setIsModalOpen] = useState(false);
   useEffect(() => {
     async function checkUserExistence() {
       if (session) {
@@ -46,6 +48,19 @@ export default function Login({ handleCreateUser, handleCheckUserExistence }) {
     checkUserExistence();
   }, [session]);
 
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsModalOpen(false);
+    }, 30000);
+
+    return () => clearTimeout(timer);
+  }, [isModalOpen]);
+
+  function handleSignOut() {
+    signOut();
+    setIsModalOpen(true);
+  }
+
   if (session) {
     return (
       <>
@@ -60,7 +75,12 @@ export default function Login({ handleCreateUser, handleCheckUserExistence }) {
             />
           )}
         </IconLogIn>
-        <StyledButton onClick={() => signOut()}>Sign out</StyledButton>
+        <StyledButton onClick={() => handleSignOut()}>Sign out</StyledButton>
+        <Modal
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+          title="You are now logged out."
+        ></Modal>
       </>
     );
   }
