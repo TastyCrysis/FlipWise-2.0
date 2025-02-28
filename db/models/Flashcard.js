@@ -14,11 +14,6 @@ const flashcardSchema = new Schema({
   answer: { type: String, required: true },
   isCorrect: { type: Boolean, required: true },
   owner: { type: String },
-  /* userId: {
-    type: Schema.Types.ObjectId,
-    ref: "User",
-    required: true,
-  }, */
 });
 
 const Flashcard =
