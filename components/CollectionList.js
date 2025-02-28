@@ -12,7 +12,7 @@ const CardList = styled.ul`
 
 export default function CollectionList({
   flashcards,
-  collections,
+  collections = [],
   handleDeleteCollection,
   handleUpdateCollection,
 }) {
@@ -20,7 +20,7 @@ export default function CollectionList({
     <p>All collections have been deleted.</p>
   ) : (
     <CardList>
-      {(collections || []).map((collection) => (
+      {collections.map((collection) => (
         <CollectionCard
           key={collection._id}
           collection={collection}

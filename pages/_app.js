@@ -5,10 +5,10 @@ import { SWRConfig } from "swr";
 import useSWR from "swr";
 import { ThemeProvider } from "styled-components";
 import styled from "styled-components";
-import ThemeSwitch from "@/components/ThemeSwitch";
 import { SessionProvider } from "next-auth/react";
 import Login from "@/components/Login";
 import CheckUserExistence from "@/utils/CheckUserExistence";
+import ThemeSwitch from "@/components/ThemeSwitch";
 import { useRouter } from "next/router";
 
 const StyledTitle = styled.h1`
@@ -170,27 +170,8 @@ export default function App({ Component, pageProps }) {
     collectionsMutate();
   }
 
-  function handleToggleThemeMode(selectedThemeMode) {
+  async function handleToggleThemeMode(selectedThemeMode) {
     setThemeMode(selectedThemeMode);
-  }
-
-  async function handleCreateUser(data) {
-    try {
-      const response = await fetch("/api/users", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      });
-      if (!response.ok) {
-        console.error("Failed to create user");
-        return;
-      }
-      return response.json();
-    } catch (error) {
-      console.error(error);
-    }
   }
 
   return (
@@ -201,8 +182,8 @@ export default function App({ Component, pageProps }) {
           <header>
             <StyledLogIn>
               <Login
-                handleCreateUser={handleCreateUser}
                 CheckUserExistence={CheckUserExistence}
+                handleToggleThemeMode={handleToggleThemeMode}
               />
             </StyledLogIn>
             <StyledTitle>Flipwise App</StyledTitle>
@@ -223,8 +204,10 @@ export default function App({ Component, pageProps }) {
               handleUpdateFlashcard={handleUpdateFlashcard}
               handleDeleteCollection={handleDeleteCollection}
               handleUpdateCollection={handleUpdateCollection}
+              onHandleToggleThemeMode={handleToggleThemeMode}
             />
           </main>
+
           <footer>
             {!router.pathname.startsWith("/quiz") &&
               router.pathname !== "/" && (

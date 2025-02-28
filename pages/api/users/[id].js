@@ -3,23 +3,26 @@ import User from "@/db/models/User";
 
 export default async function handler(request, response) {
   await dbConnect();
+  const { id } = request.query;
+
   try {
     switch (request.method) {
       case "GET": {
-        const users = await User.find();
-        if (!users) {
+        const user = await User.findById(id);
+        if (!user) {
           return response.status(404).json({ status: "Not Found" });
         }
-        return response.status(200).json(users);
+        return response.status(200).json(user);
       }
-      case "POST": {
-        const userIdProvider = await User.create({ ...request.body });
+
+      case "PUT": {
+        await User.findByIdAndUpdate(id, request.body);
         return response
-          .status(201)
-          .json({ status: "User created", data: userIdProvider });
+          .status(200)
+          .json({ status: "User successfully updated." });
       }
       default:
-        return response.status(405).json({ status: "Method not allowed" });
+        return response.status(405).json({ status: "Method not allowed." });
     }
   } catch (error) {
     console.error(error);
