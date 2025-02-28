@@ -14,30 +14,31 @@ export default function ThemeSwitch({ themeMode, onHandleToggleThemeMode }) {
   const { data: session } = useSession();
   async function handleThemeSwitch(value) {
     onHandleToggleThemeMode(value);
-    if (session) {
-      const userId = session.user.id;
-      let userData = await handleCheckUserExistence({ userId });
-      //Id from database objects
-      const user_Id = userData._id;
+    if (!session) {
+      return;
+    }
 
-      try {
-        const response = await fetch(`/api/users/${user_Id}`, {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ themeMode: value }),
-        });
-        if (!response.ok) {
-          console.error("Failed to save user data");
-          return null;
-        }
-
-        return response.json();
-      } catch (error) {
-        console.error(error);
+    const userId = session.user.id;
+    let userData = await handleCheckUserExistence({ userId });
+    //Id from database objects
+    const user_Id = userData._id;
+    try {
+      const response = await fetch(`/api/users/${user_Id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ themeMode: value }),
+      });
+      if (!response.ok) {
+        console.error("Failed to save user data");
         return null;
       }
+
+      return response.json();
+    } catch (error) {
+      console.error(error);
+      return null;
     }
   }
 

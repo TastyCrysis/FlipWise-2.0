@@ -14,7 +14,7 @@ const StyledButton = styled.button`
   box-shadow: ${({ theme }) => theme.boxShadowButton};
   border: 1px solid ${({ theme }) => theme.buttonBorder};
   border-radius: 8px;
-  opacity: ${({ $grayout }) => ($grayout ? "0.5" : "1")};
+  opacity: ${({ disabled }) => (disabled ? "0.5" : "1")};
 
   &:disabled {
     cursor: not-allowed;
@@ -34,12 +34,7 @@ export default function CardOptionButton({
   const { data: session } = useSession();
   return (
     <>
-      <StyledButton
-        type={type}
-        onClick={onClick}
-        disabled={!session}
-        $grayout={!session}
-      >
+      <StyledButton type={type} onClick={onClick} disabled={!session}>
         <MenuThreePoint />
       </StyledButton>
       {isMenuOpen && (

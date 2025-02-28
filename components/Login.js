@@ -32,28 +32,59 @@ const StyledButton = styled.button`
   cursor: pointer;
 `;
 
+async function handleCreateUser(data) {
+  try {
+    const response = await fetch("/api/users", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+    if (!response.ok) {
+      console.error("Failed to create user");
+      return;
+    }
+    return response.json();
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+async function handlePickupUserThemeMode(data) {
+  try {
+    const response = await fetch("/api/users");
+    if (!response.ok) {
+      console.error("User not available");
+      return;
+    }
+    const users = await response.json();
+    const userData = users.find((user) => user.userId === data.userId);
+    const userThemeMode = userData.themeMode;
+    return userThemeMode;
+  } catch (error) {
+    console.error(error);
+  }
+}
+
 export default function Login({
-  handleCreateUser,
   handleCheckUserExistence,
   handleToggleThemeMode,
-  handlePickupUserThemeMode,
 }) {
   const { data: session } = useSession();
 
   useEffect(() => {
     async function checkUserExistence() {
-      if (session) {
-        const userId = session.user.id;
-        let userIsAvailable = (await handleCheckUserExistence({ userId }))
-          ? true
-          : false;
-        let currentUserThemeMode = await handlePickupUserThemeMode({ userId });
-        handleToggleThemeMode(currentUserThemeMode);
-        if (!userIsAvailable) {
-          const userId = session.user.id;
-          handleCreateUser({ userId });
-        }
+      if (!session) {
+        return;
       }
+      const userId = session.user.id;
+      const userIsAvailable = await handleCheckUserExistence({ userId });
+      if (!userIsAvailable) {
+        handleCreateUser({ userId });
+      }
+      const currentUserThemeMode = await handlePickupUserThemeMode({ userId });
+      handleToggleThemeMode(currentUserThemeMode);
     }
     checkUserExistence();
   }, [session]);

@@ -8,7 +8,6 @@ import styled from "styled-components";
 import { SessionProvider } from "next-auth/react";
 import Login from "@/components/Login";
 import handleCheckUserExistence from "@/utils/CheckUserExistence";
-//import { useSession } from "next-auth/react";
 
 const StyledTitle = styled.h1`
   display: flex;
@@ -45,9 +44,6 @@ export default function App({ Component, pageProps }) {
     error: flashcardError,
     mutate: flashcardsMutate,
   } = useSWR("/api/flashcards", fetcher);
-
-  //console.log("flashcards_", flashcards);
-  //console.log("collections", collections);
 
   if (flashcardsLoading || collectionsLoading) {
     return <h1>Loading...</h1>;
@@ -175,44 +171,6 @@ export default function App({ Component, pageProps }) {
     setThemeMode(selectedThemeMode);
   }
 
-  async function handleCreateUser(data) {
-    try {
-      const response = await fetch("/api/users", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      });
-      if (!response.ok) {
-        console.error("Failed to create user");
-        return;
-      }
-      return response.json();
-    } catch (error) {
-      console.error(error);
-    }
-  }
-
-  async function handlePickupUserThemeMode(data) {
-    try {
-      const response = await fetch("/api/users");
-      if (!response.ok) {
-        console.error("User not available");
-        return;
-      }
-      const users = await response.json();
-      const userData = users.find((user) => user.userId === data.userId);
-      const userThemeMode = userData.themeMode;
-      console.log("userData_", userData);
-      console.log("userThemeMode_", userThemeMode);
-
-      return userThemeMode;
-    } catch (error) {
-      console.error(error);
-    }
-  }
-
   return (
     <SessionProvider session={pageProps.session}>
       <ThemeProvider theme={theme[themeMode]}>
@@ -221,10 +179,8 @@ export default function App({ Component, pageProps }) {
           <header>
             <StyledLogIn>
               <Login
-                handleCreateUser={handleCreateUser}
                 handleCheckUserExistence={handleCheckUserExistence}
                 handleToggleThemeMode={handleToggleThemeMode}
-                handlePickupUserThemeMode={handlePickupUserThemeMode}
               />
             </StyledLogIn>
             <StyledTitle>Flipwise App</StyledTitle>

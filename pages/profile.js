@@ -34,7 +34,6 @@ const ButtonBar = styled.div`
   gap: 8px;
 `;
 
-//const StyledButton1 = styled(StyledButton)`
 const StyledButton = styled.button`
   background-color: ${({ theme }) => theme.buttonBackground};
   color: ${({ theme }) => theme.buttonText};
@@ -42,7 +41,7 @@ const StyledButton = styled.button`
   box-shadow: ${({ theme }) => theme.boxShadowButton};
   border: 1px solid ${({ theme }) => theme.buttonBorder};
   border-radius: 8px;
-  opacity: ${({ $grayout }) => ($grayout ? "0.5" : "1")};
+  opacity: ${({ disabled }) => (disabled ? "0.5" : "1")};
 
   &:disabled {
     cursor: not-allowed;
@@ -77,49 +76,43 @@ export default function Profile({
   const myFlashcards = flashcards.filter(
     (flashcard) => flashcard.owner === userId
   ).length;
-  const myCorrectFlashcards = flashcards
-    .filter((flashcard) => flashcard.owner === userId)
-    .filter((flashcard) => flashcard.isCorrect === true).length;
+  const myCorrectFlashcards = flashcards.filter(
+    (flashcard) => flashcard.owner === userId && flashcard.isCorrect
+  ).length;
 
   return (
-    <>
-      <Container>
-        <StyledPageTitle>my profile</StyledPageTitle>
-        {session && session.user.image && (
-          <img
-            src={session.user.image}
-            alt="profile-image"
-            width={100}
-            height={100}
-            style={{ borderRadius: "50%" }}
-          />
-        )}
-        {!session && (
-          <IconLogOut>
-            <img src={userImage} alt="login-image" width={100} height={100} />
-          </IconLogOut>
-        )}
-        <article>
-          <h4>statistics</h4>
-          <p>Name: {userName}</p>
-          <p>number of my collections: {myCollections}</p>
-          <p>number of my flashcards: {myFlashcards}</p>
-          <p>number of correct flashcards: {myCorrectFlashcards}</p>
-        </article>
-        <ButtonBar>
-          <ThemeSwitch
-            themeMode={themeMode}
-            onHandleToggleThemeMode={onHandleToggleThemeMode}
-          />
-          <StyledButton
-            onClick={() => signOut()}
-            disabled={!session}
-            $grayout={!session}
-          >
-            Sign out
-          </StyledButton>
-        </ButtonBar>
-      </Container>
-    </>
+    <Container>
+      <StyledPageTitle>my profile</StyledPageTitle>
+      {session && session.user.image && (
+        <img
+          src={session.user.image}
+          alt="profile-image"
+          width={100}
+          height={100}
+          style={{ borderRadius: "50%" }}
+        />
+      )}
+      {!session && (
+        <IconLogOut>
+          <img src={userImage} alt="login-image" width={100} height={100} />
+        </IconLogOut>
+      )}
+      <article>
+        <h4>statistics</h4>
+        <p>Name: {userName}</p>
+        <p>number of my collections: {myCollections}</p>
+        <p>number of my flashcards: {myFlashcards}</p>
+        <p>number of correct flashcards: {myCorrectFlashcards}</p>
+      </article>
+      <ButtonBar>
+        <ThemeSwitch
+          themeMode={themeMode}
+          onHandleToggleThemeMode={onHandleToggleThemeMode}
+        />
+        <StyledButton onClick={() => signOut()} disabled={!session}>
+          Sign out
+        </StyledButton>
+      </ButtonBar>
+    </Container>
   );
 }

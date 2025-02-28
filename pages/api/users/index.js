@@ -13,7 +13,7 @@ export default async function handler(request, response) {
         const userIdProvider = await User.create({ ...request.body });
         return response
           .status(201)
-          .json({ status: "userIdProvider saved", data: userIdProvider });
+          .json({ status: "User created", data: userIdProvider });
       }
     }
   } catch (error) {
