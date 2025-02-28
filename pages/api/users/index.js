@@ -6,8 +6,11 @@ export default async function handler(request, response) {
   try {
     switch (request.method) {
       case "GET": {
-        const user = await User.find();
-        return response.status(200).json(user);
+        const users = await User.find();
+        if (!users) {
+          return response.status(404).json({ status: "Not Found" });
+        }
+        return response.status(200).json(users);
       }
       case "POST": {
         const userIdProvider = await User.create({ ...request.body });
@@ -15,6 +18,8 @@ export default async function handler(request, response) {
           .status(201)
           .json({ status: "User created", data: userIdProvider });
       }
+      default:
+        return response.status(405).json({ status: "Method not allowed" });
     }
   } catch (error) {
     console.error(error);

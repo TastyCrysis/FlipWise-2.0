@@ -21,7 +21,9 @@ export default async function handler(request, response) {
             owner: { $exists: false },
           });
           const collections = [...collectionsUser, ...collectionsDefault];
-
+          if (!collections) {
+            return response.status(404).json({ status: "Not Found" });
+          }
           return response.status(200).json(collections);
         } else {
           const collections = await Collection.find({

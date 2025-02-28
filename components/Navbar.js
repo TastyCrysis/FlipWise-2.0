@@ -207,7 +207,6 @@ export default function Navbar({
 
   async function handleSubmit(data) {
     try {
-      console.log("data_1", data);
       if (!data.collectionId) {
         const collectionData = await handleCreateCollection({
           title: data.collectionTitle || data.title,

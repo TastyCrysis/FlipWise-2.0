@@ -2,6 +2,8 @@ import { useSession, signIn, signOut } from "next-auth/react";
 import { useEffect } from "react";
 import styled from "styled-components";
 import Link from "next/link";
+import Modal from "./Modal";
+import { useState } from "react";
 
 const IconLogIn = styled.span`
   color: ${({ theme }) => theme.cardPrimary};
@@ -69,7 +71,7 @@ async function handlePickupUserThemeMode(data) {
 
 export default function Login({ CheckUserExistence, handleToggleThemeMode }) {
   const { data: session } = useSession();
-
+  const [isModalOpen, setIsModalOpen] = useState(false);
   useEffect(() => {
     async function controlUserExistence() {
       if (!session) {
@@ -85,6 +87,19 @@ export default function Login({ CheckUserExistence, handleToggleThemeMode }) {
     }
     controlUserExistence();
   }, [session]);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsModalOpen(false);
+    }, 30000);
+
+    return () => clearTimeout(timer);
+  }, [isModalOpen]);
+
+  function handleSignOut() {
+    signOut();
+    setIsModalOpen(true);
+  }
 
   if (session) {
     return (
