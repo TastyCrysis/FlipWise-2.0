@@ -20,6 +20,7 @@ export default function Homepage({
   collections,
   handleCreateCollection,
   handleDeleteCollection,
+  handleUpdateCollection,
 }) {
   return (
     <>
@@ -31,6 +32,7 @@ export default function Homepage({
         collections={collections}
         handleCreateCollection={handleCreateCollection}
         handleDeleteCollection={handleDeleteCollection}
+        handleUpdateCollection={handleUpdateCollection}
       />
     </>
   );

@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import MenuThreePoint from "@/components/Elements/Menu_threePoint";
-import FlashcardOptionMenu from "@/components/FlashcardOptionsMenu";
+import CardOptionMenu from "@/components/CardOptionsMenu";
 
 const StyledButton = styled.button`
   background-color: ${({ theme }) => theme.buttonBackground};
@@ -15,7 +15,7 @@ const StyledButton = styled.button`
   border-radius: 8px;
 `;
 
-export default function FlashcardOptionButton({
+export default function CardOptionButton({
   type,
   onClick,
   isMenuOpen,
@@ -29,7 +29,7 @@ export default function FlashcardOptionButton({
         <MenuThreePoint />
       </StyledButton>
       {isMenuOpen && (
-        <FlashcardOptionMenu
+        <CardOptionMenu
           isMenuOpen={isMenuOpen}
           toggleConfirmation={toggleConfirmation}
           toggleOptionMenu={toggleOptionMenu}

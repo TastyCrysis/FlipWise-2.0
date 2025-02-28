@@ -86,11 +86,13 @@ export default function App({ Component, pageProps }) {
       });
       if (!response.ok) {
         console.error("Failed to create flashcard");
-        return;
+        return null;
       }
       flashcardsMutate();
+      return response.json();
     } catch (error) {
       console.error(error);
+      return null;
     }
   }
 
@@ -107,6 +109,21 @@ export default function App({ Component, pageProps }) {
       return;
     }
     flashcardsMutate();
+  }
+
+  async function handleUpdateCollection(data) {
+    const response = await fetch(`/api/collections/${data._id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+    if (!response.ok) {
+      console.error("Failed to update collection");
+      return;
+    }
+    collectionsMutate();
   }
 
   async function handleCreateCollection(data) {
@@ -164,6 +181,7 @@ export default function App({ Component, pageProps }) {
             handleDeleteFlashcard={handleDeleteFlashcard}
             handleUpdateFlashcard={handleUpdateFlashcard}
             handleDeleteCollection={handleDeleteCollection}
+            handleUpdateCollection={handleUpdateCollection}
           />
         </main>
         <footer>

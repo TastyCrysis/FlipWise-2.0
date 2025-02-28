@@ -2,6 +2,9 @@ import { useState } from "react";
 import styled from "styled-components";
 import Link from "next/link";
 import ArrowChevronRight from "./Elements/Arrow_chevron-right";
+import Modal from "@/components/Modal";
+import CollectioncardForm from "@/components/CollectioncardForm";
+import CardOptionButton from "@/components/CardOptionsButton";
 import Button from "@/components/Button";
 
 const CardItem = styled.li`
@@ -127,16 +130,6 @@ const StyledDialog = styled.dialog`
   z-index: 10;
 `;
 
-const DeleteButton = styled.button`
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  border: none;
-  padding: 5px 10px;
-  border-radius: 4px;
-  cursor: pointer;
-`;
-
 const ConfirmButtonContainer = styled.div`
   display: flex;
   gap: 12px;
@@ -145,9 +138,13 @@ const ConfirmButtonContainer = styled.div`
 export default function CollectionCard({
   flashcards,
   collection,
+  collections,
   handleDeleteCollection,
+  handleUpdateCollection,
 }) {
   const [showConfirmation, setShowConfirmation] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const collectionFlashcards = flashcards.filter(
     (flashcard) => flashcard.collectionId === collection._id
@@ -158,6 +155,15 @@ export default function CollectionCard({
 
   function toggleConfirmation() {
     setShowConfirmation(!showConfirmation);
+  }
+
+  function handleSubmit(data) {
+    handleUpdateCollection(data);
+    setIsModalOpen(false);
+  }
+
+  function toggleOptionMenu() {
+    setIsMenuOpen(!isMenuOpen);
   }
 
   return (
@@ -180,9 +186,37 @@ export default function CollectionCard({
         <StyledLink href={`/collections/${collection._id}/archive`}>
           Archive
         </StyledLink>
-        <DeleteButton onClick={toggleConfirmation} type="button">
-          delete
-        </DeleteButton>
+
+        <Modal
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+          title="Update Collection"
+          needsPortal={true}
+          isCollectionForm={true}
+        >
+          <CollectioncardForm
+            onSubmit={handleSubmit}
+            collections={collections}
+            initialValues={{
+              _id: collection._id,
+              title: collection?.title,
+            }}
+            onClose={() => setIsModalOpen(false)}
+          />
+        </Modal>
+
+        <CardOptionButton
+          type="button"
+          onClick={(event) => {
+            event.stopPropagation();
+            toggleOptionMenu();
+          }}
+          isMenuOpen={isMenuOpen}
+          toggleConfirmation={toggleConfirmation}
+          toggleOptionMenu={toggleOptionMenu}
+          setIsModalOpen={setIsModalOpen}
+        />
+
         <StyledDialog open={showConfirmation}>
           <h3>Do you really want to delete this collection?</h3>
           <p>
