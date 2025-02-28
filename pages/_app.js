@@ -9,6 +9,7 @@ import ThemeSwitch from "@/components/ThemeSwitch";
 import { SessionProvider } from "next-auth/react";
 import Login from "@/components/Login";
 import CheckUserExistence from "@/utils/CheckUserExistence";
+import { useRouter } from "next/router";
 
 const StyledTitle = styled.h1`
   display: flex;
@@ -32,6 +33,7 @@ const fetcher = (url) => fetch(url).then((response) => response.json());
 
 export default function App({ Component, pageProps }) {
   const [themeMode, setThemeMode] = useState("dark");
+  const router = useRouter();
 
   const {
     data: collections,
@@ -204,10 +206,12 @@ export default function App({ Component, pageProps }) {
               />
             </StyledLogIn>
             <StyledTitle>Flipwise App</StyledTitle>
-            <ThemeSwitch
-              theme={themeMode}
-              onHandleToggleThemeMode={handleToggleThemeMode}
-            />
+            {!router.pathname.startsWith("/quiz") && (
+              <ThemeSwitch
+                theme={themeMode}
+                onHandleToggleThemeMode={handleToggleThemeMode}
+              />
+            )}
           </header>
           <main>
             <Component
@@ -222,11 +226,14 @@ export default function App({ Component, pageProps }) {
             />
           </main>
           <footer>
-            <Navbar
-              handleCreateFlashcard={handleCreateFlashcard}
-              collections={collections}
-              handleCreateCollection={handleCreateCollection}
-            />
+            {!router.pathname.startsWith("/quiz") &&
+              router.pathname !== "/" && (
+                <Navbar
+                  handleCreateFlashcard={handleCreateFlashcard}
+                  collections={collections}
+                  handleCreateCollection={handleCreateCollection}
+                />
+              )}
           </footer>
         </SWRConfig>
       </ThemeProvider>
