@@ -5,17 +5,10 @@ import { SWRConfig } from "swr";
 import useSWR from "swr";
 import { ThemeProvider } from "styled-components";
 import styled from "styled-components";
-<<<<<<< HEAD
 import { SessionProvider } from "next-auth/react";
 import Login from "@/components/Login";
 import CheckUserExistence from "@/utils/CheckUserExistence";
 import ThemeSwitch from "@/components/ThemeSwitch";
-=======
-import ThemeSwitch from "@/components/ThemeSwitch";
-import { SessionProvider } from "next-auth/react";
-import Login from "@/components/Login";
-import CheckUserExistence from "@/utils/CheckUserExistence";
->>>>>>> main
 import { useRouter } from "next/router";
 
 const StyledTitle = styled.h1`
@@ -189,13 +182,8 @@ export default function App({ Component, pageProps }) {
           <header>
             <StyledLogIn>
               <Login
-<<<<<<< HEAD
                 CheckUserExistence={CheckUserExistence}
                 handleToggleThemeMode={handleToggleThemeMode}
-=======
-                handleCreateUser={handleCreateUser}
-                CheckUserExistence={CheckUserExistence}
->>>>>>> main
               />
             </StyledLogIn>
             <StyledTitle>Flipwise App</StyledTitle>
