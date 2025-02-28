@@ -1,8 +1,5 @@
 import { useState } from "react";
 import styled from "styled-components";
-import Modal from "@/components/Modal";
-import FlashcardForm from "@/components/FlashcardForm";
-import CardOptionButton from "@/components/CardOptionsButton";
 import Button from "@/components/Button";
 import ArrowRedoDot from "@/components/Elements/Arrow_redo-dot";
 
@@ -113,53 +110,23 @@ const CardMenu = styled.div`
   transform: rotateY(0deg);
 `;
 
-const StyledDialog = styled.dialog`
-  background-color: ${({ theme }) => theme.modalBackground};
-  width: 380px;
-  margin: 16px 12px 0 10px;
-  padding: 0 12px 12px 12px;
-  z-index: 10;
-`;
-
 const ButtonContainer = styled.div`
   position: absolute;
+  display: flex;
   bottom: 12px;
   right: 18px;
+  gap: 16px;
 `;
 
-const ConfirmButtonContainer = styled.div`
-  display: flex;
-  gap: 12px;
-`;
-
-export default function Flashcard({
+export default function AdvancedFlashcard({
   flashcard,
   collection,
-  collections,
   handleToggleCorrect,
-  handleDeleteFlashcard,
-  handleUpdateFlashcard,
 }) {
   const [flipped, setFlipped] = useState(false);
-  const [showConfirmation, setShowConfirmation] = useState(false);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   function handleFlip() {
     setFlipped(!flipped);
-  }
-
-  function toggleConfirmation() {
-    setShowConfirmation(!showConfirmation);
-  }
-
-  function handleSubmit(id, data) {
-    handleUpdateFlashcard(id, data);
-    setIsModalOpen(false);
-  }
-
-  function toggleOptionMenu() {
-    setIsMenuOpen(!isMenuOpen);
   }
 
   return (
@@ -168,8 +135,6 @@ export default function Flashcard({
       $flipped={flipped}
       onClick={() => {
         handleFlip();
-        setIsMenuOpen(false);
-        setShowConfirmation(false);
       }}
     >
       {collection && <CollectionTitle>{collection.title}</CollectionTitle>}
@@ -177,39 +142,6 @@ export default function Flashcard({
         <FlashcardContent>
           <FlashcardQuestion>{flashcard.question}</FlashcardQuestion>
         </FlashcardContent>
-        <Modal
-          isOpen={isModalOpen}
-          onClose={() => setIsModalOpen(false)}
-          title="Update Flashcard"
-          needsPortal={true}
-          isUpdateFormOpen={true}
-          isCollectionForm={false}
-        >
-          <FlashcardForm
-            onSubmit={handleSubmit}
-            collections={collections}
-            initialValues={{
-              _id: flashcard._id,
-              collectionId: flashcard?.collectionId || "",
-              question: flashcard?.question || "",
-              answer: flashcard?.answer || "",
-              isCorrect: flashcard?.isCorrect || false,
-            }}
-            onClose={() => setIsModalOpen(false)}
-          />
-        </Modal>
-
-        <CardOptionButton
-          type="button"
-          onClick={(event) => {
-            event.stopPropagation();
-            toggleOptionMenu();
-          }}
-          isMenuOpen={isMenuOpen}
-          toggleConfirmation={toggleConfirmation}
-          toggleOptionMenu={toggleOptionMenu}
-          setIsModalOpen={setIsModalOpen}
-        />
       </FlashcardFront>
       <CardMenu>
         <ArrowRedoDot />
@@ -227,30 +159,17 @@ export default function Flashcard({
               event.stopPropagation();
               handleToggleCorrect(flashcard._id);
             }}
-            buttonLabel={flashcard.isCorrect ? "wrong" : "correct"}
+            buttonLabel={"correct"}
+          />
+          <Button
+            onClick={(event) => {
+              event.stopPropagation();
+              handleToggleCorrect(flashcard._id);
+            }}
+            buttonLabel={"wrong"}
           />
         </ButtonContainer>
       </FlashcardBack>
-      <StyledDialog open={showConfirmation}>
-        <h3>Do you really want to delete flashcard?</h3>
-        <ConfirmButtonContainer>
-          <Button
-            onClick={(event) => {
-              event.stopPropagation();
-              toggleConfirmation();
-              handleDeleteFlashcard(flashcard._id);
-            }}
-            buttonLabel={"delete"}
-          />
-          <Button
-            onClick={(event) => {
-              event.stopPropagation();
-              toggleConfirmation();
-            }}
-            buttonLabel={"cancel"}
-          />
-        </ConfirmButtonContainer>
-      </StyledDialog>
     </StyledFlashcard>
   );
 }
