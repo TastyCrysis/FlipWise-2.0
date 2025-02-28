@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import Link from "next/link";
-import ImageUpload from "@/components/ImageUpload";
+//import ImageUpload from "@/components/ImageUpload";
 import Image from "next/image";
 
 const ModeList = styled.ul`
@@ -85,8 +85,8 @@ const StyledImage = styled(Image)`
 export default function Homepage({}) {
   return (
     <>
-      <ImageUpload></ImageUpload>
-      {/*       <StyledImage
+      {/* <ImageUpload></ImageUpload>
+            <StyledImage
         alt={`image of ${image.title}`}
         src={image.url}
         fill
