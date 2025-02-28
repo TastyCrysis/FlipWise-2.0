@@ -5,6 +5,7 @@ import { useRouter } from "next/router";
 import { useState } from "react";
 import Modal from "@/components/Modal";
 import FlashcardForm from "@/components/FlashcardForm";
+import { useSession } from "next-auth/react";
 import AiForm from "@/components/AiForm";
 
 const Navigation = styled.nav`
@@ -152,7 +153,7 @@ const Indicator = styled.div`
   }
 `;
 
-const ModalWrapper = styled.div`
+const ModalWrapper = styled.li`
   width: 100%;
   height: 70px;
   display: flex;
@@ -179,6 +180,13 @@ const OpenButton = styled.button`
   justify-content: center;
   box-shadow: ${({ theme }) => theme.boxShadowButton};
   border: 1px solid ${({ theme }) => theme.buttonBorder};
+  opacity: ${({ $grayout }) => ($grayout ? "0.5" : "1")};
+
+  &:disabled {
+    cursor: not-allowed;
+    color: var(--primary);
+    background-color: var(--secondary);
+  }
 `;
 
 export default function Navbar({
@@ -195,12 +203,14 @@ export default function Navbar({
   const [form, setForm] = useState("flashcard");
   const [activeTab, setActiveTab] = useState("flashcard");
   const archiveLink = id ? `/collections/${id}/archive` : "/archive";
+  const { data: session } = useSession();
 
   async function handleSubmit(data) {
     try {
       if (!data.collectionId) {
         const collectionData = await handleCreateCollection({
           title: data.collectionTitle || data.title,
+          owner: data.owner,
         });
 
         if (collectionData.data && collectionData.data._id) {
@@ -249,7 +259,13 @@ export default function Navbar({
           </StyledLink>
         </ListItem>
         <ModalWrapper>
-          <OpenButton onClick={() => setIsModalOpen(true)}>+</OpenButton>
+          <OpenButton
+            onClick={() => setIsModalOpen(true)}
+            disabled={!session}
+            $grayout={!session}
+          >
+            +
+          </OpenButton>
           <Modal
             isOpen={isModalOpen}
             onClose={() => setIsModalOpen(false)}
@@ -278,6 +294,7 @@ export default function Navbar({
             )}
           </Modal>
         </ModalWrapper>
+
         <ListItem $active={pathname?.includes("/archive")}>
           <StyledLink href={archiveLink}>
             <Icon>
