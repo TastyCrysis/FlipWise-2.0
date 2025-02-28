@@ -63,6 +63,8 @@ const ButtonContainer = styled.div`
 `;
 
 const TooltipText = styled.ol`
+  max-height: 350px;
+  overflow-y: auto;
   visibility: hidden;
   position: absolute;
   background-color: ${({ theme }) => theme.tooltipBackground};
@@ -121,6 +123,20 @@ const TooltipContainer = styled.div`
   &:hover ${TooltipText} {
     visibility: visible;
     opacity: 1;
+  }
+
+  &:hover::before {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 0 10px 10px 10px;
+    border-style: solid;
+    border-color: transparent transparent
+      ${({ theme }) => theme.tooltipBackground} transparent;
+    filter: drop-shadow(0 -1px 0 ${({ theme }) => theme.tooltipBorder});
+    z-index: 2;
   }
 `;
 
