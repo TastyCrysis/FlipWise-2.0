@@ -11,6 +11,20 @@ const IconLogIn = styled.span`
   border-radius: 50%;
   width: 40px;
   height: 40px;
+  margin-right: 6px;
+`;
+
+const StyledImage = styled.img`
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  width: ${({ width }) => width || "auto"};
+  height: ${({ height }) => height || "auto"};
+
+  @media (max-width: 768px) {
+    width: 30px;
+    height: 30px;
+  }
 `;
 
 const IconLogOut = styled.span`
@@ -19,6 +33,7 @@ const IconLogOut = styled.span`
   border-radius: 50%;
   width: 40px;
   height: 40px;
+  margin-right: 6px;
   & img {
     filter: ${({ theme }) =>
       theme.navbarText === "#a3a8c8"
@@ -32,6 +47,7 @@ const StyledButton = styled.button`
   background-color: ${({ theme }) => theme.cardPrimary};
   color: ${({ theme }) => theme.cardPrimaryText};
   cursor: pointer;
+  margin-right: 6px;
 `;
 
 async function handleCreateUser(data) {
@@ -107,7 +123,7 @@ export default function Login({ CheckUserExistence, handleToggleThemeMode }) {
         <Link href={`/profile`}>
           <IconLogIn>
             {session.user.image ? (
-              <img
+              <StyledImage
                 src={session.user.image}
                 alt="Profilbild"
                 width={40}
@@ -115,7 +131,7 @@ export default function Login({ CheckUserExistence, handleToggleThemeMode }) {
                 style={{ borderRadius: "50%" }}
               />
             ) : (
-              <img
+              <StyledImage
                 src="/asset/user.png"
                 alt="login/image"
                 width={40}
@@ -133,7 +149,12 @@ export default function Login({ CheckUserExistence, handleToggleThemeMode }) {
     <>
       <Link href={`/profile`}>
         <IconLogOut>
-          <img src="/asset/user.png" alt="login/image" width={40} height={40} />
+          <StyledImage
+            src="/asset/user.png"
+            alt="login/image"
+            width={40}
+            height={40}
+          />
         </IconLogOut>
         <StyledButton onClick={() => signIn()}>Sign in</StyledButton>
       </Link>

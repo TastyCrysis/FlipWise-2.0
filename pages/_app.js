@@ -189,12 +189,6 @@ export default function App({ Component, pageProps }) {
               </StyledLogIn>
             )}
             <StyledTitle>Flipwise App</StyledTitle>
-            {!router.pathname.startsWith("/quiz") && (
-              <ThemeSwitch
-                theme={themeMode}
-                onHandleToggleThemeMode={handleToggleThemeMode}
-              />
-            )}
           </header>
           <main>
             <Component
