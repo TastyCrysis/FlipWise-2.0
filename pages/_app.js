@@ -188,7 +188,7 @@ export default function App({ Component, pageProps }) {
                 />
               </StyledLogIn>
             )}
-            <StyledTitle>Flipwise App</StyledTitle>
+            <StyledTitle>FlipWise 2.0</StyledTitle>
           </header>
           <main>
             <Component
