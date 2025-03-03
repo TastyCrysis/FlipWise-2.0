@@ -44,7 +44,7 @@ CLOUDINARY_SECRET=YOUR_SECRET
 4. Register at mongodb and create a .env.local file
 
 ```
-MONGODB_URI=mongodb+srv://{username}:{password}@cluster0.tibib.mongodb.net/{foldername}?retryWrites=true&w=majority
+MONGODB_URI=mongodb+srv://{username}:{password}@{clustername}.tibib.mongodb.net/{foldername}?retryWrites=true&w=majority
 
 ```
 
