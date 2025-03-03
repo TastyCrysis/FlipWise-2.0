@@ -11,8 +11,8 @@ const Container = styled.div`
 const StyledPageTitle = styled.h2`
   font-size: 2.1rem;
   font-weight: 400;
-  margin-bottom: 54px;
-  margin-top: 6px;
+  margin-bottom: 4px;
+  margin-top: 12px;
 `;
 
 const StyledCollectionTitle = styled.h3`
@@ -38,7 +38,7 @@ export default function Homepage({
   }
 
   const filteredFlashcards = flashcards.filter(
-    (flashcard) => flashcard.collectionId === id
+    (flashcard) => flashcard.collectionId === id && !flashcard.isCorrect
   );
   const currentCollection = collections.find(
     (collection) => collection._id === id

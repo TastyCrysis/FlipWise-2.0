@@ -6,14 +6,18 @@ import Image from "next/image";
 const ModeList = styled.ul`
   display: flex;
   flex-direction: column;
-  margin-top: 72px;
+  margin-top: 48px;
+  width: 100%;
+  max-width: 550px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 0;
 `;
 
 const ModeItem = styled.li`
   width: 100%;
   height: 300px;
   max-width: 550px;
-  margin: 48px auto;
   cursor: pointer;
   border-radius: 12px;
   overflow: hidden;
@@ -21,9 +25,17 @@ const ModeItem = styled.li`
   list-style: none;
   box-shadow: ${({ theme }) => theme.boxShadowCollectionCard};
   transition: transform 0.2s;
+  margin-bottom: 40px;
+
   &:hover {
     transform: scale(1.02);
     box-shadow: ${({ theme }) => theme.boxShadowCollectionCardHover};
+  }
+
+  @media (max-width: 768px) {
+    width: 90%;
+    margin-left: 5%;
+    margin-right: 5%;
   }
 `;
 
@@ -53,7 +65,7 @@ const StyledTitle = styled.h3`
   margin-top: 16px;
 
   @media (max-width: 768px) {
-    font-size: 1.8rem;
+    font-size: 1.6rem;
   }
 `;
 
@@ -63,8 +75,9 @@ const StyledStatsItem = styled.p`
   gap: 8px;
   font-size: 1.3rem;
   margin-top: 4px;
+
   @media (max-width: 768px) {
-    font-size: 1.1rem;
+    font-size: 1rem;
     margin-bottom: 54px;
   }
 `;

@@ -8,7 +8,7 @@ import ArrowRedoDot from "@/components/Elements/Arrow_redo-dot";
 
 const StyledFlashcard = styled.div`
   width: 100%;
-  height: 150px;
+  height: 200px;
   max-width: 550px;
   margin: 15px auto;
   cursor: pointer;
@@ -47,7 +47,7 @@ const FlashcardBack = styled.div`
   left: 0;
   display: flex;
   justify-content: start;
-  align-items: center;
+  align-items: start;
   border-radius: 8px;
   box-shadow: ${({ theme }) => theme.boxShadowSecondary};
 `;
@@ -70,6 +70,10 @@ const FlashcardQuestion = styled.p`
   font-weight: bold;
   margin: 0 0 24px 0;
   text-align: center;
+
+  @media (max-width: 768px) {
+    font-size: 1.3rem;
+  }
 `;
 
 const FlashcardAnswer = styled.p`
@@ -80,10 +84,14 @@ const FlashcardAnswer = styled.p`
 `;
 
 const FlashcardAnswerText = styled.p`
-  margin: 5px 0;
+  margin: 0 5px 0 5px;
   font-size: 1.5rem;
   font-weight: bold;
   font-style: italic;
+
+  @media (max-width: 768px) {
+    font-size: 1.3rem;
+  }
 `;
 
 const CollectionTitle = styled.p`

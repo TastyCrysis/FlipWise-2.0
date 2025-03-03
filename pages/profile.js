@@ -19,6 +19,9 @@ const IconLogOut = styled.div`
   color: ${({ theme }) => theme.cardPrimary};
   border: 1px solid ${({ theme }) => theme.text};
   border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 120px;
   height: 120px;
   & img {
@@ -31,7 +34,8 @@ const IconLogOut = styled.div`
 
 const ButtonBar = styled.div`
   display: flex;
-  gap: 8px;
+  flex-direction: column;
+  gap: 12px;
 `;
 
 const StyledButton = styled.button`
