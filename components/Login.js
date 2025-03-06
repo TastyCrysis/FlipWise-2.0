@@ -2,7 +2,6 @@ import { useSession, signIn, signOut } from "next-auth/react";
 import { useEffect } from "react";
 import styled from "styled-components";
 import Link from "next/link";
-import Modal from "./Modal";
 import { useState } from "react";
 
 const IconLogIn = styled.span`
@@ -15,6 +14,7 @@ const IconLogIn = styled.span`
 `;
 
 const StyledImage = styled.img`
+  border: 1px solid ${({ theme }) => theme.text};
   border-radius: 50%;
   width: 40px;
   height: 40px;
@@ -102,7 +102,7 @@ export default function Login({ CheckUserExistence, handleToggleThemeMode }) {
       handleToggleThemeMode(currentUserThemeMode);
     }
     controlUserExistence();
-  }, [session]);
+  }, [session, CheckUserExistence, handleToggleThemeMode]);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -156,8 +156,8 @@ export default function Login({ CheckUserExistence, handleToggleThemeMode }) {
             height={40}
           />
         </IconLogOut>
-        <StyledButton onClick={() => signIn()}>Sign in</StyledButton>
       </Link>
+      <StyledButton onClick={() => signIn()}>Sign in</StyledButton>
     </>
   );
 }
